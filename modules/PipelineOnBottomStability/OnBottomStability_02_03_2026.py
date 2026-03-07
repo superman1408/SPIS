@@ -111,6 +111,7 @@ class Ui_MainWindow(object):
         self.groupBox_5 = QtWidgets.QGroupBox(self.groupBox)
         self.groupBox_5.setTitle("")
         self.groupBox_5.setObjectName("groupBox_5")
+        self.groupBox_5.setFixedSize(1290, 130)
         self.gridLayout_8 = QtWidgets.QGridLayout(self.groupBox_5)
         self.gridLayout_8.setObjectName("gridLayout_8")
         spacerItem4 = QtWidgets.QSpacerItem(20, 79, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -662,13 +663,15 @@ class Ui_MainWindow(object):
         self.gridLayout_14.addWidget(self.groupBox_4, 2, 0, 1, 1)
         self.groupBox_6 = QtWidgets.QGroupBox(self.groupBox)
         self.groupBox_6.setTitle("")
+        self.groupBox_6.setFixedSize(1290, 25)
         self.groupBox_6.setObjectName("groupBox_6")
         self.gridLayout_15 = QtWidgets.QGridLayout(self.groupBox_6)
         self.gridLayout_15.setObjectName("gridLayout_15")
         self.progressBar = QtWidgets.QProgressBar(self.groupBox_6)
-        self.progressBar.setProperty("value", 24)
+        self.progressBar.setProperty("value", 100)
         self.progressBar.setObjectName("progressBar")
-        self.gridLayout_15.addWidget(self.progressBar, 0, 4, 1, 1)
+        self.progressBar.setFixedSize(1250, 10)
+        self.gridLayout_15.addWidget(self.progressBar, 0, 0, 0, 0)
         spacerItem54 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_15.addItem(spacerItem54, 0, 0, 1, 1)
         spacerItem55 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -832,22 +835,22 @@ class Ui_MainWindow(object):
         self.actionWhat_s_New.setText(_translate("MainWindow", "What\'s New"))
 
 
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
 
 
 # -----------------------------------
 # Wrapper Class (REAL Window)
 # -----------------------------------
-class PipelineOnBottomStability(QMainWindow):
-    def __init__(self):
-        super().__init__()
+# class PipelineOnBottomStability(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
 
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+#         self.ui = Ui_MainWindow()
+#         self.ui.setupUi(self)
