@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow
 
 
+inputData = []
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -205,7 +208,7 @@ class Ui_MainWindow(object):
         spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_75.addItem(spacerItem12)
         self.ID_lineEdit_5 = QtWidgets.QLineEdit(self.widget)
-        self.ID_lineEdit_5.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.ID_lineEdit_5.setStyleSheet("background-color: rgb(255, 255, 0);")
         self.ID_lineEdit_5.setObjectName("ID_lineEdit_5")
         self.horizontalLayout_75.addWidget(self.ID_lineEdit_5)
         self.gridLayout_7.addLayout(self.horizontalLayout_75, 0, 0, 1, 1)
@@ -361,7 +364,7 @@ class Ui_MainWindow(object):
         spacerItem27 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_48.addItem(spacerItem27)
         self.rho_HDPE_lineEdit = QtWidgets.QLineEdit(self.widget)
-        self.rho_HDPE_lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.rho_HDPE_lineEdit.setStyleSheet("background-color: rgb(255, 255, 0);")
         self.rho_HDPE_lineEdit.setObjectName("rho_HDPE_lineEdit")
         self.horizontalLayout_48.addWidget(self.rho_HDPE_lineEdit)
         self.gridLayout_5.addLayout(self.horizontalLayout_48, 0, 0, 1, 1)
@@ -757,6 +760,33 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        
+        self.START_pushButton.clicked.connect(self.inputData)
+        
+        
+    def inputData(self):
+        HDPE_density_rho_HDPE = self.rho_HDPE_lineEdit.text()
+        Outside_diameter_OD = self.OD_lineEdit.text()
+        Wall_Thickness_t_HDPE = self.tHDPE_lineEdit.text()
+        # Concrete_Coating_thickness_t_cc = self.concrete
+        # Wall_Thickness_t_HDPE = 88.5 /1000
+        # Volume_of_Concrete_per_meter_of_pipe_Vc = 3.5
+        # Concrete_density_rho_c = 2400
+        # Marine_growth_Thickness_t_mg = 0
+        # Marine_growth_density_rho_mg = 0
+
+        # Content_density_seawater_rho_cont = 0
+        # Safety_factor_for_weight_gamma_w = 1.1
+
+        inputData.append({
+            "PipeGrade_Density_rho": HDPE_density_rho_HDPE,
+            "Outside_Diameter_OD": Outside_diameter_OD,
+        })
+        
+        print(inputData)
+        
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
