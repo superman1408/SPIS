@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTableWidget
 
 from modules.PipelineWallThickness.app import PipelineWindow
 from modules.PipelineCrossingCalculation.ui_design.main_app import PipelineSimulationApp
-from modules.PipelineOnBottomStability.OnBottomStability_02_03_2026  import PipelineOnBottomStability
+from modules.PipelineOnBottomStability.OnBottomStability_main  import PipelineOnBottomStability
 from database import create_table
 from activity_logger import get_incomplete_modules
 from PyQt5.QtWidgets import QMessageBox

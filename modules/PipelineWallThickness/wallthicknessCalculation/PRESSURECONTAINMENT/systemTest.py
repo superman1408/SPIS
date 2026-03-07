@@ -1,11 +1,11 @@
-from ast import Str
-from cmath import sqrt
+# from ast import Str
+# from cmath import sqrt
 import math
 import random
-from cgitb import small
-from unittest import result
-import numpy as np  
-import numpy.polynomial.polynomial  as roots
+# from cgitb import small
+# from unittest import result
+# import numpy as np  
+# import numpy.polynomial.polynomial  as roots
 
 
 
