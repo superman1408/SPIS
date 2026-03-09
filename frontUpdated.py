@@ -22,6 +22,9 @@ from activity_logger import get_all_logs
 from activity_logger import get_last_module_status
 
 
+
+
+
 class MainSoftware(QMainWindow):
 #     def setupUi(self, MainWindow):
     def __init__(self):
@@ -303,6 +306,11 @@ class MainSoftware(QMainWindow):
 
         create_table()
         
+        
+        
+        
+        
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -320,6 +328,9 @@ class MainSoftware(QMainWindow):
         self.actionReset.setText(_translate("MainWindow", "Reset"))
         self.actionPipeline_Wall_Thickness.setText(_translate("MainWindow", "Pipeline Wall Thickness"))
         self.actionPipeline_Crossing_Calculation.setText(_translate("MainWindow", "Pipeline Crossing Calculation"))
+        
+        
+
 
     def update_module_display(self):
         modules = [
