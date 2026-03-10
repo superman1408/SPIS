@@ -15,7 +15,10 @@ from PyQt5.QtWidgets import QMessageBox, QMainWindow
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1271, 914)
+        MainWindow.setEnabled(True)
+        # MainWindow.resize(800, 500)
+        MainWindow.resize(1000, 914)
+        # MainWindow.resize(1271, 914)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
