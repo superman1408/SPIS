@@ -10,6 +10,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow
+from calculations import lateralStability_installation
+from calculations import lateralStability_operationContentFilled
+from calculations import other
+
+
+frontendData = {}
 
 
 class Ui_MainWindow(object):
@@ -754,6 +760,52 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.actionExit.triggered.connect(MainWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        
+        
+        
+        self.pushButton_run.clicked.connect(self.inputData)
+        
+        # print(frontendData)
+        
+        # result1 = lateralStability_installation(frontendData)
+        # result2 = lateralStability_operationContentFilled(frontendData)
+        # result3 = other()
+        
+        # print(result3)
+        # print(result2)
+        # print(result1)
+        
+    
+    
+    def inputData(self):
+
+        frontendData = {
+            "HDPE_density_rho_HDPE": float(self.rho_HDPE_lineEdit.text()),
+            "Outside_diameter_OD": float(self.OD_lineEdit.text()),
+            "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
+            "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
+            "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
+            "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
+            "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
+            "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
+            "Safety_factor_for_weight_gamma_w": float(self.yw_lineEdit.text()),
+            "Significant_wave_height_Hs": float(self.Hs_lineEdit.text()),
+            "Spectral_peak_period_Tp": float(self.Tp_lineEdit.text()),
+            "Water_depth_d": float(self.d_lineEdit.text()),
+            "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
+            "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
+        }
+        
+        result1 = lateralStability_installation(frontendData)
+        result2 = lateralStability_operationContentFilled(frontendData)
+
+        print(frontendData)
+
+        return frontendData
+            
+            
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
