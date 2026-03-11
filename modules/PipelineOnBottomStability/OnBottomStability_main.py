@@ -15,6 +15,7 @@ from calculations import lateralStability_operationContentFilled
 from calculations import other
 
 
+
 frontendData = {}
 
 
@@ -798,6 +799,37 @@ class Ui_MainWindow(object):
         }
         
         result1 = lateralStability_installation(frontendData)
+        print("-----------------------")
+            
+        try:
+            self.AOD_lineEdit.setText(f"{result1['Area_of_pipe_AOD']:.3f}")
+            self.VOD_lineEdit.setText(f"{result1['Volume_of_pipe_VOD']:.3f}")
+            self.AID_lineEdit.setText(f"{result1['Internal_Area_of_pipe_AID']:.3f}")
+            self.VID_lineEdit.setText(f"{result1['Volume_of_pipe_VID']:.3f}")
+            self.At_lineEdit.setText(f"{result1['Area_of_Thickness_At']:.3f}")
+            self.Vt_lineEdit.setText(f"{result1['Volume_of_Thickness_Vt']:.3f}")
+            self.Mpipe_lineEdit.setText(f"{result1['Mass_of_HDPE_pipe_Mpipe']:.3f}")
+            self.Msea_water_lineEdit.setText(f"{result1['Content_mass_inside_pipe_Mseawater']:.3f}")
+            self.Bpipe_lineEdit.setText(f"{result1['Buoyancy_for_pipe_Bpipe']:.3f}")
+            self.Mc_lineEdit.setText(f"{result1['Mass_of_concrete_Mc']:.3f}")
+            self.Bc_lineEdit.setText(f"{result1['Buoyancy_for_concrete_Bc']:.3f}")
+            self.Wp_lineEdit.setText(f"{result1['Submerged_Wt_of_pipe_Wp']:.3f}")
+            self.Wc_lineEdit.setText(f"{result1['Submerged_Wt_of_concrete_Wc']:.3f}")
+            self.Ws_lineEdit.setText(f"{result1['Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1']:.3f}")
+            self.Criteria1_lineEdit.setText(f"{result1['gamma_SC1']:.3f}")
+            self.Criteria2_lineEdit.setText(f"{result1['gamma_SC2']:.3f}")
+            
+            # print(result1)
+            # print(type(result1))
+
+            # self.Criteria1_lineEdit.setText(str(result1.get('LSC_min', '')))
+            # self.Criteria2_lineEdit.setText(str(result1.get('LSC_min1', '')))
+
+        except Exception as e:
+            print("ERROR:", e)
+        
+        
+
         result2 = lateralStability_operationContentFilled(frontendData)
 
         print(frontendData)

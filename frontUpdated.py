@@ -20,6 +20,7 @@ from activity_logger import get_incomplete_modules
 from PyQt5.QtWidgets import QMessageBox
 from activity_logger import get_all_logs
 from activity_logger import get_last_module_status
+from splash_screen import SplashScreen
 
 
 
@@ -29,18 +30,18 @@ class MainSoftware(QMainWindow):
 #     def setupUi(self, MainWindow):
     def __init__(self):
         super().__init__()
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.setEnabled(True)
-        MainWindow.resize(800, 500)
-        MainWindow.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.028, y1:0.0455909, x2:0.841, y2:0.966364, stop:0 rgba(169, 237, 255, 107), stop:0.994318 rgba(253, 255, 218, 255));")
+        self.setObjectName("self")
+        self.setEnabled(True)
+        self.resize(800, 500)
+        self.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.028, y1:0.0455909, x2:0.841, y2:0.966364, stop:0 rgba(169, 237, 255, 107), stop:0.994318 rgba(253, 255, 218, 255));")
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-        MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(550, 500))
-        MainWindow.setMaximumSize(QtCore.QSize(800, 500))
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        sizePolicy.setHeightForWidth(self.sizePolicy().hasHeightForWidth())
+        self.setSizePolicy(sizePolicy)
+        self.setMinimumSize(QtCore.QSize(550, 500))
+        self.setMaximumSize(QtCore.QSize(800, 500))
+        self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
@@ -256,8 +257,8 @@ class MainSoftware(QMainWindow):
         self.gridLayout_3.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
         self.gridLayout_2.addWidget(self.groupBox_logo, 1, 0, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 0, 1, 1, 1)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
@@ -266,10 +267,10 @@ class MainSoftware(QMainWindow):
         self.menuEdit.setObjectName("menuEdit")
         self.menuModules = QtWidgets.QMenu(self.menubar)
         self.menuModules.setObjectName("menuModules")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.setStatusBar(self.statusbar)
 
         # Create progress bar (hidden initially)
         self.progress = QtWidgets.QProgressBar()
@@ -278,11 +279,11 @@ class MainSoftware(QMainWindow):
         self.progress.hide()
         self.statusbar.addPermanentWidget(self.progress)
 
-        self.actionReset = QtWidgets.QAction(MainWindow)
+        self.actionReset = QtWidgets.QAction(self)
         self.actionReset.setObjectName("actionReset")
-        self.actionPipeline_Wall_Thickness = QtWidgets.QAction(MainWindow)
+        self.actionPipeline_Wall_Thickness = QtWidgets.QAction(self)
         self.actionPipeline_Wall_Thickness.setObjectName("actionPipeline_Wall_Thickness")
-        self.actionPipeline_Crossing_Calculation = QtWidgets.QAction(MainWindow)
+        self.actionPipeline_Crossing_Calculation = QtWidgets.QAction(self)
         self.actionPipeline_Crossing_Calculation.setObjectName("actionPipeline_Crossing_Calculation")
         self.menuEdit.addAction(self.actionReset)
         self.menuModules.addSeparator()
@@ -296,8 +297,8 @@ class MainSoftware(QMainWindow):
         self.label_copyright.setObjectName("label_copyright")
         self.gridLayout_2.addWidget(self.label_copyright, 4, 0, 1, 1)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self)
+        QtCore.QMetaObject.connectSlotsByName(self)
 
         self.pushButton_WallThickness.clicked.connect(self.openWallThickness)
         self.pushButton_Crossing.clicked.connect(self.openCrossingCalculations)
@@ -306,6 +307,7 @@ class MainSoftware(QMainWindow):
 
         create_table()
         
+       
         
         
         
@@ -465,10 +467,30 @@ class MainSoftware(QMainWindow):
                 )
 
 
+# if __name__ == "__main__":
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = MainSoftware()
+# #     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     splash = SplashScreen(MainWindow)
+#     splash.show()
+#     sys.exit(app.exec_())
+
+
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = MainSoftware()
-#     ui.setupUi(MainWindow)
-    MainWindow.show()
+
+    app = QApplication(sys.argv)
+
+    splash = SplashScreen()
+    main_window = MainSoftware()
+
+    # When splash finishes → show main window
+    splash.finished.connect(main_window.show)
+
+    # Also close splash
+    splash.finished.connect(splash.close)
+
+    splash.show()
+
     sys.exit(app.exec_())

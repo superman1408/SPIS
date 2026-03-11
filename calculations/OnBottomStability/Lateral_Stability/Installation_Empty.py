@@ -278,16 +278,43 @@ def lateralStability_installation(frontendData):
     print(Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)/1000)
 
 
+    gamma_SC1 = (Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)
+
+    gamma_SC2 = (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)
+
     if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1 :
-        LSC_min =  print("SATISFIED")
+        LSC_min =  "SATISFIED"
         if ((Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1))/1000) <= 1:
-            print("SATISFIED")
+             LSC_min1 = "SATISFIED"
 
         else:
-            print("NOT SATISFIED")
+             LSC_min1 = "NOT SATISFIED"
 
     else:
-        print("NOT SATISFIED")
+        LSC_min = "NOT SATISFIED"
+
+
+    result1 = {
+        "Area_of_pipe_AOD" : Area_of_pipe_AOD,
+        "Volume_of_pipe_VOD":Volume_of_pipe_VOD,
+        "Internal_Area_of_pipe_AID":Internal_Area_of_pipe_AID,
+        "Volume_of_pipe_VID":Volume_of_pipe_VID,
+        "Area_of_Thickness_At":Area_of_Thickness_At,
+        "Volume_of_Thickness_Vt":Volume_of_Thickness_Vt,
+        "Mass_of_HDPE_pipe_Mpipe":Mass_of_HDPE_pipe_Mpipe,
+        "Content_mass_inside_pipe_Mseawater":Content_mass_inside_pipe_Mseawater,
+        "Buoyancy_for_pipe_Bpipe":Buoyancy_for_pipe_Bpipe,
+        "Mass_of_concrete_Mc":Mass_of_concrete_Mc,
+        "Buoyancy_for_concrete_Bc":Buoyancy_for_concrete_Bc,
+        "Submerged_Wt_of_pipe_Wp":Submerged_Wt_of_pipe_Wp,
+        "Submerged_Wt_of_concrete_Wc":Submerged_Wt_of_concrete_Wc,
+        "Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1":Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1,
+        "gamma_SC1":gamma_SC1,
+        "gamma_SC2":gamma_SC2
+
+    }
+
+    return result1
 
 
 
