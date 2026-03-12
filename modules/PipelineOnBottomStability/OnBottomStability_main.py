@@ -10,9 +10,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow
+import random
 from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
 from calculations import other
+
 
 
 frontendData = {}
@@ -21,7 +23,10 @@ frontendData = {}
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1271, 914)
+        MainWindow.setEnabled(True)
+        # MainWindow.resize(800, 500)
+        MainWindow.resize(1000, 914)
+        # MainWindow.resize(1271, 914)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -776,30 +781,66 @@ class Ui_MainWindow(object):
     
     
     def inputData(self):
-
-        frontendData = {
-            "HDPE_density_rho_HDPE": float(self.rho_HDPE_lineEdit.text()),
-            "Outside_diameter_OD": float(self.OD_lineEdit.text()),
-            "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
-            "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
-            "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
-            "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
-            "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
-            "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
-            "Safety_factor_for_weight_gamma_w": float(self.yw_lineEdit.text()),
-            "Significant_wave_height_Hs": float(self.Hs_lineEdit.text()),
-            "Spectral_peak_period_Tp": float(self.Tp_lineEdit.text()),
-            "Water_depth_d": float(self.d_lineEdit.text()),
-            "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
-            "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
-        }
         
-        result1 = lateralStability_installation(frontendData)
-        result2 = lateralStability_operationContentFilled(frontendData)
+        try: 
 
-        print(frontendData)
+            frontendData = {
+                "HDPE_density_rho_HDPE": float(self.rho_HDPE_lineEdit.text()),
+                "Outside_diameter_OD": float(self.OD_lineEdit.text()),
+                "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
+                "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
+                "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
+                "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
+                "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
+                "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
+                "Safety_factor_for_weight_gamma_w": float(self.yw_lineEdit.text()),
+                "Significant_wave_height_Hs": float(self.Hs_lineEdit.text()),
+                "Spectral_peak_period_Tp": float(self.Tp_lineEdit.text()),
+                "Water_depth_d": float(self.d_lineEdit.text()),
+                "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
+                "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
+            }
+            
+            result1 = lateralStability_installation(frontendData)
+            print("-----------------------")
+                
+            try:
+                self.AOD_lineEdit.setText(f"{result1['Area_of_pipe_AOD']:.3f}")
+                self.VOD_lineEdit.setText(f"{result1['Volume_of_pipe_VOD']:.3f}")
+                self.AID_lineEdit.setText(f"{result1['Internal_Area_of_pipe_AID']:.3f}")
+                self.VID_lineEdit.setText(f"{result1['Volume_of_pipe_VID']:.3f}")
+                self.At_lineEdit.setText(f"{result1['Area_of_Thickness_At']:.3f}")
+                self.Vt_lineEdit.setText(f"{result1['Volume_of_Thickness_Vt']:.3f}")
+                self.Mpipe_lineEdit.setText(f"{result1['Mass_of_HDPE_pipe_Mpipe']:.3f}")
+                self.Msea_water_lineEdit.setText(f"{result1['Content_mass_inside_pipe_Mseawater']:.3f}")
+                self.Bpipe_lineEdit.setText(f"{result1['Buoyancy_for_pipe_Bpipe']:.3f}")
+                self.Mc_lineEdit.setText(f"{result1['Mass_of_concrete_Mc']:.3f}")
+                self.Bc_lineEdit.setText(f"{result1['Buoyancy_for_concrete_Bc']:.3f}")
+                self.Wp_lineEdit.setText(f"{result1['Submerged_Wt_of_pipe_Wp']:.3f}")
+                self.Wc_lineEdit.setText(f"{result1['Submerged_Wt_of_concrete_Wc']:.3f}")
+                self.Ws_lineEdit.setText(f"{result1['Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1']:.3f}")
+                self.Criteria1_lineEdit.setText(f"{result1['gamma_SC1']:.3f}")
+                self.Criteria2_lineEdit.setText(f"{result1['gamma_SC2']:.3f}")
+                
+                # print(result1)
+                # print(type(result1))
 
-        return frontendData
+                # self.Criteria1_lineEdit.setText(str(result1.get('LSC_min', '')))
+                # self.Criteria2_lineEdit.setText(str(result1.get('LSC_min1', '')))
+
+            except Exception as e:
+                print("ERROR:", e)
+            
+            
+
+            result2 = lateralStability_operationContentFilled(frontendData)
+
+            print(frontendData)
+
+            return frontendData
+        
+        except Exception as e:
+            print(f"error code:{random.random()}>>>>>>{e}")
             
             
 

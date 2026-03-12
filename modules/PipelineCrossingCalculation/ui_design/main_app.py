@@ -19,6 +19,8 @@ class PipelineSimulationApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.current_file_path = None
         
+
+        
         # --- Initialize dynamic User and Project Info from global_app_info ---
         self._logged_in_username = global_app_info.get("username", "Guest User")
         self._current_project_title = global_app_info.get("project_name", "Untitled Project (Initial)")
