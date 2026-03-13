@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import QMessageBox, QMainWindow
 import random
 from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
+from calculations import verticalStability_installationEmpty
 from calculations import other
 
 
@@ -781,6 +782,8 @@ class Ui_MainWindow(object):
     
     
     def inputData(self):
+
+        print("__________________Case Lateral Stability___________________________")
         
         try: 
 
@@ -821,7 +824,7 @@ class Ui_MainWindow(object):
                 self.Ws_lineEdit.setText(f"{result1['Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1']:.3f}")
                 self.Criteria1_lineEdit.setText(f"{result1['gamma_SC1']:.3f}")
                 self.Criteria2_lineEdit.setText(f"{result1['gamma_SC2']:.3f}")
-                
+                self.result_display_label.setText(str(result1['LSC_min']+str(result1['LSC_min1'])))
                 # print(result1)
                 # print(type(result1))
 
@@ -833,10 +836,87 @@ class Ui_MainWindow(object):
             
             
 
-            result2 = lateralStability_operationContentFilled(frontendData)
+            result_lateralStability_operationContentFilled = lateralStability_operationContentFilled(frontendData)
+            print("-----lateralStability_operationContentFilled---------")
+
+            try: 
+                self.AOD_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Area_of_pipe_AOD']:.3f}")
+                self.VOD_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Volume_of_pipe_VOD']:.3f}")
+                self.AID_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Internal_Area_of_pipe_AID']:.3f}")
+                self.VID_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Volume_of_pipe_VID']:.3f}")
+                self.At_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Area_of_Thickness_At']:.3f}")
+                self.Vt_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Volume_of_Thickness_Vt']:.3f}")
+                self.Mpipe_lineEdit.setText(f"{result_lateralStability_operationContentFilled}")
+                self.Msea_water_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Content_mass_inside_pipe_Mseawater']:.3f}")
+                self.Bpipe_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Buoyancy_for_pipe_Bpipe']:.3f}")
+                self.Mc_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Mass_of_concrete_Mc']:.3f}")
+                self.Bc_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Buoyancy_for_concrete_Bc']:.3f}")
+                self.Wp_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Submerged_Wt_of_pipe_Wp']:.3f}")
+                self.Wc_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Submerged_Wt_of_concrete_Wc']:.3f}")
+                self.Ws_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1']:.3f}")
+                self.Criteria1_lineEdit.setText(f"{result_lateralStability_operationContentFilled['gamma_SC1']:.3f}")
+                self.Criteria2_lineEdit.setText(f"{result_lateralStability_operationContentFilled['gamma_SC2']:.3f}")
+                self.result_display_label.setText(str(result_lateralStability_operationContentFilled['LSC_min']+str(result_lateralStability_operationContentFilled['LSC_min1'])))
+
+            except Exception as e:
+                print("ERROR:", e)
+
+
+            print("__________________Case Vertical Stability___________________________")
+
+            try:
+
+                frontendData = {
+                    "rh_HDPE": float(self.rho_HDPE_lineEdit.text()),
+                    "OD": float(self.OD_lineEdit.text()),
+                    "t_HDPE": float(self.tHDPE_lineEdit.text()),
+                    "CA": float(self.CA_lineEdit.text()),
+                    "V_c": float(self.Vc_lineEdit.text()),
+                    "rh_c": float(self.rho_c_lineEdit.text()),
+                    "rh_cont": float(self.rho_cont_lineEdit.text()),
+                    "gamma_w": float(self.yw_lineEdit.text()),
+                    # "rh_seawater": float(self.rho_se.text()),
+                    # "ID": float(self.ID.text()),
+
+                }
+
+                
+
+                resultInstallationEmpty = verticalStability_installationEmpty(frontendData)
+                print("-----------------------")
+                    
+                try:
+                    self.AOD_lineEdit.setText(f"{resultInstallationEmpty['A_OD']:.3f}")
+                    self.VOD_lineEdit.setText(f"{resultInstallationEmpty['V_OD']:.3f}")
+                    self.AID_lineEdit.setText(f"{resultInstallationEmpty['A_ID']:.3f}")
+                    self.VID_lineEdit.setText(f"{resultInstallationEmpty['V_ID']:.3f}")
+                    self.At_lineEdit.setText(f"{resultInstallationEmpty['A_t']:.3f}")
+                    self.Vt_lineEdit.setText(f"{resultInstallationEmpty['V_t']:.3f}")
+                    self.Mpipe_lineEdit.setText(f"{resultInstallationEmpty['M_pipe']:.3f}")
+                    self.Msea_water_lineEdit.setText(f"{resultInstallationEmpty['M_seawater']:.3f}")
+                    self.Bpipe_lineEdit.setText(f"{resultInstallationEmpty['B_pipe']:.3f}")
+                    self.Mc_lineEdit.setText(f"{resultInstallationEmpty['M_c']:.3f}")
+                    self.Bc_lineEdit.setText(f"{resultInstallationEmpty['B_c']:.3f}")
+                    self.Wp_lineEdit.setText(f"{resultInstallationEmpty['W_p']:.3f}")
+                    self.Wc_lineEdit.setText(f"{resultInstallationEmpty['W_c']:.3f}")
+                    self.Ws_lineEdit.setText(f"{resultInstallationEmpty['W_s']:.3f}")
+                    self.Criteria1_lineEdit.setText(f"{resultInstallationEmpty['SG']:.3f}")
+                    self.Criteria2_lineEdit.setText(f"{resultInstallationEmpty['UC']:.3f}")
+                    self.result_display_label.setText(str(resultInstallationEmpty['UC_status']))
+                    # print(result1)
+                    # print(type(result1))
+
+                    # self.Criteria1_lineEdit.setText(str(result1.get('LSC_min', '')))
+                    # self.Criteria2_lineEdit.setText(str(result1.get('LSC_min1', '')))
+
+                except Exception as e:
+                    print("ERROR:", e)
+
+            except Exception as e:
+                print("ERROR", e)
+
 
             print(frontendData)
-
             return frontendData
         
         except Exception as e:

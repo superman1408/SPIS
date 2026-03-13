@@ -285,16 +285,27 @@ def lateralStability_installation(frontendData):
 
         gamma_SC2 = (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)
 
-        if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1 :
-            LSC_min =  "SATISFIED"
-            if ((Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1))/1000) <= 1:
-                LSC_min1 = "SATISFIED"
+        # if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1 :
+        #     LSC_min =  "SATISFIED"
+        #     if ((Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1))/1000) <= 1:
+        #         LSC_min1 = "SATISFIED"
 
-            else:
-                LSC_min1 = "NOT SATISFIED"
+        #     else:
+        #         LSC_min1 = "NOT SATISFIED"
 
+        # else:
+        #     LSC_min = "NOT SATISFIED"
+
+        if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1:
+            LSC_min = "SATISFIED"
         else:
             LSC_min = "NOT SATISFIED"
+
+
+        if ((Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz / Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)) / 1000) <= 1:
+            LSC_min1 = "SATISFIED"
+        else:
+            LSC_min1 = "NOT SATISFIED"
 
 
         result1 = {
@@ -313,7 +324,9 @@ def lateralStability_installation(frontendData):
             "Submerged_Wt_of_concrete_Wc":Submerged_Wt_of_concrete_Wc,
             "Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1":Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1,
             "gamma_SC1":gamma_SC1,
-            "gamma_SC2":gamma_SC2
+            "gamma_SC2":gamma_SC2,
+            "LSC_min":LSC_min,
+            "LSC_min1":LSC_min1
 
         }
 
@@ -321,7 +334,7 @@ def lateralStability_installation(frontendData):
     
 
     except Exception as e:
-        print(f"error code:{random.random()}>>>>>>{e}")
+        print(f"error code in lateral installation:{random.random()}>>>>>>{e}")
 
 
 

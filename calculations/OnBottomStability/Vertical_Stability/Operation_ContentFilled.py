@@ -1,4 +1,10 @@
 import math
+from utils import constant
+import random
+
+__version__ = "Lateral Stability Installation version: 0.0.1"
+
+print(__version__) 
 
 
 rh_HDPE = 960
