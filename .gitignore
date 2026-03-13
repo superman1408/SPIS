@@ -210,4 +210,5 @@ __marimo__/
 settings.json
 
 
-pipline_activity.db
+*.db
+pipeline_activity.db
