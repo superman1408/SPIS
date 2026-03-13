@@ -2,86 +2,120 @@ import math
 from utils import constant
 import random
 
-__version__ = "Lateral Stability Installation version: 0.0.1"
+__version__ = "Vertical Stability Operation Content Filled version: 0.0.1"
 
 print(__version__) 
 
 
-rh_HDPE = 960
-OD = 2300/1000
-t_HDPE = 88.5/1000
-CA = 0
-V_c = 3.5
-rh_c = 2400
-rh_cont = 1100
-gamma_w = 1.1
-
-rh_seawater = 1025
-
-g= 9.81
-
-ID = round((OD - 2* t_HDPE),3)
-
-print("ID : ",ID)
-
-# ---------------------------------Calculation------------------------------------
+def verticalStability_operationContentFilled(frontendData):
+    try :
 
 
-print(math.pi)
+        rh_HDPE = 960
+        OD = 2300/1000
+        t_HDPE = 88.5/1000
+        CA = 0
+        V_c = 3.5
+        rh_c = 2400
+        rh_cont = 1100
+        gamma_w = 1.1
 
-A_OD = round((math.pi * (OD*OD)/4),3)
-print("A_OD",A_OD)
+        rh_seawater = 1025
 
-V_OD = A_OD * 1
-print("V_OD",V_OD)
+        g= 9.81
 
-A_ID = round((math.pi * ((ID**2)/4)),3)
-print("A_ID",A_ID)
+        ID = round((OD - 2* t_HDPE),3)
 
-V_ID = A_ID * 1 
-print("V_ID",V_ID)
+        print("ID : ",ID)
 
-A_t = round((A_OD - A_ID ),3)
-print("A_t :",A_t)
+        # ---------------------------------Calculation------------------------------------
 
-V_t= round((V_OD - V_ID ),3)
-print("V_t :",V_t)
 
-M_pipe = round((A_t * rh_HDPE ),3)
-print("M_pipe",M_pipe)
+        print(math.pi)
 
-M_content = A_ID * rh_cont
-print("M_content",M_content)
+        A_OD = round((math.pi * (OD*OD)/4),3)
+        print("A_OD",A_OD)
 
-B_pipe = round((A_OD * rh_seawater),0)
-print("B_pipe",B_pipe)
+        V_OD = A_OD * 1
+        print("V_OD",V_OD)
 
-# A_c = V_c 
-# print("A_c",A_c)
+        A_ID = round((math.pi * ((ID**2)/4)),3)
+        print("A_ID",A_ID)
 
-M_c = rh_c * V_c
-print("M_c",M_c)
+        V_ID = A_ID * 1 
+        print("V_ID",V_ID)
 
-B_c = (M_c*rh_seawater)/rh_c
-print("B_c",B_c)
+        A_t = round((A_OD - A_ID ),3)
+        print("A_t :",A_t)
 
-W_p = (M_pipe - B_pipe) 
-print( "W_p",W_p)
+        V_t= round((V_OD - V_ID ),3)
+        print("V_t :",V_t)
 
-W_c = M_c - B_c
-print("W_c",W_c)
+        M_pipe = round((A_t * rh_HDPE ),3)
+        print("M_pipe",M_pipe)
 
-W_s = W_p + W_c + M_content
-print( "W_s",W_s)
+        M_content = A_ID * rh_cont
+        print("M_content",M_content)
 
-SG = round((((B_pipe * g + W_s *g)/B_pipe*g)/100),3)
-print("SG",SG)
+        B_pipe = round((A_OD * rh_seawater),0)
+        print("B_pipe",B_pipe)
 
-UC = round((gamma_w/SG),3)
-print(UC)
+        # A_c = V_c 
+        # print("A_c",A_c)
 
-if UC<=1:
-    print("STABLE")
+        M_c = rh_c * V_c
+        print("M_c",M_c)
 
-else:
-    print("NOT STABLE")
+        B_c = (M_c*rh_seawater)/rh_c
+        print("B_c",B_c)
+
+        W_p = (M_pipe - B_pipe) 
+        print( "W_p",W_p)
+
+        W_c = M_c - B_c
+        print("W_c",W_c)
+
+        W_s = W_p + W_c + M_content
+        print( "W_s",W_s)
+
+        SG = round((((B_pipe * g + W_s *g)/B_pipe*g)/100),3)
+        print("SG",SG)
+
+        UC = round((gamma_w/SG),3)
+        print(UC)
+
+        if UC<=1:
+            UC_status = ("STABLE")
+
+        else:
+            UC_status = ("NOT STABLE")
+
+
+        result_VerticalOperationContentFilled = {
+            "A_OD" : A_OD,
+            "V_OD":V_OD,
+            "A_ID":A_ID,
+            "V_ID":V_ID,
+            "A_t":A_t,
+            "V_t":V_t,
+            "M_pipe":M_pipe,
+            "M_content":M_content,
+            "B_pipe":B_pipe,
+            "M_c":M_c,
+            "B_c":B_c,
+            "W_p":W_p,
+            "W_c":W_c,
+            "W_s":W_s,
+            "SG":SG,
+            "UC":UC,
+            "UC_status":UC_status,
+
+        }
+
+        return result_VerticalOperationContentFilled
+
+
+        
+
+    except Exception as e:
+        print(f"error code in vertical operation:{random.random()}>>>>>>{e}")

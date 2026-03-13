@@ -14,6 +14,8 @@ import random
 from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
 from calculations import verticalStability_installationEmpty
+from calculations import verticalStability_operationContentFilled
+from calculations import verticalStability_operationShutDown
 from calculations import other
 
 from utils import caseOption
@@ -785,7 +787,9 @@ class Ui_MainWindow(object):
         
         self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
         
-    
+        self.combobox_selectCase.currentTextChanged.connect(self.selectanalysis)
+
+        
         
     #  function which changes the items in second combobox_selectCase   
     def changeComboBoxCase(self, text):
@@ -797,6 +801,37 @@ class Ui_MainWindow(object):
         options = caseOption.get(text,[]) #caseOption is imported from utils.
         print(options)
         self.combobox_selectCase.addItems(options)
+
+
+     #  function which changes the items in second combobox_selectCase   
+    # def selectanalysis(self, text, result1, result_lateralStability_operationContentFilled, resultInstallationEmpty ):
+
+    #     print("Selected case:", text)
+
+    #     selected_case = self.combobox_selectCase.currentText()
+
+    #     if selected_case == "Installation-Empty":
+    #         result1 = lateralStability_installation(frontendData)
+
+    #     elif selected_case == "Operation-Content Filled":
+    #         result_lateralStability_operationContentFilled = lateralStability_operationContentFilled(frontendData)
+
+    #     elif selected_case == "Installation-Empty":
+    #         resultInstallationEmpty = verticalStability_installationEmpty(frontendData)  # if you have this
+
+    #     else:
+    #         print("No valid case selected")
+    #         return
+
+
+    def selectanalysis(self, text):
+        print("Selected case:", text)
+
+        # if selected_case == "Installation-Empty":
+        #     result = lateralStability_installation(frontendData)
+                  
+
+
     
     
     def inputData(self):
@@ -864,7 +899,7 @@ class Ui_MainWindow(object):
                 self.VID_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Volume_of_pipe_VID']:.3f}")
                 self.At_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Area_of_Thickness_At']:.3f}")
                 self.Vt_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Volume_of_Thickness_Vt']:.3f}")
-                self.Mpipe_lineEdit.setText(f"{result_lateralStability_operationContentFilled}")
+                self.Mpipe_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Mass_of_HDPE_pipe_Mpipe']:.3f}")
                 self.Msea_water_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Content_mass_inside_pipe_Mseawater']:.3f}")
                 self.Bpipe_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Buoyancy_for_pipe_Bpipe']:.3f}")
                 self.Mc_lineEdit.setText(f"{result_lateralStability_operationContentFilled['Mass_of_concrete_Mc']:.3f}")
@@ -921,6 +956,67 @@ class Ui_MainWindow(object):
                     self.Criteria1_lineEdit.setText(f"{resultInstallationEmpty['SG']:.3f}")
                     self.Criteria2_lineEdit.setText(f"{resultInstallationEmpty['UC']:.3f}")
                     self.result_display_label.setText(str(resultInstallationEmpty['UC_status']))
+                    # print(result1)
+                    # print(type(result1))
+
+                    # self.Criteria1_lineEdit.setText(str(result1.get('LSC_min', '')))
+                    # self.Criteria2_lineEdit.setText(str(result1.get('LSC_min1', '')))
+
+                except Exception as e:
+                    print("ERROR:", e)
+
+
+                result_VerticalOperationContentFilled = verticalStability_operationContentFilled(frontendData)
+                print("-----------------------")
+                    
+                try:
+                    self.AOD_lineEdit.setText(f"{result_VerticalOperationContentFilled['A_OD']:.3f}")
+                    self.VOD_lineEdit.setText(f"{result_VerticalOperationContentFilled['V_OD']:.3f}")
+                    self.AID_lineEdit.setText(f"{result_VerticalOperationContentFilled['A_ID']:.3f}")
+                    self.VID_lineEdit.setText(f"{result_VerticalOperationContentFilled['V_ID']:.3f}")
+                    self.At_lineEdit.setText(f"{result_VerticalOperationContentFilled['A_t']:.3f}")
+                    self.Vt_lineEdit.setText(f"{result_VerticalOperationContentFilled['V_t']:.3f}")
+                    self.Mpipe_lineEdit.setText(f"{result_VerticalOperationContentFilled['M_pipe']:.3f}")
+                    self.Msea_water_lineEdit.setText(f"{result_VerticalOperationContentFilled['M_content']:.3f}")
+                    self.Bpipe_lineEdit.setText(f"{result_VerticalOperationContentFilled['B_pipe']:.3f}")
+                    self.Mc_lineEdit.setText(f"{result_VerticalOperationContentFilled['M_c']:.3f}")
+                    self.Bc_lineEdit.setText(f"{result_VerticalOperationContentFilled['B_c']:.3f}")
+                    self.Wp_lineEdit.setText(f"{result_VerticalOperationContentFilled['W_p']:.3f}")
+                    self.Wc_lineEdit.setText(f"{result_VerticalOperationContentFilled['W_c']:.3f}")
+                    self.Ws_lineEdit.setText(f"{result_VerticalOperationContentFilled['W_s']:.3f}")
+                    self.Criteria1_lineEdit.setText(f"{result_VerticalOperationContentFilled['SG']:.3f}")
+                    self.Criteria2_lineEdit.setText(f"{result_VerticalOperationContentFilled['UC']:.3f}")
+                    self.result_display_label.setText(str(result_VerticalOperationContentFilled['UC_status']))
+                    # print(result1)
+                    # print(type(result1))
+
+                    # self.Criteria1_lineEdit.setText(str(result1.get('LSC_min', '')))
+                    # self.Criteria2_lineEdit.setText(str(result1.get('LSC_min1', '')))
+
+                except Exception as e:
+                    print("ERROR:", e)
+
+                result_VerticalOperationShutDown = verticalStability_operationShutDown(frontendData)
+                print("-----------------------")
+                    
+                try:
+                    self.AOD_lineEdit.setText(f"{result_VerticalOperationShutDown['A_OD']:.3f}")
+                    self.VOD_lineEdit.setText(f"{result_VerticalOperationShutDown['V_OD']:.3f}")
+                    self.AID_lineEdit.setText(f"{result_VerticalOperationShutDown['A_ID']:.3f}")
+                    self.VID_lineEdit.setText(f"{result_VerticalOperationShutDown['V_ID']:.3f}")
+                    self.At_lineEdit.setText(f"{result_VerticalOperationShutDown['A_t']:.3f}")
+                    self.Vt_lineEdit.setText(f"{result_VerticalOperationShutDown['V_t']:.3f}")
+                    self.Mpipe_lineEdit.setText(f"{result_VerticalOperationShutDown['M_pipe']:.3f}")
+                    self.Msea_water_lineEdit.setText(f"{result_VerticalOperationShutDown['M_seawater']:.3f}")
+                    self.Bpipe_lineEdit.setText(f"{result_VerticalOperationShutDown['B_pipe']:.3f}")
+                    self.Mc_lineEdit.setText(f"{result_VerticalOperationShutDown['M_c']:.3f}")
+                    self.Bc_lineEdit.setText(f"{result_VerticalOperationShutDown['B_c']:.3f}")
+                    self.Wp_lineEdit.setText(f"{result_VerticalOperationShutDown['W_p']:.3f}")
+                    self.Wc_lineEdit.setText(f"{result_VerticalOperationShutDown['W_c']:.3f}")
+                    self.Ws_lineEdit.setText(f"{result_VerticalOperationShutDown['W_s']:.3f}")
+                    self.Criteria1_lineEdit.setText(f"{result_VerticalOperationShutDown['SG']:.3f}")
+                    self.Criteria2_lineEdit.setText(f"{result_VerticalOperationShutDown['UC']:.3f}")
+                    self.result_display_label.setText(str(result_VerticalOperationShutDown['UC_status']))
                     # print(result1)
                     # print(type(result1))
 
