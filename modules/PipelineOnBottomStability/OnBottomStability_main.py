@@ -15,9 +15,13 @@ from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
 from calculations import other
 
+from utils import caseOption
+
 
 
 frontendData = {}
+
+
 
 
 class Ui_MainWindow(object):
@@ -763,10 +767,10 @@ class Ui_MainWindow(object):
         self.actionExit.triggered.connect(MainWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         
-        
-        
-        
+# -----------------------------FUNCTION ARE FROM HERE---------------------------------------------------------------------
+       
         self.pushButton_run.clicked.connect(self.inputData)
+        self.comboBox_1.currentIndexChanged.connect(self.changeComboBoxCase)
         
         # print(frontendData)
         
@@ -778,6 +782,20 @@ class Ui_MainWindow(object):
         # print(result2)
         # print(result1)
         
+        self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
+        
+    
+        
+    #  function which changes the items in second combobox_selectCase   
+    def changeComboBoxCase(self, text):
+        print("Hello")
+        print(text)
+        
+        self.combobox_selectCase.clear()
+        
+        options = caseOption.get(text,[]) #caseOption is imported from utils.
+        print(options)
+        self.combobox_selectCase.addItems(options)
     
     
     def inputData(self):
@@ -855,8 +873,8 @@ class Ui_MainWindow(object):
         self.label_ProjectName.setText(_translate("MainWindow", "Project Name:"))
         self.label_DocNo.setText(_translate("MainWindow", "Doc No. :"))
         self.label_selectCase.setText(_translate("MainWindow", "Select Case :"))
-        self.combobox_selectCase.setItemText(0, _translate("MainWindow", "Installation "))
-        self.combobox_selectCase.setItemText(1, _translate("MainWindow", "Operation"))
+        self.combobox_selectCase.setItemText(0, _translate("MainWindow", "Select the stability"))
+        # self.combobox_selectCase.setItemText(1, _translate("MainWindow", "Operation"))
         self.label_PipeGrade.setText(_translate("MainWindow", "Pipeline Grade:"))
         self.comboBox_pipeGrade.setItemText(0, _translate("MainWindow", "API 5L X52"))
         self.comboBox_pipeGrade.setItemText(1, _translate("MainWindow", "API 5L X60"))
