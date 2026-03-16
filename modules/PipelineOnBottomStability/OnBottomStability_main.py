@@ -774,7 +774,6 @@ class Ui_MainWindow(object):
        
 
         self.pushButton_run.clicked.connect(self.inputData)
-<<<<<<< HEAD
         self.comboBox_1.currentIndexChanged.connect(self.changeComboBoxCase)
         
         self.actionReset.triggered.connect(self.reset_all)
@@ -792,7 +791,6 @@ class Ui_MainWindow(object):
         self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
         
     
-=======
         
         self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
         
@@ -800,7 +798,6 @@ class Ui_MainWindow(object):
 
         
         
->>>>>>> 418226fff230c0c976b4563ed0073d77d48c5a39
     #  function which changes the items in second combobox_selectCase   
     def changeComboBoxCase(self, text):
         print("Hello")
@@ -911,7 +908,6 @@ class Ui_MainWindow(object):
                 )
 
         except Exception as e:
-<<<<<<< HEAD
             print(f"error code:{random.random()}>>>>>>{e}")
             
             
@@ -922,8 +918,7 @@ class Ui_MainWindow(object):
         
             
             
-=======
-            print("Error:", e)
+        print("Error:")
 
     def displayLateralResults(self, result):
 
@@ -970,7 +965,6 @@ class Ui_MainWindow(object):
         self.result_display_label.setText(str(result['UC_status']))
         
     
->>>>>>> 418226fff230c0c976b4563ed0073d77d48c5a39
 
 
     def retranslateUi(self, MainWindow):
