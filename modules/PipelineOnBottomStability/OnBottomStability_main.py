@@ -35,7 +35,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(1000, 914)
         # MainWindow.resize(1271, 914)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("background-color:qlineargradient(spread:pad, x1:0.028, y1:0.0455909, x2:0.841, y2:0.966364, stop:0 rgba(169, 237, 255, 107), stop:0.994318 rgba(253, 255, 218, 255));")
@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
         self.combobox_selectCase.addItem("")
         self.combobox_selectCase.addItem("")
         self.horizontalLayout_8.addWidget(self.combobox_selectCase)
-        self.formLayout_2.setLayout(0, QtWidgets.QFormLayout.LabelRole, self.horizontalLayout_8)
+        self.formLayout_2.setLayout(0, QtWidgets.QFormLayout.LabelRole, self.horizontalLayout_8) # type: ignore
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -124,7 +124,7 @@ class Ui_MainWindow(object):
         self.comboBox_pipeGrade.addItem("")
         self.horizontalLayout.addWidget(self.comboBox_pipeGrade)
         self.horizontalLayout_9.addLayout(self.horizontalLayout)
-        self.formLayout_2.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_9)
+        self.formLayout_2.setLayout(0, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_9) # type: ignore
         self.gridLayout_9.addLayout(self.formLayout_2, 1, 0, 1, 2)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_9.addItem(spacerItem3, 1, 2, 1, 1)
@@ -719,39 +719,39 @@ class Ui_MainWindow(object):
         self.actionOpen = QtWidgets.QAction(MainWindow)
         self.actionOpen.setCheckable(True)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../SPIS/assets/open.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../SPIS/assets/open.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         self.actionOpen.setIcon(icon1)
         self.actionOpen.setObjectName("actionOpen")
         self.actionSave_As = QtWidgets.QAction(MainWindow)
         self.actionSave_As.setCheckable(True)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../SPIS/assets/save_as.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../SPIS/assets/save_as.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         self.actionSave_As.setIcon(icon2)
         self.actionSave_As.setObjectName("actionSave_As")
         self.actionExit = QtWidgets.QAction(MainWindow)
         self.actionExit.setCheckable(True)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../SPIS/assets/close.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("../SPIS/assets/close.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # pyright: ignore[reportAttributeAccessIssue]
         self.actionExit.setIcon(icon3)
         self.actionExit.setObjectName("actionExit")
         self.actionReset = QtWidgets.QAction(MainWindow)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../SPIS/assets/reset.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("../SPIS/assets/reset.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         self.actionReset.setIcon(icon4)
         self.actionReset.setObjectName("actionReset")
         self.actionGenerate_Report = QtWidgets.QAction(MainWindow)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("../SPIS/assets/document.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("../SPIS/assets/document.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         self.actionGenerate_Report.setIcon(icon5)
         self.actionGenerate_Report.setObjectName("actionGenerate_Report")
         self.actionDocumentation = QtWidgets.QAction(MainWindow)
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("../SPIS/assets/report.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap("../SPIS/assets/report.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         self.actionDocumentation.setIcon(icon6)
         self.actionDocumentation.setObjectName("actionDocumentation")
         self.actionWhat_s_New = QtWidgets.QAction(MainWindow)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("../SPIS/assets/What\'s new.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap("../SPIS/assets/What\'s new.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
         self.actionWhat_s_New.setIcon(icon7)
         self.actionWhat_s_New.setObjectName("actionWhat_s_New")
         self.menuFile.addAction(self.actionOpen)
@@ -790,9 +790,6 @@ class Ui_MainWindow(object):
         
         self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
         
-    
-        
-        self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
         
         self.combobox_selectCase.currentTextChanged.connect(self.selectanalysis)
 
@@ -915,10 +912,57 @@ class Ui_MainWindow(object):
     
     def reset_all(self, MainWindow):
         print("Started Resetting all inputs now.............WAIT!")
+        try:
+            # Reset all input fields
+            self.rho_HDPE_lineEdit.clear()
+            self.OD_lineEdit.clear()
+            self.concrete_coating_thickness_lineEdit.clear()
+            self.tHDPE_lineEdit.clear()
+            self.CA_lineEdit.clear()
+            self.Vc_lineEdit.clear()
+            self.rho_c_lineEdit.clear()
+            self.mg_thickness_lineEdit.clear()
+            self.mg_density_lineEdit.clear()
+            self.rho_cont_lineEdit.clear()
+            self.yw_lineEdit.clear()
+            self.Hs_lineEdit.clear()
+            self.Tp_lineEdit.clear()
+            self.d_lineEdit.clear()
+            self.related_angle_theta_lineEdit.clear()
+            self.zr_lineEdit.clear()
+            self.ys_lineEdit.clear()
+
+            # Reset result fields
+            self.AOD_lineEdit.clear()
+            self.VOD_lineEdit.clear()
+            self.AID_lineEdit.clear()
+            self.VID_lineEdit.clear()
+            self.At_lineEdit.clear()
+            self.Vt_lineEdit.clear()
+            self.Mpipe_lineEdit.clear()
+            self.Msea_water_lineEdit.clear()
+            self.Bpipe_lineEdit.clear()
+            self.Mc_lineEdit.clear()
+            self.Bc_lineEdit.clear()
+            self.Wp_lineEdit.clear()
+            self.Wc_lineEdit.clear()
+            self.Ws_lineEdit.clear()
+            self.SG_lineEdit.clear()
+            
+            # Result criteria fields
+            self.Criteria1_lineEdit.clear()
+            self.Criteria2_lineEdit.clear()
+
+            # Reset result display label
+            self.result_display_label.setText("------------Reset Completed------------")
+            print("Resetting completed successfully!")
+        except Exception as e:
+            print(f"Error during reset: {e}")
+            print("Resetting failed. Please try again.")
+            self.result_display_label.setText("Resetting failed. Please try again.")
         
             
-            
-        print("Error:")
+
 
     def displayLateralResults(self, result):
 
