@@ -21,3 +21,14 @@ caseOption = {
         ]
     }
 
+# analysisOption = {
+#         "Lateral Stability": [
+#             "Installation-Empty",
+#             "Operation-Content Filled"],
+#         "Vertical Stability": [
+#             "Installation-Empty",
+#             "Operation-Content Filled",
+#             "Operation-Shutdown-Empty"
+#         ]
+#     }
+
