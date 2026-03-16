@@ -54,8 +54,8 @@ def verticalStability_operationContentFilled(frontendData):
         M_pipe = round((A_t * rh_HDPE ),3)
         print("M_pipe",M_pipe)
 
-        M_content = A_ID * rh_cont
-        print("M_content",M_content)
+        M_seawater = A_ID * rh_cont
+        print("M_seawater",M_seawater)
 
         B_pipe = round((A_OD * rh_seawater),0)
         print("B_pipe",B_pipe)
@@ -75,7 +75,7 @@ def verticalStability_operationContentFilled(frontendData):
         W_c = M_c - B_c
         print("W_c",W_c)
 
-        W_s = W_p + W_c + M_content
+        W_s = W_p + W_c + M_seawater
         print( "W_s",W_s)
 
         SG = round((((B_pipe * g + W_s *g)/B_pipe*g)/100),3)
@@ -99,7 +99,7 @@ def verticalStability_operationContentFilled(frontendData):
             "A_t":A_t,
             "V_t":V_t,
             "M_pipe":M_pipe,
-            "M_content":M_content,
+            "M_seawater":M_seawater,
             "B_pipe":B_pipe,
             "M_c":M_c,
             "B_c":B_c,

@@ -237,7 +237,7 @@ class MainSoftware(QMainWindow):
 "}\n"
 "")
         self.groupBox_4.setTitle("")
-        self.groupBox_4.setObjectName("groupBox_4")
+        self.groupBox_4.setObjectName("groupBox_4") 
         self.horizontalLayout_3.addWidget(self.groupBox_4)
         self.groupBox_3 = QtWidgets.QGroupBox(self.groupBox_logo)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
