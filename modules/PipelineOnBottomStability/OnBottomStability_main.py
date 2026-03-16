@@ -15,7 +15,7 @@ from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
 from calculations import other
 
-from utils import caseOption
+from utils import caseOption, reset_all_inputs
 
 
 
@@ -772,6 +772,8 @@ class Ui_MainWindow(object):
         self.pushButton_run.clicked.connect(self.inputData)
         self.comboBox_1.currentIndexChanged.connect(self.changeComboBoxCase)
         
+        self.actionReset.triggered.connect(self.reset_all)
+        
         # print(frontendData)
         
         # result1 = lateralStability_installation(frontendData)
@@ -785,7 +787,6 @@ class Ui_MainWindow(object):
         self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
         
     
-        
     #  function which changes the items in second combobox_selectCase   
     def changeComboBoxCase(self, text):
         print("Hello")
@@ -859,6 +860,13 @@ class Ui_MainWindow(object):
         
         except Exception as e:
             print(f"error code:{random.random()}>>>>>>{e}")
+            
+            
+    
+    
+    def reset_all(self, MainWindow):
+        print("Started Resetting all inputs now.............WAIT!")
+        
             
             
 
