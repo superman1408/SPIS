@@ -772,11 +772,17 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.actionExit.triggered.connect(MainWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+
+        #  hiding the result label to triggere it from check push button  
+
+        self.result_display_label.hide()
         
 # -----------------------------FUNCTION ARE FROM HERE---------------------------------------------------------------------
        
 
         self.pushButton_run.clicked.connect(self.inputData)
+        self.pushButton_check.clicked.connect(self.EnableResultLabel)
         self.comboBox_1.currentIndexChanged.connect(self.changeComboBoxCase)
         
         self.actionReset.triggered.connect(self.reset_all)
@@ -1216,6 +1222,10 @@ class Ui_MainWindow(object):
         self.actionGenerate_Report.setText(_translate("MainWindow", "Generate Report"))
         self.actionDocumentation.setText(_translate("MainWindow", "Documentation"))
         self.actionWhat_s_New.setText(_translate("MainWindow", "What\'s New"))
+
+
+    def EnableResultLabel(self):
+        self.result_display_label.show()
 
 
 # if __name__ == "__main__":
