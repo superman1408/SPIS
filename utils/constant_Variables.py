@@ -1,4 +1,4 @@
-__version__ = "Constant values are loaded"
+__version__ = "Constant variables are loaded"
 
 print(__version__)
 

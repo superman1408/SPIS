@@ -783,8 +783,13 @@ class Ui_MainWindow(object):
 
         self.pushButton_run.clicked.connect(self.inputData)
         self.pushButton_check.clicked.connect(self.EnableResultLabel)
-        self.comboBox_1.currentIndexChanged.connect(self.changeComboBoxCase)
         
+        #comboBox functions
+        self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase)
+        self.combobox_selectCase.currentTextChanged.connect(self.selectAnalysis)
+        
+        
+        # Menu bar functions
         self.actionReset.triggered.connect(self.reset_all)
         self.actionSave_As.triggered.connect(self.save_As)
         self.actionOpen.triggered.connect(self.openFile)
@@ -795,17 +800,6 @@ class Ui_MainWindow(object):
         
         
         
-
-    def open_documentation(self):
-        QMessageBox.information(
-            self,  # ✅ MUST be QMainWindow
-            "Documentation",
-            "Pipeline On-Bottom Stability Tool\n\n"
-            "Version: 1.0\n"
-            "This module helps evaluate lateral and vertical stability.\n\n"
-            "Refer to input fields for guidance."
-        )
-        
         
     # def open_documentation(self):
         # url = "https://www.google.com"  # Replace with your documentation URL
@@ -815,20 +809,11 @@ class Ui_MainWindow(object):
         
         
         
-        # print(frontendData)
         
-        # result1 = lateralStability_installation(frontendData)
-        # result2 = lateralStability_operationContentFilled(frontendData)
-        # result3 = other()
-        
-        # print(result3)
-        # print(result2)
-        # print(result1)
-        
-        self.comboBox_1.currentTextChanged.connect(self.changeComboBoxCase) #connecting the comboBox_1 with function which changes the items in second combobox_selectCase.
+    
         
         
-        self.combobox_selectCase.currentTextChanged.connect(self.selectanalysis)
+        
 
         
         
@@ -838,13 +823,15 @@ class Ui_MainWindow(object):
         print(text)
         self.combobox_selectCase.blockSignals(True)
         self.combobox_selectCase.clear()
+        print("comboBox is cleared now")
         
         options = caseOption.get(text,[]) #caseOption is imported from utils.
         print(options)
+        
         self.combobox_selectCase.addItems(options)
         self.combobox_selectCase.blockSignals(False)
 
-    def selectanalysis(self, text):
+    def selectAnalysis(self, text):
         print("Selected case:", text)
 
 
@@ -1073,25 +1060,12 @@ class Ui_MainWindow(object):
         self.result_display_label.setText("Generate Report functionality is not implemented yet.")
         
         
-    # def open_documentation(self):
-    #     print("Documentation functionality is initialized")
-    #     self.result_display_label.setText("Documentation functionality is not implemented yet.")
-    #     """Displays application documentation."""
-    #     print("Action: Documentation")
-    #     # QMessageBox.information(self, "Documentation",
-    #     #                                "Detailed documentation will be available here.\n"
-    #     #                                "For now, please refer to the input labels for guidance. (Placeholder)")
-    #     # You could open a local PDF/HTML file or an online link here
-    #     # Example: QtGui.QDesktopServices.openUrl(QtCore.QUrl("file:///path/to/your/documentation.pdf"))
-    #     try:
-    #         QtWidgets.QMessageBox.information(
-    #             self,  # your main window
-    #             "Test Popup",
-    #             "This is a simple popup to test functionality."
-    #         )
-    #     except Exception as e:
-    #         print(f"Error displaying popup: {e}")
-    #         self.result_display_label.setText("Failed to display documentation popup.")
+    def open_documentation(self):
+        print("Documentation functionality is initialized")
+        self.result_display_label.setText("Documentation functionality is not implemented yet.")
+        """Displays application documentation."""
+        print("Action: Documentation")
+
         
     
     
