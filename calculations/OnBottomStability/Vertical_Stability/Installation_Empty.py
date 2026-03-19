@@ -9,18 +9,28 @@ print(__version__)
 
 
 def verticalStability_installationEmpty(frontendData):
+    # frontendData = {
+    #                 "rh_HDPE": float(self.rho_HDPE_lineEdit.text()),
+    #                 "OD": float(self.OD_lineEdit.text()),
+    #                 "t_HDPE": float(self.tHDPE_lineEdit.text()),
+    #                 "CA": float(self.CA_lineEdit.text()),
+    #                 "V_c": float(self.Vc_lineEdit.text()),
+    #                 "rh_c": float(self.rho_c_lineEdit.text()),
+    #                 "rh_cont": float(self.rho_cont_lineEdit.text()),
+    #                 "gamma_w": float(self.yw_lineEdit.text()),
+    #             }
 
     try:
 
         rh_HDPE = frontendData["rh_HDPE"]
-        OD = 2300/1000
-        t_HDPE = 88.5/1000
-        CA = 0
-        V_c = 1.04
-        rh_c = 2400
-        rh_cont = 0
-        gamma_w = 1.1
-        rh_seawater = 1025
+        OD = frontendData["OD"]/1000
+        t_HDPE = frontendData["t_HDPE"]/1000
+        CA = frontendData["CA"]
+        V_c = frontendData["V_c"]
+        rh_c = frontendData["rh_c"]
+        rh_cont = frontendData["rh_cont"]
+        gamma_w = frontendData["gamma_w"]
+        rh_seawater = frontendData["rh_seawater"]
 
         g= 9.81
 

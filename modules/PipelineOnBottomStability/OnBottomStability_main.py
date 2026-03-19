@@ -17,12 +17,15 @@ from calculations import verticalStability_installationEmpty
 from calculations import verticalStability_operationContentFilled
 from calculations import verticalStability_operationShutDown
 from calculations import other
+import webbrowser
+from PyQt5.QtWidgets import QMessageBox
 
 from utils import caseOption, reset_all_inputs
 
 
 
 frontendData = {}
+saveData = {}
 
 
 
@@ -777,6 +780,34 @@ class Ui_MainWindow(object):
         self.comboBox_1.currentIndexChanged.connect(self.changeComboBoxCase)
         
         self.actionReset.triggered.connect(self.reset_all)
+        self.actionSave_As.triggered.connect(self.save_As)
+        self.actionOpen.triggered.connect(self.openFile)
+        self.actionGenerate_Report.triggered.connect(self.generate_report)
+        self.actionDocumentation.triggered.connect(self.open_documentation)
+        self.actionWhat_s_New.triggered.connect(self.open_whats_new)
+        
+        
+        
+        
+
+    def open_documentation(self):
+        QMessageBox.information(
+            self,  # ✅ MUST be QMainWindow
+            "Documentation",
+            "Pipeline On-Bottom Stability Tool\n\n"
+            "Version: 1.0\n"
+            "This module helps evaluate lateral and vertical stability.\n\n"
+            "Refer to input fields for guidance."
+        )
+        
+        
+    # def open_documentation(self):
+        # url = "https://www.google.com"  # Replace with your documentation URL
+        # webbrowser.open(url)
+        # print("Documentation button clicked")
+        
+        
+        
         
         # print(frontendData)
         
@@ -960,7 +991,107 @@ class Ui_MainWindow(object):
             print(f"Error during reset: {e}")
             print("Resetting failed. Please try again.")
             self.result_display_label.setText("Resetting failed. Please try again.")
+    
+    
+    def save_As(self, MainWindow):
+        print("Save As functionality is initialized")
+        self.result_display_label.setText("Save As functionality is not implemented yet.")
         
+        # Reset all input fields
+            # self.rho_HDPE_lineEdit.clear()
+            # self.OD_lineEdit.clear()
+            # self.concrete_coating_thickness_lineEdit.clear()
+            # self.tHDPE_lineEdit.clear()
+            # self.CA_lineEdit.clear()
+            # self.Vc_lineEdit.clear()
+            # self.rho_c_lineEdit.clear()
+            # self.mg_thickness_lineEdit.clear()
+            # self.mg_density_lineEdit.clear()
+            # self.rho_cont_lineEdit.clear()
+            # self.yw_lineEdit.clear()
+            # self.Hs_lineEdit.clear()
+            # self.Tp_lineEdit.clear()
+            # self.d_lineEdit.clear()
+            # self.related_angle_theta_lineEdit.clear()
+            # self.zr_lineEdit.clear()
+            # self.ys_lineEdit.clear()
+
+            # # Reset result fields
+            # self.AOD_lineEdit.clear()
+            # self.VOD_lineEdit.clear()
+            # self.AID_lineEdit.clear()
+            # self.VID_lineEdit.clear()
+            # self.At_lineEdit.clear()
+            # self.Vt_lineEdit.clear()
+            # self.Mpipe_lineEdit.clear()
+            # self.Msea_water_lineEdit.clear()
+            # self.Bpipe_lineEdit.clear()
+            # self.Mc_lineEdit.clear()
+            # self.Bc_lineEdit.clear()
+            # self.Wp_lineEdit.clear()
+            # self.Wc_lineEdit.clear()
+            # self.Ws_lineEdit.clear()
+            # self.SG_lineEdit.clear()
+            
+            # # Result criteria fields
+            # self.Criteria1_lineEdit.clear()
+            # self.Criteria2_lineEdit.clear()
+        # try:
+            # saveData = {
+            #     "HDPE_density_rho_HDPE": float(self.rho_HDPE_lineEdit.text()),
+            #     "Outside_diameter_OD": float(self.OD_lineEdit.text()),
+            #     "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
+            #     "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
+            #     "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
+            #     "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
+            #     "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
+            #     "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
+            #     "Safety_factor_for_weight_gamma_w": float(self.yw_lineEdit.text()),
+            #     "Significant_wave_height_Hs": float(self.Hs_lineEdit.text()),
+            #     "Spectral_peak_period_Tp": float(self.Tp_lineEdit.text()),
+            #     "Water_depth_d": float(self.d_lineEdit.text()),
+            #     "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
+            #     "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
+                # "Submerged_Soil_Weight_for_Sand_ys": float(self.ys_lineEdit.text()),
+            # }
+            # Here you can implement the logic to save saveData to a file (e.g., JSON, CSV, etc.)
+    
+    
+    def openFile(self, MainWindow):
+        print("Open functionality is initialized")
+        self.result_display_label.setText("Open functionality is not implemented yet.")
+    
+    
+    def generate_report(self, MainWindow):
+        print("Generate Report functionality is initialized")
+        self.result_display_label.setText("Generate Report functionality is not implemented yet.")
+        
+        
+    # def open_documentation(self):
+    #     print("Documentation functionality is initialized")
+    #     self.result_display_label.setText("Documentation functionality is not implemented yet.")
+    #     """Displays application documentation."""
+    #     print("Action: Documentation")
+    #     # QMessageBox.information(self, "Documentation",
+    #     #                                "Detailed documentation will be available here.\n"
+    #     #                                "For now, please refer to the input labels for guidance. (Placeholder)")
+    #     # You could open a local PDF/HTML file or an online link here
+    #     # Example: QtGui.QDesktopServices.openUrl(QtCore.QUrl("file:///path/to/your/documentation.pdf"))
+    #     try:
+    #         QtWidgets.QMessageBox.information(
+    #             self,  # your main window
+    #             "Test Popup",
+    #             "This is a simple popup to test functionality."
+    #         )
+    #     except Exception as e:
+    #         print(f"Error displaying popup: {e}")
+    #         self.result_display_label.setText("Failed to display documentation popup.")
+        
+    
+    
+    def open_whats_new(self, MainWindow):
+        print("What's New functionality is initialized")
+        self.result_display_label.setText("What's New functionality is not implemented yet.")
             
 
 

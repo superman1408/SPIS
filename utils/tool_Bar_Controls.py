@@ -1,3 +1,11 @@
+import csv
+import pandas as pd
+from tkinter import filedialog
+import random
+from PyQt5.QtWidgets import QMessageBox
+
+
+
 # --- Action Button Handlers ---
 def new_file(self):
     """Resets all inputs for a new simulation."""
@@ -80,3 +88,37 @@ def reset_all_inputs(self):
     # Re-initialize default numerical values (which now clears them)
     # self.initialize_default_input_values()
     print("All inputs have been reset.")
+    
+    
+
+def saveAs(saveData):
+    print(f"\n\tSaving file....!!!")
+    try:
+            
+            filepath = filedialog.asksaveasfilename(
+            # os.getenv('home'),
+                    initialdir= "C:/Users/DELL/Desktop",
+                    title= "Save As",
+                    defaultextension= "*.csv",
+                    filetypes=(
+                            ("csv file","*.csv"),
+                            ("HTML file","*.html"),
+                            ("text file","*.txt"),
+                            ("All file","*.*")
+                    )
+            )
+    except:
+            print(f"error code:{random.random()}>>>>>>Error in saving file while opening to write..$$%%^^&&&")
+    try:
+            if filepath is None:
+                    return
+            else:
+                    with open(filepath, 'w'):
+                            df = pd.DataFrame({"SL no" : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], "INPUTS": saveData.keys(), "Values": saveData.values()})
+                            df.to_csv(filepath)
+    except:
+        print(f"error code:{random.random()}>>>>>>ERROR in saving your file...!!")
+        QMessageBox.warning(None, "Warning", 'File is not saved..!!!!')
+        
+
+

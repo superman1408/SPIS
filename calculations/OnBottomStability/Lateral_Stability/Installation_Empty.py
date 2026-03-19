@@ -14,12 +14,13 @@ def lateralStability_installation(frontendData):
         print("------------------------------------------Installation Empty---------------------------------------")
         function_Name = frontendData["HDPE_density_rho_HDPE"]
         print(constant)
+        print(type(function_Name))
         # return function_Name
     
 
 
         # ----------------------------- INPUTS DATA ----------------------------------------------
-        HDPE_density_rho_HDPE = frontendData["HDPE_density_rho_HDPE"]
+        HDPE_density_rho_HDPE = 960
         Outside_diameter_OD = 2.3
         Concrete_Coating_thickness_t_cc = 0.55
         Wall_Thickness_t_HDPE = 88.5 /1000
