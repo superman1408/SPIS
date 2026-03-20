@@ -1,3 +1,21 @@
+"HDPE_density_rho_HDPE": self.rho_HDPE_lineEdit,
+"Outside_diameter_OD": self.OD_lineEdit,
+"Concrete_Coating_thickness_t_cc": self.concrete_coating_thickness_lineEdit,
+"Wall_Thickness_t_HDPE": self.tHDPE_lineEdit,
+"Volume_of_Concrete_per_meter_of_pipe_Vc": self.Vc_lineEdit,
+"Concrete_density_rho_c" : self.rho_c_lineEdit,
+"Marine_growth_Thickness_t_mg": self.mg_thickness_lineEdit,
+"Marine_growth_density_rho_mg": self.mg_density_lineEdit,
+"Content_density_seawater_rho_cont": self.rho_cont_lineEdit,
+"Safety_factor_for_weight_gamma_w": self.yw_lineEdit,
+"Significant_wave_height_Hs": self.Hs_lineEdit,
+"Spectral_peak_period_Tp": self.Tp_lineEdit,
+"Water_depth_d": self.d_lineEdit,
+"Related_angle_btw_pipeline_and_current_direction_teta": self.related_angle_theta_lineEdit,
+"Ref_major_height_above_the_seabed_zr": self.zr_lineEdit,
+"Submerged_Soil_Weight_for_Sand_ys":self.ys_lineEdit
+
+
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'frontUpdated.ui'
