@@ -9,23 +9,22 @@ print(__version__)
 
 def verticalStability_operationContentFilled(frontendData):
     try :
+        rh_HDPE = float(frontendData["rh_HDPE"])        # rh_HDPE = 960
+        OD = float(frontendData["OD"])/1000             # OD = 2300/1000
+        t_HDPE = float(frontendData["t_HDPE"])/1000     # t_HDPE = 88.5/1000
+        CA = float(frontendData["CA"])                  # CA = 0
+        V_c = float(frontendData["V_c"])                # V_c = 3.5
+        rh_cont = float(frontendData["rh_cont"])        # rh_cont = 1100
+        gamma_w = float(frontendData["gamma_w"])        # gamma_w = 1.1
+        
+        
+        # Constant Variables--------------------------------------------------
+        rh_seawater = constant["density_seawater"]
+        rh_c = constant["density_concrete"]
+        g= constant["gravity"]
 
-
-        rh_HDPE = 960
-        OD = 2300/1000
-        t_HDPE = 88.5/1000
-        CA = 0
-        V_c = 3.5
-        rh_c = 2400
-        rh_cont = 1100
-        gamma_w = 1.1
-
-        rh_seawater = 1025
-
-        g= 9.81
-
+#---------------Internal Diameter-------------------
         ID = round((OD - 2* t_HDPE),3)
-
         print("ID : ",ID)
 
         # ---------------------------------Calculation------------------------------------
@@ -84,11 +83,13 @@ def verticalStability_operationContentFilled(frontendData):
         UC = round((gamma_w/SG),3)
         print(UC)
 
-        if UC<=1:
-            UC_status = ("STABLE")
+        # if UC<=1:
+        #     UC_status = ("STABLE")
 
-        else:
-            UC_status = ("NOT STABLE")
+        # else:
+        #     UC_status = ("NOT STABLE")
+        
+        UC_status = "STABLE" if UC <= 1 else "NOT STABLE"
 
 
         result_VerticalOperationContentFilled = {

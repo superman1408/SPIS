@@ -1,6 +1,8 @@
 import math
 import random
 
+from utils import constant
+
 
 __version__ = "Lateral Stability operation version: 0.0.1"
 
@@ -9,42 +11,58 @@ print(__version__)
 
 
 def lateralStability_operationContentFilled(frontendData):
-
+    print("--------------------Lateral Stability operation Content Filled---------------------------------------------")
     try:
-   
-        print("------------------------------------------Operation Content Filled---------------------------------------")
-        function_Name = frontendData["HDPE_density_rho_HDPE"]
-        # return function_Name
-
-
-        # ----------------------------- INPUTS DATA ----------------------------------------------
+        # -----------------------------PIPELINE INPUTS DATA ----------------------------------------------
         HDPE_density_rho_HDPE = frontendData["HDPE_density_rho_HDPE"]
-        Outside_diameter_OD = 2.3
-        Concrete_Coating_thickness_t_cc = 0.55
-        Wall_Thickness_t_HDPE = 88.5 /1000
-        Volume_of_Concrete_per_meter_of_pipe_Vc = 3.5
-        Concrete_density_rho_c = 2400
-        Marine_growth_Thickness_t_mg = 0
-        Marine_growth_density_rho_mg = 0
-
-        Content_density_seawater_rho_cont = 1100
-        Safety_factor_for_weight_gamma_w = 1.1
-        Seawater_density_rho_seawater = 1025
-        gravity_g = function_Name
-        print(type(gravity_g))
-        
-        print("*****************************************************************************************")
-        print(HDPE_density_rho_HDPE)
+        Outside_diameter_OD = frontendData["Outside_diameter_OD"]
+        Concrete_Coating_thickness_t_cc = frontendData["Concrete_Coating_thickness_t_cc"]
+        Wall_Thickness_t_HDPE = frontendData["Wall_Thickness_t_HDPE"]
+        Volume_of_Concrete_per_meter_of_pipe_Vc = frontendData["Volume_of_Concrete_per_meter_of_pipe_Vc"]
+        Marine_growth_Thickness_t_mg = frontendData["Marine_growth_Thickness_t_mg"]
+        Marine_growth_density_rho_mg = frontendData["Marine_growth_density_rho_mg"]
+        Content_density_seawater_rho_cont = frontendData["Content_density_seawater_rho_cont"]
+        Safety_factor_for_weight_gamma_w = frontendData["Safety_factor_for_weight_gamma_w"]
 
         # --------------------------------------------------- ENVIRONMENT DATA --------------------------------------
-        Significant_wave_height_Hs = 3.5
-        Spectral_peak_period_Tp = 13
-        Water_depth_d = 10.97
-        Related_angle_btw_pipeline_and_current_direction_teta = 90
-        Ref_major_height_above_the_seabed_zr = 3
+        Significant_wave_height_Hs = frontendData["Significant_wave_height_Hs"]
+        Spectral_peak_period_Tp = frontendData["Spectral_peak_period_Tp"]
+        Water_depth_d = frontendData["Water_depth_d"]
+        Related_angle_btw_pipeline_and_current_direction_teta = frontendData["Related_angle_btw_pipeline_and_current_direction_teta"]
+        Ref_major_height_above_the_seabed_zr = frontendData["Ref_major_height_above_the_seabed_zr"]
 
         #------------------------------------------------------ SOIL DATA -------------------------------------------------
-        Sunbmerged_unit_soil_weight_for_sand_gamma_s = 13.5
+        Sunbmerged_unit_soil_weight_for_sand_gamma_s = constant["submerged_unit_soil_weight_for_sand_gamma_s"] # It is also constant but it is used in load reduction factor calculation, so I have kept it here for better understanding of the code. It can be moved to constants as well.
+        
+        
+        #-----------Constants--------------------------------------------
+        Concrete_density_rho_c = constant["density_concrete"]
+        Seawater_density_rho_seawater = constant["density_seawater"]
+        gravity_g = constant["gravity"]
+        # -----------------------------PIPELINE INPUTS DATA ----------------------------------------------
+        # HDPE_density_rho_HDPE = frontendData["HDPE_density_rho_HDPE"]
+        # Outside_diameter_OD = 2.3
+        # Concrete_Coating_thickness_t_cc = 0.55
+        # Wall_Thickness_t_HDPE = 88.5 /1000
+        # Volume_of_Concrete_per_meter_of_pipe_Vc = 3.5
+        # Marine_growth_Thickness_t_mg = 0
+        # Marine_growth_density_rho_mg = 0
+        # Content_density_seawater_rho_cont = 1100
+        # Safety_factor_for_weight_gamma_w = 1.1
+        # --------------------------------------------------- ENVIRONMENT DATA --------------------------------------
+        # Significant_wave_height_Hs = 3.5
+        # Spectral_peak_period_Tp = 13
+        # Water_depth_d = 10.97
+        # Related_angle_btw_pipeline_and_current_direction_teta = 90
+        # Ref_major_height_above_the_seabed_zr = 3
+
+        #------------------------------------------------------ SOIL DATA -------------------------------------------------
+        # Sunbmerged_unit_soil_weight_for_sand_gamma_s = 13.5
+        
+        #-----------Constants--------------------------------------------
+        # Concrete_density_rho_c = constant["concrete_density"]
+        # Seawater_density_rho_seawater = constant["seawater_density"]
+        # gravity_g = constant["gravity"]
 
 
 
@@ -283,18 +301,6 @@ def lateralStability_operationContentFilled(frontendData):
         gamma_SC1 = (((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk))/1000)
 
         gamma_SC2 = ((Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)/1000)
-
-
-        # if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1 :
-        #     LSC_min =  print("SATISFIED")
-        #     if ((Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1))/1000) <= 1:
-        #         print("SATISFIED")
-
-        #     else:
-        #         print("NOT SATISFIED ")
-
-        # else:
-        #     print("NOT SATISFIED")
 
         if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1:
             LSC_min = "SATISFIED"

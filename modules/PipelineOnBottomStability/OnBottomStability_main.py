@@ -931,7 +931,6 @@ class Ui_MainWindow(object):
                     "t_HDPE": float(self.tHDPE_lineEdit.text()),
                     "CA": float(self.CA_lineEdit.text()),
                     "V_c": float(self.Vc_lineEdit.text()),
-                    "rh_c": float(self.rho_c_lineEdit.text()),
                     "rh_cont": float(self.rho_cont_lineEdit.text()),
                     "gamma_w": float(self.yw_lineEdit.text()),
                 }
@@ -950,7 +949,6 @@ class Ui_MainWindow(object):
                     return
 
                 self.displayVerticalResults(result)
-
                 
                 self.Criteria1_label.setText("UC check")
                 self.Criteria2_lineEdit.hide()
@@ -1096,9 +1094,7 @@ class Ui_MainWindow(object):
         self.result_display_label.setText("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
-
-        
-    
+   
     
     def open_whats_new(self, MainWindow):
         print("What's New functionality is initialized")
