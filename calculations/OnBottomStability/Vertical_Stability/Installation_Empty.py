@@ -10,6 +10,7 @@ print(__version__)
 
 def verticalStability_installationEmpty(frontendData):
     print("Vertical Stability Installation Empty calculation started")
+    # print(type(constant["density_seawater"]))
     try:
 
         rh_HDPE = float(frontendData["rh_HDPE"])
@@ -17,19 +18,14 @@ def verticalStability_installationEmpty(frontendData):
         t_HDPE = float(frontendData["t_HDPE"])/1000
         CA = float(frontendData["CA"])
         V_c = float(frontendData["V_c"])
-        rh_c = float(frontendData["rh_c"])
         rh_cont = float(frontendData["rh_cont"])
         gamma_w = float(frontendData["gamma_w"])
-        # rh_seawater = float(frontendData["rh_seawater"])
         
-        
-        print(type(rh_HDPE),type(OD),type(t_HDPE),type(CA),type(V_c),type(rh_c),type(rh_cont),type(gamma_w))
-        rh_seawater = 1025
+        rh_seawater = constant["density_seawater"]
+        rh_c = constant["density_concrete"]
+        g= constant["gravity"]
 
-        g= 9.81
-
-        ID = round((OD - 2* t_HDPE),3)
-
+        ID = round((OD - 2* t_HDPE),3) #calculating Internal Diameter of a pipe.
         print("ID : ",ID)
 
         # ---------------------------------Calculation------------------------------------
@@ -88,11 +84,7 @@ def verticalStability_installationEmpty(frontendData):
         UC = gamma_w/SG
         print(UC)
 
-        if UC<=1:
-            UC_status = ("SINK")
-
-        else:
-            UC_status = ("FLOAT")
+        UC_status = "SINK" if UC <= 1 else "FLOAT"
 
 
         resultInstallationEmpty = {
