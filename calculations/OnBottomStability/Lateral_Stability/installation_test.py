@@ -12,7 +12,7 @@ print(__version__)
 HDPE_density_rho_HDPE = 960
 Outside_diameter_OD = 2.3
 Concrete_Coating_thickness_t_cc = 0.55
-Wall_Thickness_t_HDPE = 88.5
+Wall_Thickness_t_HDPE = 88.5/1000
 Volume_of_Concrete_per_meter_of_pipe_Vc = 3.5
 Marine_growth_Thickness_t_mg = 0
 Marine_growth_density_rho_mg = 0
@@ -203,14 +203,16 @@ print("Load_reduction_factor_due_to_trenching_in_vertical_direction_r_tr_z : ", 
 Appendix_A_Ks = round((((Sunbmerged_unit_soil_weight_for_sand_gamma_s * (Hydodynamic_diameter_D**2))/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1) ),3)
 print("Appendix_A_Ks : ",Appendix_A_Ks)
 
-Initial_Penetration_Zpi = round(((0.037 * Hydodynamic_diameter_D * (Appendix_A_Ks)**(-2/3 )*1000 )/1000),3)
+Initial_Penetration_Zpi = round(((0.037 * Hydodynamic_diameter_D * (Appendix_A_Ks)**(-2/3 )*1000 )),3)
 print("Initial_Penetration_Zpi : ", Initial_Penetration_Zpi)
+
+Zpi = Initial_Penetration_Zpi/1000
 
 
 #  (ii) Load reduction factors in horizontal direction
 
 
-Load_Reduction_Factors_in_Horizontal_Direction_r_pen_y = round(max(1.0 - 1.4 * Initial_Penetration_Zpi/Hydodynamic_diameter_D, 0.3),3)
+Load_Reduction_Factors_in_Horizontal_Direction_r_pen_y = round(max(1.0 - 1.4 * Zpi/Hydodynamic_diameter_D, 0.3),3)
 print("Load_Reduction_Factors_in_Horizontal_Direction_r_pen_y : ", Load_Reduction_Factors_in_Horizontal_Direction_r_pen_y)
 
 
@@ -222,12 +224,12 @@ Load_Reduction_Factors_in_Horizontal_Direction_r_perm_z = 0.7
 #  (iii) Load reduction factors in vertical direction
 
 
-if Initial_Penetration_Zpi/Hydodynamic_diameter_D < 0.1 :
+if Zpi/Hydodynamic_diameter_D < 0.1 :
     Load_Reduction_Factors_in_Vertical_Direction_r_pen_z = 1
-elif (0.1 <= Initial_Penetration_Zpi/Hydodynamic_diameter_D <= 0.869) :
-    Load_Reduction_Factors_in_Vertical_Direction_r_pen_z = 1.0 - 1.3* (Initial_Penetration_Zpi/Hydodynamic_diameter_D - 0.1)
+elif (0.1 <= Zpi/Hydodynamic_diameter_D <= 0.869) :
+    Load_Reduction_Factors_in_Vertical_Direction_r_pen_z = 1.0 - 1.3* (Zpi/Hydodynamic_diameter_D - 0.1)
 
-elif (Initial_Penetration_Zpi > 0.869):
+elif (Zpi > 0.869):
     Load_Reduction_Factors_in_Vertical_Direction_r_pen_z = 0
 
 print("Load_Reduction_Factors_in_Vertical_Direction_r_pen_z",Load_Reduction_Factors_in_Vertical_Direction_r_pen_z)
@@ -253,10 +255,10 @@ print("Peak_Vertical_Load_Fz : ", Peak_Vertical_Load_Fz)
 
 
 if Appendix_A_Ks <=20:
-    Breakout_passive_resistance_F_R_brk = round(((5-0.15 * Appendix_A_Ks) * (Initial_Penetration_Zpi/Hydodynamic_diameter_D)**1.25 * Sunbmerged_unit_soil_weight_for_sand_gamma_s * Hydodynamic_diameter_D**2),3)
+    Breakout_passive_resistance_F_R_brk = round(((5-0.15 * Appendix_A_Ks) * (Zpi/Hydodynamic_diameter_D)**1.25 * Sunbmerged_unit_soil_weight_for_sand_gamma_s * Hydodynamic_diameter_D**2),3)
 
 else:
-    Breakout_passive_resistance_F_R_brk = round((2 * (Initial_Penetration_Zpi/Hydodynamic_diameter_D)**1.25 * Sunbmerged_unit_soil_weight_for_sand_gamma_s * Hydodynamic_diameter_D**2),3)
+    Breakout_passive_resistance_F_R_brk = round((2 * (Zpi/Hydodynamic_diameter_D)**1.25 * Sunbmerged_unit_soil_weight_for_sand_gamma_s * Hydodynamic_diameter_D**2),3)
 
 print("Breakout_passive_resistance_F_R_brk : ", Breakout_passive_resistance_F_R_brk*1000) 
 
