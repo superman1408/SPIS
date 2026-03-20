@@ -8,6 +8,7 @@ constant = {
     "density_water" : 1000.0,
     "density_concrete" : 2400.0,
     "gravity" : 9.807,
+    "submerged_unit_soil_weight_for_sand_gamma_s" : 13.5,
 }
 
 caseOption = {
