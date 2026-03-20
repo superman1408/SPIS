@@ -19,13 +19,13 @@ from calculations import verticalStability_operationShutDown
 from calculations import other
 import webbrowser
 from PyQt5.QtWidgets import QMessageBox
-
-from utils import caseOption, reset_all_inputs
+from utils import caseOption, get_all_inputs, get_required_inputs
 
 
 
 frontendData = {}
 saveData = {}
+
 
 
 
@@ -824,18 +824,47 @@ class Ui_MainWindow(object):
         self.combobox_selectCase.blockSignals(True)
         self.combobox_selectCase.clear()
         print("comboBox is cleared now")
-        
+        self.module = text
         options = caseOption.get(text,[]) #caseOption is imported from utils.
         print(options)
-        
         self.combobox_selectCase.addItems(options)
         self.combobox_selectCase.blockSignals(False)
+        self.module = text
+        self.update_inputs()
+
+
 
     def selectAnalysis(self, text):
         print("Selected case:", text)
 
 
+    # Function for disbaling inputs wrt combobox
 
+    def update_inputs(self):
+        try:
+            module = self.module
+
+            all_inputs = get_all_inputs()
+            required_inputs = get_required_inputs(module)
+
+            # 🔻 Disable all
+            for name in all_inputs:
+                widget = getattr(self, name, None)
+                if widget:
+                    widget.setEnabled(False)
+
+            # 🔺 Enable required
+            for name in required_inputs:
+                widget = getattr(self, name, None)
+                if widget:
+                    widget.setEnabled(True)
+
+        except Exception as e:
+            print("Error:", e)
+
+        
+
+    
     def inputData(self):
 
         try:
@@ -855,6 +884,7 @@ class Ui_MainWindow(object):
                     "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
                     "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
                     "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
+                    "Concrete_density_rho_c" : float(self.rho_c_lineEdit.text()),
                     "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
                     "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
                     "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
@@ -864,6 +894,7 @@ class Ui_MainWindow(object):
                     "Water_depth_d": float(self.d_lineEdit.text()),
                     "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
                     "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
+                    "Submerged_Soil_Weight_for_Sand_ys":float(self.ys_lineEdit.text())
                 }
 
                 if selected_case == "Installation-Empty":
