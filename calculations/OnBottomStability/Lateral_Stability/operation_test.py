@@ -27,13 +27,13 @@ Related_angle_btw_pipeline_and_current_direction_teta = 90
 Ref_major_height_above_the_seabed_zr = 3
 
 #------------------------------------------------------ SOIL DATA -------------------------------------------------
-Sunbmerged_unit_soil_weight_for_sand_gamma_s = constant["submerged_unit_soil_weight_for_sand_gamma_s"] # It is also constant but it is used in load reduction factor calculation, so I have kept it here for better understanding of the code. It can be moved to constants as well.
+Sunbmerged_unit_soil_weight_for_sand_gamma_s = 13.5
 
 
 #-----------Constants--------------------------------------------
-Concrete_density_rho_c = constant["density_concrete"]
-Seawater_density_rho_seawater = constant["density_seawater"]
-gravity_g = constant["gravity"]
+Concrete_density_rho_c = 2400
+Seawater_density_rho_seawater = 1025
+gravity_g = 9.81
 
 
 
