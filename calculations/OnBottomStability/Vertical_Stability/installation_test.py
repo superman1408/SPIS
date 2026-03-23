@@ -11,7 +11,7 @@ rh_HDPE = 960
 OD = 2300/1000
 t_HDPE = 88.5/1000
 CA = 0
-V_c = 3.5
+V_c = 1.04
 rh_cont = 0
 gamma_w = 1.1
 
@@ -87,7 +87,7 @@ print(UC)
 # else:
 #     UC_status = ("NOT STABLE")
 
-UC_status = "STABLE" if UC <= 1 else "NOT STABLE"
+UC_status = "SINK" if UC <= 1 else "FLOAT"
 
 
 result_VerticalOperationContentFilled = {
@@ -111,4 +111,4 @@ result_VerticalOperationContentFilled = {
 
 }
 
-return result_VerticalOperationContentFilled
+print(result_VerticalOperationContentFilled)

@@ -111,4 +111,4 @@ result_VerticalOperationContentFilled = {
 
 }
 
-return result_VerticalOperationContentFilled
+print(result_VerticalOperationContentFilled)
