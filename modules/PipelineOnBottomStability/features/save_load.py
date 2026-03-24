@@ -1,10 +1,7 @@
 import json
 from PyQt5 import QtWidgets
 
-def save_inputs(input_fields, file_path):
-    import json
-    from PyQt5 import QtWidgets
-
+def save_inputs(input_fields, file_path):  
     data = {}
     for key, widget in input_fields.items():
         try:
@@ -28,14 +25,11 @@ def save_inputs(input_fields, file_path):
 
 
 def load_inputs_mapped(json_file, mapping):
-    import json
-    from PyQt5 import QtWidgets
-
     try:
         with open(json_file, "r") as f:
             data = json.load(f)
     except Exception as e:
-        print(f"❌ Failed to read JSON: {e}")
+        print(f"Failed to read JSON: {e}")
         return False
 
     for key, widget in mapping.items():

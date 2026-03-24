@@ -771,6 +771,9 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuReport.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
+
+        # lineEdits for save & open files
+
         self.input_fields = {
             "HDPE_density_rho_HDPE": self.rho_HDPE_lineEdit,
             "Outside_diameter_OD": self.OD_lineEdit,
@@ -827,15 +830,6 @@ class Ui_MainWindow(object):
         # webbrowser.open(url)
         # print("Documentation button clicked")
         
-        
-        
-        
-        
-    
-        
-        
-        
-
         
         
     #  function which changes the items in second combobox_selectCase   
@@ -1038,30 +1032,43 @@ class Ui_MainWindow(object):
             self.result_display_label.setText("Resetting failed. Please try again.")
     
 
+
+    # Function for saving the inputs
+
     def save_As(self):
-        file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
-            None, "Save File", "", "JSON Files (*.json)"
-        )
-        if not file_path:
-            return
+        try:
 
-        if save_inputs(self.input_fields, file_path):
-            print("✅ Saved successfully")
-        else:
-            print("❌ Save failed")
+            file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                None, "Save File", "", "JSON Files (*.json)"
+            )
+            if not file_path:
+                return
 
+            if save_inputs(self.input_fields, file_path):
+                print("Saved successfully")
+            else:
+                print("Save failed")
+
+        except Exception as e:
+            print("error",e)
+
+    # Function for opening the saved inputs
 
     def openFile(self):
-        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
-            None, "Open File", "", "JSON Files (*.json)"
-        )
-        if not file_path:
-            return
+        try:
 
-        if load_inputs_mapped(self.input_fields, file_path):
-            print("✅ Loaded successfully")
-        else:
-            print("❌ Load failed")
+            file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                None, "Open File", "", "JSON Files (*.json)"
+            )
+            if not file_path:
+                return
+
+            if load_inputs_mapped(file_path, self.input_fields):
+                print("Loaded successfully")
+            else:
+                print("Load failed")
+        except Exception as e:
+            print("error", e)
 
     
         
@@ -1124,11 +1131,7 @@ class Ui_MainWindow(object):
             # }
             # Here you can implement the logic to save saveData to a file (e.g., JSON, CSV, etc.)
     
-    
-    # def openFile(self, MainWindow):
-    #     print("Open functionality is initialized")
-    #     self.result_display_label.setText("Open functionality is not implemented yet.")
-    
+
     
     def generate_report(self, MainWindow):
         print("Generate Report functionality is initialized")
