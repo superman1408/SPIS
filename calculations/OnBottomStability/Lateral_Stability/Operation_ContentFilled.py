@@ -17,7 +17,7 @@ def lateralStability_operationContentFilled(frontendData):
         HDPE_density_rho_HDPE = frontendData["HDPE_density_rho_HDPE"]
         Outside_diameter_OD = frontendData["Outside_diameter_OD"]
         Concrete_Coating_thickness_t_cc = frontendData["Concrete_Coating_thickness_t_cc"]
-        Wall_Thickness_t_HDPE = frontendData["Wall_Thickness_t_HDPE"]
+        Wall_Thickness_t_HDPE = frontendData["Wall_Thickness_t_HDPE"]/1000
         Volume_of_Concrete_per_meter_of_pipe_Vc = frontendData["Volume_of_Concrete_per_meter_of_pipe_Vc"]
         Marine_growth_Thickness_t_mg = frontendData["Marine_growth_Thickness_t_mg"]
         Marine_growth_density_rho_mg = frontendData["Marine_growth_density_rho_mg"]
@@ -298,9 +298,9 @@ def lateralStability_operationContentFilled(frontendData):
 
         print(Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)/1000)
 
-        gamma_SC1 = (((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk))/1000)
+        gamma_SC1 = (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk))/1000)
 
-        gamma_SC2 = ((Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)/1000)
+        gamma_SC2 = (Safety_factor_for_weight_gamma_SC * (Peak_Vertical_Load_Fz/Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1)/1000)
 
         if (Safety_factor_for_weight_gamma_SC * ((Peak_Horizontal_Load_Fy + Friction_coefficient_for_pipe_soil_interface_Mu * Peak_Vertical_Load_Fz)/(Friction_coefficient_for_pipe_soil_interface_Mu * Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1 + Breakout_passive_resistance_F_R_brk)/1000)) <= 1:
             LSC_min = "SATISFIED"
