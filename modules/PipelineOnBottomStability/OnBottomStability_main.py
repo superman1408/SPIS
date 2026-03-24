@@ -20,7 +20,9 @@ from calculations import other
 import webbrowser
 from PyQt5.QtWidgets import QMessageBox
 from utils import caseOption, get_all_inputs, get_required_inputs
-
+from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
+import json
 
 
 frontendData = {}
@@ -769,6 +771,28 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuReport.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
+
+        # lineEdits for save & open files
+
+        self.input_fields = {
+            "HDPE_density_rho_HDPE": self.rho_HDPE_lineEdit,
+            "Outside_diameter_OD": self.OD_lineEdit,
+            "Concrete_Coating_thickness_t_cc": self.concrete_coating_thickness_lineEdit,
+            "Wall_Thickness_t_HDPE": self.tHDPE_lineEdit,
+            "Volume_of_Concrete_per_meter_of_pipe_Vc": self.Vc_lineEdit,
+            "Concrete_density_rho_c": self.rho_c_lineEdit,
+            "Marine_growth_Thickness_t_mg": self.mg_thickness_lineEdit,
+            "Marine_growth_density_rho_mg": self.mg_density_lineEdit,
+            "Content_density_seawater_rho_cont": self.rho_cont_lineEdit,
+            "Safety_factor_for_weight_gamma_w": self.yw_lineEdit,
+            "Significant_wave_height_Hs": self.Hs_lineEdit,
+            "Spectral_peak_period_Tp": self.Tp_lineEdit,
+            "Water_depth_d": self.d_lineEdit,
+            "Related_angle_btw_pipeline_and_current_direction_teta": self.related_angle_theta_lineEdit,
+            "Ref_major_height_above_the_seabed_zr": self.zr_lineEdit,
+            "Submerged_Soil_Weight_for_Sand_ys": self.ys_lineEdit
+        }
+
         self.retranslateUi(MainWindow)
         self.actionExit.triggered.connect(MainWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -806,15 +830,6 @@ class Ui_MainWindow(object):
         # webbrowser.open(url)
         # print("Documentation button clicked")
         
-        
-        
-        
-        
-    
-        
-        
-        
-
         
         
     #  function which changes the items in second combobox_selectCase   
@@ -931,6 +946,7 @@ class Ui_MainWindow(object):
                     "t_HDPE": float(self.tHDPE_lineEdit.text()),
                     "CA": float(self.CA_lineEdit.text()),
                     "V_c": float(self.Vc_lineEdit.text()),
+                    "rh_c": float(self.rho_c_lineEdit.text()),
                     "rh_cont": float(self.rho_cont_lineEdit.text()),
                     "gamma_w": float(self.yw_lineEdit.text()),
                 }
@@ -949,6 +965,7 @@ class Ui_MainWindow(object):
                     return
 
                 self.displayVerticalResults(result)
+
                 
                 self.Criteria1_label.setText("UC check")
                 self.Criteria2_lineEdit.hide()
@@ -1014,10 +1031,46 @@ class Ui_MainWindow(object):
             print("Resetting failed. Please try again.")
             self.result_display_label.setText("Resetting failed. Please try again.")
     
+
+
+    # Function for saving the inputs
+
+    def save_As(self):
+        try:
+
+            file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                None, "Save File", "", "JSON Files (*.json)"
+            )
+            if not file_path:
+                return
+
+            if save_inputs(self.input_fields, file_path):
+                print("Saved successfully")
+            else:
+                print("Save failed")
+
+        except Exception as e:
+            print("error",e)
+
+    # Function for opening the saved inputs
+
+    def openFile(self):
+        try:
+
+            file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                None, "Open File", "", "JSON Files (*.json)"
+            )
+            if not file_path:
+                return
+
+            if load_inputs_mapped(file_path, self.input_fields):
+                print("Loaded successfully")
+            else:
+                print("Load failed")
+        except Exception as e:
+            print("error", e)
+
     
-    def save_As(self, MainWindow):
-        print("Save As functionality is initialized")
-        self.result_display_label.setText("Save As functionality is not implemented yet.")
         
         # Reset all input fields
             # self.rho_HDPE_lineEdit.clear()
@@ -1078,11 +1131,7 @@ class Ui_MainWindow(object):
             # }
             # Here you can implement the logic to save saveData to a file (e.g., JSON, CSV, etc.)
     
-    
-    def openFile(self, MainWindow):
-        print("Open functionality is initialized")
-        self.result_display_label.setText("Open functionality is not implemented yet.")
-    
+
     
     def generate_report(self, MainWindow):
         print("Generate Report functionality is initialized")
@@ -1094,7 +1143,9 @@ class Ui_MainWindow(object):
         self.result_display_label.setText("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
-   
+
+        
+    
     
     def open_whats_new(self, MainWindow):
         print("What's New functionality is initialized")

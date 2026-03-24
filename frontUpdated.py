@@ -70,13 +70,13 @@ class MainSoftware(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_WallThickness.setFont(font)
-        self.pushButton_WallThickness.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor)) # type: ignore
-        self.pushButton_WallThickness.setLayoutDirection(QtCore.Qt.LeftToRight) # type: ignore
+        self.pushButton_WallThickness.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.pushButton_WallThickness.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_WallThickness.setAutoFillBackground(False)
         self.pushButton_WallThickness.setStyleSheet("background-color: #dbf3fa;\n"
 "")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/wall thikcness.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
+        icon.addPixmap(QtGui.QPixmap("assets/wall thikcness.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_WallThickness.setIcon(icon)
         self.pushButton_WallThickness.setIconSize(QtCore.QSize(40, 40))
         self.pushButton_WallThickness.setCheckable(False)
@@ -92,13 +92,13 @@ class MainSoftware(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_Crossing.setFont(font)
-        self.pushButton_Crossing.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor)) # type: ignore
-        self.pushButton_Crossing.setLayoutDirection(QtCore.Qt.LeftToRight) # type: ignore
+        self.pushButton_Crossing.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.pushButton_Crossing.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_Crossing.setAutoFillBackground(False)
         self.pushButton_Crossing.setStyleSheet("background-color: #dbf3fa;\n"
 "")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("assets/pipelinecrossingcalculation.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
+        icon1.addPixmap(QtGui.QPixmap("assets/pipelinecrossingcalculation.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Crossing.setIcon(icon1)
         self.pushButton_Crossing.setIconSize(QtCore.QSize(54, 40))
         self.pushButton_Crossing.setCheckable(False)
@@ -114,13 +114,13 @@ class MainSoftware(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_onbottom.setFont(font)
-        self.pushButton_onbottom.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor)) # type: ignore
-        self.pushButton_onbottom.setLayoutDirection(QtCore.Qt.LeftToRight) # type: ignore
+        self.pushButton_onbottom.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.pushButton_onbottom.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_onbottom.setAutoFillBackground(False)
         self.pushButton_onbottom.setStyleSheet("background-color: #dbf3fa;\n"
 "")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
+        icon2.addPixmap(QtGui.QPixmap("assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_onbottom.setIcon(icon2)
         self.pushButton_onbottom.setIconSize(QtCore.QSize(50, 40))
         self.pushButton_onbottom.setCheckable(False)
@@ -139,13 +139,13 @@ class MainSoftware(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_frespananalysis.setFont(font)
-        self.pushButton_frespananalysis.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor)) # type: ignore
-        self.pushButton_frespananalysis.setLayoutDirection(QtCore.Qt.LeftToRight) # type: ignore
+        self.pushButton_frespananalysis.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.pushButton_frespananalysis.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_frespananalysis.setAutoFillBackground(False)
         self.pushButton_frespananalysis.setStyleSheet("background-color: #dbf3fa;\n"
 "")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("assets/free-span.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off) # type: ignore
+        icon3.addPixmap(QtGui.QPixmap("assets/free-span.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_frespananalysis.setIcon(icon3)
         self.pushButton_frespananalysis.setIconSize(QtCore.QSize(40, 40))
         self.pushButton_frespananalysis.setCheckable(False)
@@ -161,8 +161,8 @@ class MainSoftware(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_PSI.setFont(font)
-        self.pushButton_PSI.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor)) # type: ignore
-        self.pushButton_PSI.setLayoutDirection(QtCore.Qt.LeftToRight) # type: ignore
+        self.pushButton_PSI.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.pushButton_PSI.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_PSI.setAutoFillBackground(False)
         self.pushButton_PSI.setStyleSheet("background-color: #dbf3fa;\n"
 "")
@@ -181,8 +181,8 @@ class MainSoftware(QMainWindow):
         font.setBold(True)
         font.setWeight(75)
         self.pushButton_onbottomroughness.setFont(font)
-        self.pushButton_onbottomroughness.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor)) # type: ignore
-        self.pushButton_onbottomroughness.setLayoutDirection(QtCore.Qt.LeftToRight) # type: ignore
+        self.pushButton_onbottomroughness.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.pushButton_onbottomroughness.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton_onbottomroughness.setAutoFillBackground(False)
         self.pushButton_onbottomroughness.setStyleSheet("background-color: #dbf3fa;\n"
 "")
@@ -489,7 +489,7 @@ if __name__ == "__main__":
     splash.finished.connect(main_window.show)
 
     # Also close splash
-    splash.finished.connect(splash.close) # type: ignore
+    splash.finished.connect(splash.close)
 
     splash.show()
 
