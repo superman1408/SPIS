@@ -775,6 +775,7 @@ class Ui_MainWindow(object):
         # lineEdits for save & open files
 
         self.input_fields = {
+            "Project_Name":self.lineEdit_ProjectName,
             "HDPE_density_rho_HDPE": self.rho_HDPE_lineEdit,
             "Outside_diameter_OD": self.OD_lineEdit,
             "Concrete_Coating_thickness_t_cc": self.concrete_coating_thickness_lineEdit,
