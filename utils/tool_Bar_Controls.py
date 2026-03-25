@@ -1,8 +1,10 @@
 import csv
+from PyQt5 import QtWidgets
 import pandas as pd
 from tkinter import filedialog
 import random
 from PyQt5.QtWidgets import QMessageBox
+from datetime import datetime
 
 
 
@@ -39,14 +41,27 @@ def save_file_as(self):
     else:
         print("File save cancelled.")
 
-def generate_report(self):
-    """Generates a detailed report of the simulation."""
-    print("Action: Generate Report")
-    QtWidgets.QMessageBox.information(self, "Generate Report", "Generating simulation report... (Placeholder)")
-    # TODO: Implement report generation. This would typically involve:
-    # 1. Re-running calculations to ensure results are fresh.
-    # 2. Formatting all inputs and outputs into a printable format (e.g., PDF, HTML).
-    # 3. Saving or displaying the report.
+def generate_excel_report(input_fields, output_fields):
+    # Convert dict → DataFrame
+    df_inputs = pd.DataFrame(list(input_fields.items()), columns=["Input", "Value"])
+    df_outputs = pd.DataFrame(list(output_fields.items()), columns=["Output", "Value"])
+
+    # Timestamp filename
+    filename = datetime.now().strftime("report_%Y%m%d_%H%M%S.xlsx")
+
+    # Write to Excel
+    with pd.ExcelWriter(filename, engine='openpyxl') as writer:
+        df_inputs.to_excel(writer, sheet_name="Inputs", index=False)
+        df_outputs.to_excel(writer, sheet_name="Outputs", index=False)
+
+    # print(f"Report saved: {filename}")
+    # """Generates a detailed report of the simulation."""
+    # print("Action: Generate Report")
+    # QtWidgets.QMessageBox.information(self, "Generate Report", "Generating simulation report... (Placeholder)")
+    # # TODO: Implement report generation. This would typically involve:
+    # # 1. Re-running calculations to ensure results are fresh.
+    # # 2. Formatting all inputs and outputs into a printable format (e.g., PDF, HTML).
+    # # 3. Saving or displaying the report.
 
 def show_whats_new(self):
     """Displays information about new features."""
