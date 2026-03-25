@@ -853,7 +853,7 @@ class Ui_MainWindow(object):
         print("Selected case:", text)
 
 
-    # Function for disbaling inputs wrt combobox
+    # Function for disabling inputs wrt combobox
 
     def update_inputs(self):
         try:
