@@ -21,7 +21,7 @@ import webbrowser
 from PyQt5.QtWidgets import QMessageBox
 from utils import caseOption, get_all_inputs, get_required_inputs
 from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
-from utils import generate_excel_report
+from utils import generate_report
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import json
 
@@ -773,6 +773,16 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuHelp.menuAction())
 
 
+         # information field for save & open files
+
+        self.information_field = {
+            "Project Name":self.lineEdit_ProjectName,
+            "Document Number":self.lineEdit_DocNo,
+            
+        }
+
+
+
         # inputs field for save & open files
 
         self.input_fields = {
@@ -780,7 +790,6 @@ class Ui_MainWindow(object):
             "Document Number":self.lineEdit_DocNo,
             "Stability Mode": self.comboBox_1,
             "Analysis Condition": self.combobox_selectCase,
-            
             "HDPE density ρHDPE": self.rho_HDPE_lineEdit,
             "Outside diameter OD": self.OD_lineEdit,
             "Concrete Coating thickness tcc": self.concrete_coating_thickness_lineEdit,
@@ -819,7 +828,7 @@ class Ui_MainWindow(object):
             "Total Submerged Wt pipe concrete waterfilled Ws": self.Ws_lineEdit,
             "Criteria 1/ UC check": self.Criteria1_lineEdit,
             "Criteria 2": self.Criteria2_lineEdit,
-            "Criteria Check": self.result_display_label.text(),
+            "Criteria Check": self.result_display_label.text,
            
         }
 
@@ -1114,8 +1123,11 @@ class Ui_MainWindow(object):
                     return widget.text()
                 elif isinstance(widget, QtWidgets.QComboBox):
                     return widget.currentText()
+                elif isinstance(widget, QtWidgets.QLabel):
+                    return widget.text()
                 return ""
 
+            information = {key: extract(widget) for key, widget in self.information_field.items()}
             inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
             outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
@@ -1126,7 +1138,7 @@ class Ui_MainWindow(object):
             if not file_path:
                 return
 
-            success = generate_excel_report(inputs, outputs, file_path)
+            success = generate_report(information, inputs, outputs, file_path)
 
             if success:
                 self.result_display_label.setText("PDF Report generated ✅")
