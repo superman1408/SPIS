@@ -19,7 +19,7 @@ from calculations import verticalStability_operationShutDown
 from calculations import other
 import webbrowser
 from PyQt5.QtWidgets import QMessageBox
-from utils import caseOption, get_all_inputs, get_required_inputs
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
 from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import json
@@ -821,6 +821,8 @@ class Ui_MainWindow(object):
         self.actionDocumentation.triggered.connect(self.open_documentation)
         self.actionWhat_s_New.triggered.connect(self.open_whats_new)
         
+        self.open_windows = []
+        
         
         
         
@@ -1143,13 +1145,17 @@ class Ui_MainWindow(object):
         self.result_display_label.setText("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
+        screen = open_screen(DocumentationScreen)
+        self.open_windows.append(screen)
 
         
     
     
-    def open_whats_new(self, MainWindow):
+    def open_whats_new(self):
         print("What's New functionality is initialized")
         self.result_display_label.setText("What's New functionality is not implemented yet.")
+        screen = open_screen(WhatsNewScreen)
+        self.open_windows.append(screen)
             
 
 

@@ -3,6 +3,10 @@ import pandas as pd
 from tkinter import filedialog
 import random
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5 import QtWidgets
+
+# from .DialogueBox.WhatsNewScreen import WhatsNewScreen
+# from .DialogueBox.DocumentationScreen import DocumentationScreen
 
 
 
@@ -122,3 +126,13 @@ def saveAs(saveData):
         
 
 
+
+
+def open_screen(screen_class, *args, **kwargs):
+    try:
+        screen = screen_class(*args, **kwargs)
+        screen.show()
+        return screen
+    except Exception as e:
+        print(f"Error opening screen: {e}")
+        return None
