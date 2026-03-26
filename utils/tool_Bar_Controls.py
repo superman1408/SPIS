@@ -5,6 +5,10 @@ from tkinter import filedialog
 import random
 from PyQt5.QtWidgets import QMessageBox
 from datetime import datetime
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from datetime import datetime
 
 
 
@@ -41,27 +45,79 @@ def save_file_as(self):
     else:
         print("File save cancelled.")
 
-def generate_excel_report(input_fields, output_fields):
-    # Convert dict → DataFrame
-    df_inputs = pd.DataFrame(list(input_fields.items()), columns=["Input", "Value"])
-    df_outputs = pd.DataFrame(list(output_fields.items()), columns=["Output", "Value"])
+# def generate_excel_report(input_fields, output_fields):
+#     # Convert dict → DataFrame
+#     df_inputs = pd.DataFrame(list(input_fields.items()), columns=["Input", "Value"])
+#     df_outputs = pd.DataFrame(list(output_fields.items()), columns=["Output", "Value"])
 
-    # Timestamp filename
-    filename = datetime.now().strftime("report_%Y%m%d_%H%M%S.xlsx")
+#     # Timestamp filename
+#     filename = datetime.now().strftime("report_%Y%m%d_%H%M%S.xlsx")
 
-    # Write to Excel
-    with pd.ExcelWriter(filename, engine='openpyxl') as writer:
-        df_inputs.to_excel(writer, sheet_name="Inputs", index=False)
-        df_outputs.to_excel(writer, sheet_name="Outputs", index=False)
+#     # Write to Excel
+#     with pd.ExcelWriter(filename, engine='openpyxl') as writer:
+#         df_inputs.to_excel(writer, sheet_name="Inputs", index=False)
+#         df_outputs.to_excel(writer, sheet_name="Outputs", index=False)
 
-    # print(f"Report saved: {filename}")
-    # """Generates a detailed report of the simulation."""
-    # print("Action: Generate Report")
-    # QtWidgets.QMessageBox.information(self, "Generate Report", "Generating simulation report... (Placeholder)")
-    # # TODO: Implement report generation. This would typically involve:
-    # # 1. Re-running calculations to ensure results are fresh.
-    # # 2. Formatting all inputs and outputs into a printable format (e.g., PDF, HTML).
-    # # 3. Saving or displaying the report.
+#     # print(f"Report saved: {filename}")
+#     # """Generates a detailed report of the simulation."""
+#     # print("Action: Generate Report")
+#     # QtWidgets.QMessageBox.information(self, "Generate Report", "Generating simulation report... (Placeholder)")
+#     # # TODO: Implement report generation. This would typically involve:
+#     # # 1. Re-running calculations to ensure results are fresh.
+#     # # 2. Formatting all inputs and outputs into a printable format (e.g., PDF, HTML).
+#     # # 3. Saving or displaying the report.
+
+
+
+
+def generate_excel_report(input_fields, output_fields, file_path):
+    try:
+        doc = SimpleDocTemplate(file_path)
+        elements = []
+
+        styles = getSampleStyleSheet()
+
+        # Title
+        elements.append(Paragraph("Report", styles['Title']))
+        elements.append(Spacer(1, 20))
+
+        # -------- Inputs --------
+        elements.append(Paragraph("Inputs", styles['Heading2']))
+        input_data = [["Input", "Value"]] + list(input_fields.items())
+
+        input_table = Table(input_data)
+        input_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ]))
+
+        elements.append(input_table)
+        elements.append(Spacer(1, 20))
+
+        # -------- Outputs --------
+        elements.append(Paragraph("Outputs", styles['Heading2']))
+        output_data = [["Output", "Value"]] + list(output_fields.items())
+
+        output_table = Table(output_data)
+        output_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ]))
+
+        elements.append(output_table)
+
+        doc.build(elements)
+
+        print(f"PDF saved at: {file_path}")
+        return True
+
+    except Exception as e:
+        print("PDF Error:", e)
+        return False
 
 def show_whats_new(self):
     """Displays information about new features."""

@@ -776,49 +776,50 @@ class Ui_MainWindow(object):
         # inputs field for save & open files
 
         self.input_fields = {
-            "ComboBox1": self.comboBox_1,
-            "Select_Analysis_ComboBox": self.combobox_selectCase,
-            "Project_Name":self.lineEdit_ProjectName,
-            "Document_No":self.lineEdit_DocNo,
-            "HDPE_density_rho_HDPE": self.rho_HDPE_lineEdit,
-            "Outside_diameter_OD": self.OD_lineEdit,
-            "Concrete_Coating_thickness_t_cc": self.concrete_coating_thickness_lineEdit,
-            "Wall_Thickness_t_HDPE": self.tHDPE_lineEdit,
-            "Corrosion_Allowance_label": self.CA_lineEdit,
-            "Volume_of_Concrete_per_meter_of_pipe_Vc": self.Vc_lineEdit,
-            "Concrete_density_rho_c": self.rho_c_lineEdit,
-            "Marine_growth_Thickness_t_mg": self.mg_thickness_lineEdit,
-            "Marine_growth_density_rho_mg": self.mg_density_lineEdit,
-            "Content_density_seawater_rho_cont": self.rho_cont_lineEdit,
-            "Safety_factor_for_weight_gamma_w": self.yw_lineEdit,
-            "Significant_wave_height_Hs": self.Hs_lineEdit,
-            "Spectral_peak_period_Tp": self.Tp_lineEdit,
-            "Water_depth_d": self.d_lineEdit,
-            "Related_angle_btw_pipeline_and_current_direction_teta": self.related_angle_theta_lineEdit,
-            "Ref_major_height_above_the_seabed_zr": self.zr_lineEdit,
-            "Submerged_Soil_Weight_for_Sand_ys": self.ys_lineEdit
+            "Project Name":self.lineEdit_ProjectName,
+            "Document Number":self.lineEdit_DocNo,
+            "Stability Mode": self.comboBox_1,
+            "Analysis Condition": self.combobox_selectCase,
+            
+            "HDPE density ρHDPE": self.rho_HDPE_lineEdit,
+            "Outside diameter OD": self.OD_lineEdit,
+            "Concrete Coating thickness tcc": self.concrete_coating_thickness_lineEdit,
+            "Wall Thickness tHDPE": self.tHDPE_lineEdit,
+            "Corrosion Allowance CA": self.CA_lineEdit,
+            "Volume of Concrete per meter of pipe Vc": self.Vc_lineEdit,
+            "Concrete density ρc": self.rho_c_lineEdit,
+            "Marine growth thickness tmg": self.mg_thickness_lineEdit,
+            "Marine growth density ρmg": self.mg_density_lineEdit,
+            "Content density seawater ρcont": self.rho_cont_lineEdit,
+            "Safety factor for weight γw": self.yw_lineEdit,
+            "Significant wave height Hs": self.Hs_lineEdit,
+            "Spectral peak period Tp": self.Tp_lineEdit,
+            "Water depth d": self.d_lineEdit,
+            "Related angle between pipeline and current direction θ": self.related_angle_theta_lineEdit,
+            "Ref major height above the seabed zr": self.zr_lineEdit,
+            "Submerged Soil Weight for Sand γs": self.ys_lineEdit
         }
 
          # output field for save & open files
 
         self.output_fields = {
-            "Area_of_pipe_AOD": self.AOD_lineEdit,
-            "Volume_of_pipe_VOD": self.VOD_lineEdit,
-            "Internal_Area_of_pipe_AID":self.AID_lineEdit,
-            "Volume_of_pipe_VID":self.VID_lineEdit,
-            "Area_of_Thickness_At": self.At_lineEdit,
-            "Volume_of_Thickness_Vt": self.Vt_lineEdit,
-            "Mass_of_HDPE_pipe_Mpipe": self.Mpipe_lineEdit,
-            "Content_mass_inside_pipe_Mseawater": self.Msea_water_lineEdit,
-            "Buoyancy_for_pipe_Bpipe": self.Bpipe_lineEdit,
-            "Mass_of_concrete_Mc": self.Mc_lineEdit,
-            "Buoyancy_for_concrete_Bc": self.Bc_lineEdit,
-            "Submerged_Wt_of_pipe_Wp": self.Wp_lineEdit,
-            "Submerged_Wt_of_concrete_Wc": self.Wc_lineEdit,
-            "Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1": self.Ws_lineEdit,
-            "gamma_SC1": self.Criteria1_lineEdit,
-            "gamma_SC2": self.Criteria2_lineEdit,
-            "Final_Result": self.result_display_label,
+            "Area of pipe AOD": self.AOD_lineEdit,
+            "Volume of pipe VOD": self.VOD_lineEdit,
+            "Internal Area of pipe AID":self.AID_lineEdit,
+            "Volume of pipe VID":self.VID_lineEdit,
+            "Area of Thickness At": self.At_lineEdit,
+            "Volume of Thickness Vt": self.Vt_lineEdit,
+            "Mass of HDPE pipe Mpipe": self.Mpipe_lineEdit,
+            "Content mass inside pipe Mseawater": self.Msea_water_lineEdit,
+            "Buoyancy for pipe Bpipe": self.Bpipe_lineEdit,
+            "Mass of concrete Mc": self.Mc_lineEdit,
+            "Buoyancy for concrete Bc": self.Bc_lineEdit,
+            "Submerged Wt of pipe Wp": self.Wp_lineEdit,
+            "Submerged Wt of concrete Wc": self.Wc_lineEdit,
+            "Total Submerged Wt pipe concrete waterfilled Ws": self.Ws_lineEdit,
+            "Criteria 1/ UC check": self.Criteria1_lineEdit,
+            "Criteria 2": self.Criteria2_lineEdit,
+            "Criteria Check": self.result_display_label.text(),
            
         }
 
@@ -1108,8 +1109,6 @@ class Ui_MainWindow(object):
 
     def generate_report(self):
         try:
-
-            # 🔹 Helper function (reuse for both)
             def extract(widget):
                 if isinstance(widget, QtWidgets.QLineEdit):
                     return widget.text()
@@ -1117,38 +1116,26 @@ class Ui_MainWindow(object):
                     return widget.currentText()
                 return ""
 
-            # 🔹 Step 1: Collect Inputs
-            inputs = {
-                key: extract(widget)
-                for key, widget in self.input_fields.items()
-            }
+            inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
+            outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
-            # 🔹 Step 2: Collect Outputs (same logic 🔥)
-            outputs = {
-                key: extract(widget)
-                for key, widget in self.output_fields.items()
-            }
-
-            # 🔹 Step 3: File dialog
             file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
-                None, "Save Report", "", "Excel Files (*.xlsx)"
+                None, "Save Report", "", "PDF Files (*.pdf)"
             )
 
             if not file_path:
                 return
 
-            # 🔹 Step 4: Call util
-            success = generate_excel_report(inputs, outputs)
+            success = generate_excel_report(inputs, outputs, file_path)
 
             if success:
-                self.result_display_label.setText("Report generated ✅")
+                self.result_display_label.setText("PDF Report generated ✅")
             else:
                 self.result_display_label.setText("Report failed ❌")
 
         except Exception as e:
             print("Error:", e)
             self.result_display_label.setText("Error generating report ❌")
-
     
         
         # Reset all input fields
