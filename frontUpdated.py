@@ -21,7 +21,6 @@ from PyQt5.QtWidgets import QMessageBox
 from activity_logger import get_all_logs
 from activity_logger import get_last_module_status
 from splash_screen import SplashScreen
-# from .assets import SPIS_LOGO
 
 
 

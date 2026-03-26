@@ -33,6 +33,12 @@ from modules.PipelineWallThickness.Features.Help import Help
 from activity_logger import log_module_open, log_module_close
 
 
+__version__ = "0.0.1"
+print(f"Loading Pipeline Wall Thickness module version {__version__}...")
+
+
+
+
 
 class Ui_MainWindow(object):
    

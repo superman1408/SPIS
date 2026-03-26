@@ -1,6 +1,6 @@
-__version__ = "Constant variables are loaded"
+__version__ = "0.0.1"
 
-print(__version__)
+print(f"Loading constants and variables for version {__version__}...")
 
 
 constant = {

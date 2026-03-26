@@ -5,10 +5,11 @@ from tkinter import filedialog
 import random
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtWidgets
-
-# from .DialogueBox.WhatsNewScreen import WhatsNewScreen
-# from .DialogueBox.DocumentationScreen import DocumentationScreen
 from datetime import datetime
+
+
+__version__ = "0.0.1"
+print(f"Loading Tool Bar Controls for version {__version__}...")
 
 
 

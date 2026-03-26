@@ -16,7 +16,6 @@ from calculations import lateralStability_operationContentFilled
 from calculations import verticalStability_installationEmpty
 from calculations import verticalStability_operationContentFilled
 from calculations import verticalStability_operationShutDown
-from calculations import other
 import webbrowser
 from PyQt5.QtWidgets import QMessageBox
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
@@ -24,6 +23,9 @@ from modules.PipelineOnBottomStability.features.save_load import save_inputs, lo
 from utils import generate_excel_report
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import json
+
+__version__ = "0.0.1"
+print(f"Loading On Bottom Stability module version {__version__}...")
 
 
 frontendData = {}
