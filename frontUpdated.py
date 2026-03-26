@@ -21,6 +21,7 @@ from PyQt5.QtWidgets import QMessageBox
 from activity_logger import get_all_logs
 from activity_logger import get_last_module_status
 from splash_screen import SplashScreen
+# from .assets import SPIS_LOGO
 
 
 
@@ -53,7 +54,7 @@ class MainSoftware(QMainWindow):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.label_Title = QtWidgets.QLabel(self.groupBox)
         self.label_Title.setText("")
-        self.label_Title.setPixmap(QtGui.QPixmap("assets\SPIS LOGO (300 x 100 px) (0.95 x 0.55 in) (1).png"))
+        self.label_Title.setPixmap(QtGui.QPixmap("assets\\SPIS_LOGO.png"))
         self.label_Title.setScaledContents(True)
         self.label_Title.setWordWrap(True)
         self.label_Title.setObjectName("label_Title")
