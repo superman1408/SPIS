@@ -316,7 +316,7 @@ class MainSoftware(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Ashkam Pipeline Integrity Software (SPIS)"))
         self.label_copyright.setText(_translate("MainWindow", "© 2026 Ashkam Energy Pvt. Ltd. All rights reserved "))
         self.pushButton_WallThickness.setText(_translate("MainWindow", "Pipeline Wall Thickness"))
         self.pushButton_Crossing.setText(_translate("MainWindow", "  Pipeline Crossing"))

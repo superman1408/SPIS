@@ -11,23 +11,26 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QMainWindow
 import random
+import webbrowser
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
+import json
+
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
+from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
+from utils import generate_excel_report
+from middleware import CalculationWorker
+
 from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
 from calculations import verticalStability_installationEmpty
 from calculations import verticalStability_operationContentFilled
 from calculations import verticalStability_operationShutDown
-import webbrowser
-from PyQt5.QtWidgets import QMessageBox
-from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
-from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
-from utils import generate_excel_report
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
-import json
 
 __version__ = "0.0.1"
 print(f"Loading On Bottom Stability module version {__version__}...")
 
-
+#-------Global Dictionaries to store data across different screens of the module--------
 frontendData = {}
 saveData = {}
 
@@ -687,7 +690,7 @@ class Ui_MainWindow(object):
         self.gridLayout_15 = QtWidgets.QGridLayout(self.groupBox_progressBar)
         self.gridLayout_15.setObjectName("gridLayout_15")
         self.progressBar = QtWidgets.QProgressBar(self.groupBox_progressBar)
-        self.progressBar.setProperty("value", 100)
+        self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
         self.progressBar.setFixedSize(1250, 10)
         self.gridLayout_15.addWidget(self.progressBar, 0, 0, 0, 0)
@@ -913,26 +916,120 @@ class Ui_MainWindow(object):
         
 
     
+    # def inputData(self):
+    #     self.start_calculation()
+
+    #     try:
+
+    #         analysis_type = self.comboBox_1.currentText()
+    #         selected_case = self.combobox_selectCase.currentText()
+
+    #         print("Analysis:", analysis_type)
+    #         print("Case:", selected_case)
+
+    #         # ----------- LATERAL STABILITY -----------
+    #         if analysis_type == "Lateral Stability":
+
+    #             frontendData = {
+    #                 "HDPE_density_rho_HDPE": float(self.rho_HDPE_lineEdit.text()),
+    #                 "Outside_diameter_OD": float(self.OD_lineEdit.text()),
+    #                 "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
+    #                 "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
+    #                 "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
+    #                 "Concrete_density_rho_c" : float(self.rho_c_lineEdit.text()),
+    #                 "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
+    #                 "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
+    #                 "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
+    #                 "Safety_factor_for_weight_gamma_w": float(self.yw_lineEdit.text()),
+    #                 "Significant_wave_height_Hs": float(self.Hs_lineEdit.text()),
+    #                 "Spectral_peak_period_Tp": float(self.Tp_lineEdit.text()),
+    #                 "Water_depth_d": float(self.d_lineEdit.text()),
+    #                 "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
+    #                 "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
+    #                 "Submerged_Soil_Weight_for_Sand_ys":float(self.ys_lineEdit.text())
+    #             }
+
+    #             if selected_case == "Installation-Empty":
+    #                 result = lateralStability_installation(frontendData)
+
+    #             elif selected_case == "Operation-Content Filled":
+    #                 result = lateralStability_operationContentFilled(frontendData)
+
+    #             else:
+    #                 print("Invalid lateral case")
+    #                 return
+
+    #             self.displayLateralResults(result)
+
+                
+    #             self.Criteria1_label.setText("Criteria 1")
+    #             self.Criteria2_lineEdit.show()
+    #             self.Criteria2_label.show()
+
+    #             self.result_display_label.setText(
+    #                     f"Lateral Stability : {result['LSC_min']} | {result['LSC_min1']}"
+    #                 )
+
+    #         # ----------- VERTICAL STABILITY -----------
+    #         elif analysis_type == "Vertical Stability":
+
+    #             frontendData = {
+    #                 "rh_HDPE": float(self.rho_HDPE_lineEdit.text()),
+    #                 "OD": float(self.OD_lineEdit.text()),
+    #                 "t_HDPE": float(self.tHDPE_lineEdit.text()),
+    #                 "CA": float(self.CA_lineEdit.text()),
+    #                 "V_c": float(self.Vc_lineEdit.text()),
+    #                 "rh_c": float(self.rho_c_lineEdit.text()),
+    #                 "rh_cont": float(self.rho_cont_lineEdit.text()),
+    #                 "gamma_w": float(self.yw_lineEdit.text()),
+    #             }
+
+    #             if selected_case == "Installation-Empty":
+    #                 result = verticalStability_installationEmpty(frontendData)
+
+    #             elif selected_case == "Operation-Content Filled":
+    #                 result = verticalStability_operationContentFilled(frontendData)
+
+    #             elif selected_case == "Operation-Shutdown-Empty":
+    #                 result = verticalStability_operationShutDown(frontendData)
+
+    #             else:
+    #                 print("Invalid vertical case")
+    #                 return
+
+    #             self.displayVerticalResults(result)
+
+                
+    #             self.Criteria1_label.setText("UC check")
+    #             self.Criteria2_lineEdit.hide()
+    #             self.Criteria2_label.hide()
+    #             self.result_display_label.setText(
+    #                 f"Vertical Stability : {result['UC_status']}"
+    #             )
+
+    #     except Exception as e:
+    #         print(f"error code:{random.random()}>>>>>>{e}")
+            
+       
+       
     def inputData(self):
-
         try:
-
             analysis_type = self.comboBox_1.currentText()
             selected_case = self.combobox_selectCase.currentText()
 
             print("Analysis:", analysis_type)
             print("Case:", selected_case)
 
-            # ----------- LATERAL STABILITY -----------
-            if analysis_type == "Lateral Stability":
+            # ----------- PREPARE DATA -----------
 
+            if analysis_type == "Lateral Stability":
                 frontendData = {
                     "HDPE_density_rho_HDPE": float(self.rho_HDPE_lineEdit.text()),
                     "Outside_diameter_OD": float(self.OD_lineEdit.text()),
                     "Concrete_Coating_thickness_t_cc": float(self.concrete_coating_thickness_lineEdit.text()),
                     "Wall_Thickness_t_HDPE": float(self.tHDPE_lineEdit.text()),
                     "Volume_of_Concrete_per_meter_of_pipe_Vc": float(self.Vc_lineEdit.text()),
-                    "Concrete_density_rho_c" : float(self.rho_c_lineEdit.text()),
+                    "Concrete_density_rho_c": float(self.rho_c_lineEdit.text()),
                     "Marine_growth_Thickness_t_mg": float(self.mg_thickness_lineEdit.text()),
                     "Marine_growth_density_rho_mg": float(self.mg_density_lineEdit.text()),
                     "Content_density_seawater_rho_cont": float(self.rho_cont_lineEdit.text()),
@@ -942,37 +1039,10 @@ class Ui_MainWindow(object):
                     "Water_depth_d": float(self.d_lineEdit.text()),
                     "Related_angle_btw_pipeline_and_current_direction_teta": float(self.related_angle_theta_lineEdit.text()),
                     "Ref_major_height_above_the_seabed_zr": float(self.zr_lineEdit.text()),
-                    "Submerged_Soil_Weight_for_Sand_ys":float(self.ys_lineEdit.text())
+                    "Submerged_Soil_Weight_for_Sand_ys": float(self.ys_lineEdit.text())
                 }
 
-                if selected_case == "Installation-Empty":
-                    result = lateralStability_installation(frontendData)
-
-                elif selected_case == "Operation-Content Filled":
-                    result = lateralStability_operationContentFilled(frontendData)
-
-                else:
-                    print("Invalid lateral case")
-                    return
-
-                self.displayLateralResults(result)
-
-                
-                self.Criteria1_label.setText("Criteria 1")
-                self.Criteria2_lineEdit.show()
-                self.Criteria2_label.show()
-
-                self.result_display_label.setText(
-                        f"Lateral Stability : {result['LSC_min']} | {result['LSC_min1']}"
-                    )
-
-
-                
-
-
-            # ----------- VERTICAL STABILITY -----------
             elif analysis_type == "Vertical Stability":
-
                 frontendData = {
                     "rh_HDPE": float(self.rho_HDPE_lineEdit.text()),
                     "OD": float(self.OD_lineEdit.text()),
@@ -984,33 +1054,58 @@ class Ui_MainWindow(object):
                     "gamma_w": float(self.yw_lineEdit.text()),
                 }
 
-                if selected_case == "Installation-Empty":
-                    result = verticalStability_installationEmpty(frontendData)
+            else:
+                print("Invalid analysis type")
+                return
 
-                elif selected_case == "Operation-Content Filled":
-                    result = verticalStability_operationContentFilled(frontendData)
+            # ----------- START THREAD -----------
 
-                elif selected_case == "Operation-Shutdown-Empty":
-                    result = verticalStability_operationShutDown(frontendData)
+            self.progressBar.setValue(0)
+            self.pushButton_run.setEnabled(False)
 
-                else:
-                    print("Invalid vertical case")
-                    return
+            self.worker = CalculationWorker(analysis_type, selected_case, frontendData)
 
-                self.displayVerticalResults(result)
+            self.worker.progress.connect(self.progressBar.setValue)
+            self.worker.finished.connect(self.onCalculationFinished)
+            self.worker.error.connect(self.onCalculationError)
 
-                
-                self.Criteria1_label.setText("UC check")
-                self.Criteria2_lineEdit.hide()
-                self.Criteria2_label.hide()
-                self.result_display_label.setText(
-                    f"Vertical Stability : {result['UC_status']}"
-                )
+            self.worker.start()
 
         except Exception as e:
-            print(f"error code:{random.random()}>>>>>>{e}")
+            print(f"error code:{e}")
+            
+    
+    
+    def onCalculationFinished(self, result, analysis_type):
+        self.pushButton_run.setEnabled(True)
+
+        if analysis_type == "Lateral Stability":
+            self.displayLateralResults(result)
+
+            self.Criteria1_label.setText("Criteria 1")
+            self.Criteria2_lineEdit.show()
+            self.Criteria2_label.show()
+
+            self.result_display_label.setText(
+                f"Lateral Stability : {result['LSC_min']} | {result['LSC_min1']}"
+            )
+
+        elif analysis_type == "Vertical Stability":
+            self.displayVerticalResults(result)
+
+            self.Criteria1_label.setText("UC check")
+            self.Criteria2_lineEdit.hide()
+            self.Criteria2_label.hide()
+
+            self.result_display_label.setText(
+                f"Vertical Stability : {result['UC_status']}"
+            )
             
             
+    def onCalculationError(self, message):
+        self.pushButton_run.setEnabled(True)
+        self.result_display_label.setText("Calculation Failed")
+        print("Error:", message)
     
     
     def reset_all(self, MainWindow):
@@ -1241,7 +1336,7 @@ class Ui_MainWindow(object):
 
 
     def displayLateralResults(self, result):
-
+        
         self.AOD_lineEdit.setText(f"{result['Area_of_pipe_AOD']:.3f}")
         self.VOD_lineEdit.setText(f"{result['Volume_of_pipe_VOD']:.3f}")
         self.AID_lineEdit.setText(f"{result['Internal_Area_of_pipe_AID']:.3f}")
@@ -1284,7 +1379,31 @@ class Ui_MainWindow(object):
         self.Criteria1_lineEdit.setText(f"{result['UC']:.3f}")
         self.result_display_label.setText(str(result['UC_status']))
         
-    
+        
+        
+#---------Function for Progress bar and threading for calculation-----------------  
+    def start_calculation(self):
+        self.worker = CalculationWorker()
+
+        # Reset progress bar
+        self.progressBar.setValue(0)
+
+        # Connect signals
+        self.worker.progress.connect(self.update_progress)
+        self.worker.finished.connect(self.calculation_finished)
+
+        # Start thread
+        self.worker.start()
+
+
+    def update_progress(self, value):
+        self.progressBar.setValue(value)
+
+
+    def calculation_finished(self):
+        self.progressBar.setValue(100)
+        self.result_display_label.setText("Calculation completed!")
+        
 
 
     def retranslateUi(self, MainWindow):
