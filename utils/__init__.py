@@ -20,7 +20,7 @@ __all__ = [
     "new_file",
     "open_file",
     "save_file_as",
-    "generate_report",
+    "generate_excel_report",
     "show_whats_new",
     "show_documentation",
     "reset_all_inputs",

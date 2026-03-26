@@ -21,6 +21,7 @@ import webbrowser
 from PyQt5.QtWidgets import QMessageBox
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
 from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
+from utils import generate_excel_report
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import json
 
@@ -772,13 +773,18 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuHelp.menuAction())
 
 
-        # lineEdits for save & open files
+        # inputs field for save & open files
 
         self.input_fields = {
+            "ComboBox1": self.comboBox_1,
+            "Select_Analysis_ComboBox": self.combobox_selectCase,
+            "Project_Name":self.lineEdit_ProjectName,
+            "Document_No":self.lineEdit_DocNo,
             "HDPE_density_rho_HDPE": self.rho_HDPE_lineEdit,
             "Outside_diameter_OD": self.OD_lineEdit,
             "Concrete_Coating_thickness_t_cc": self.concrete_coating_thickness_lineEdit,
             "Wall_Thickness_t_HDPE": self.tHDPE_lineEdit,
+            "Corrosion_Allowance_label": self.CA_lineEdit,
             "Volume_of_Concrete_per_meter_of_pipe_Vc": self.Vc_lineEdit,
             "Concrete_density_rho_c": self.rho_c_lineEdit,
             "Marine_growth_Thickness_t_mg": self.mg_thickness_lineEdit,
@@ -791,6 +797,29 @@ class Ui_MainWindow(object):
             "Related_angle_btw_pipeline_and_current_direction_teta": self.related_angle_theta_lineEdit,
             "Ref_major_height_above_the_seabed_zr": self.zr_lineEdit,
             "Submerged_Soil_Weight_for_Sand_ys": self.ys_lineEdit
+        }
+
+         # output field for save & open files
+
+        self.output_fields = {
+            "Area_of_pipe_AOD": self.AOD_lineEdit,
+            "Volume_of_pipe_VOD": self.VOD_lineEdit,
+            "Internal_Area_of_pipe_AID":self.AID_lineEdit,
+            "Volume_of_pipe_VID":self.VID_lineEdit,
+            "Area_of_Thickness_At": self.At_lineEdit,
+            "Volume_of_Thickness_Vt": self.Vt_lineEdit,
+            "Mass_of_HDPE_pipe_Mpipe": self.Mpipe_lineEdit,
+            "Content_mass_inside_pipe_Mseawater": self.Msea_water_lineEdit,
+            "Buoyancy_for_pipe_Bpipe": self.Bpipe_lineEdit,
+            "Mass_of_concrete_Mc": self.Mc_lineEdit,
+            "Buoyancy_for_concrete_Bc": self.Bc_lineEdit,
+            "Submerged_Wt_of_pipe_Wp": self.Wp_lineEdit,
+            "Submerged_Wt_of_concrete_Wc": self.Wc_lineEdit,
+            "Total_Submerged_Wt_pipe_concrete_waterfilled_Ws1": self.Ws_lineEdit,
+            "gamma_SC1": self.Criteria1_lineEdit,
+            "gamma_SC2": self.Criteria2_lineEdit,
+            "Final_Result": self.result_display_label,
+           
         }
 
         self.retranslateUi(MainWindow)
@@ -985,7 +1014,13 @@ class Ui_MainWindow(object):
     def reset_all(self, MainWindow):
         print("Started Resetting all inputs now.............WAIT!")
         try:
+            # Reset for comboBox
+            self.comboBox_1.setCurrentIndex(0)
+            self.combobox_selectCase.setCurrentIndex(0)
+
             # Reset all input fields
+            self.lineEdit_ProjectName.clear()
+            self.lineEdit_DocNo.clear()
             self.rho_HDPE_lineEdit.clear()
             self.OD_lineEdit.clear()
             self.concrete_coating_thickness_lineEdit.clear()
@@ -1072,6 +1107,50 @@ class Ui_MainWindow(object):
         except Exception as e:
             print("error", e)
 
+
+    def generate_report(self):
+        try:
+
+            # 🔹 Helper function (reuse for both)
+            def extract(widget):
+                if isinstance(widget, QtWidgets.QLineEdit):
+                    return widget.text()
+                elif isinstance(widget, QtWidgets.QComboBox):
+                    return widget.currentText()
+                return ""
+
+            # 🔹 Step 1: Collect Inputs
+            inputs = {
+                key: extract(widget)
+                for key, widget in self.input_fields.items()
+            }
+
+            # 🔹 Step 2: Collect Outputs (same logic 🔥)
+            outputs = {
+                key: extract(widget)
+                for key, widget in self.output_fields.items()
+            }
+
+            # 🔹 Step 3: File dialog
+            file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                None, "Save Report", "", "Excel Files (*.xlsx)"
+            )
+
+            if not file_path:
+                return
+
+            # 🔹 Step 4: Call util
+            success = generate_excel_report(inputs, outputs)
+
+            if success:
+                self.result_display_label.setText("Report generated ✅")
+            else:
+                self.result_display_label.setText("Report failed ❌")
+
+        except Exception as e:
+            print("Error:", e)
+            self.result_display_label.setText("Error generating report ❌")
+
     
         
         # Reset all input fields
@@ -1135,9 +1214,9 @@ class Ui_MainWindow(object):
     
 
     
-    def generate_report(self, MainWindow):
-        print("Generate Report functionality is initialized")
-        self.result_display_label.setText("Generate Report functionality is not implemented yet.")
+    # def generate_report(self, MainWindow):
+    #     print("Generate Report functionality is initialized")
+    #     self.result_display_label.setText("Generate Report functionality is not implemented yet.")
         
         
     def open_documentation(self):
