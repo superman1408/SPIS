@@ -212,3 +212,9 @@ settings.json
 
 *.db
 pipeline_activity.db
+
+# Excel files
+*.xlsx
+
+# Optional: ignore generated reports only
+# report_*.xlsx

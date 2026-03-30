@@ -16,10 +16,11 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import json
 
+
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
 from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
 from utils import generate_excel_report
-from middleware import CalculationWorker
+from middleware import CalculationProcess
 
 from calculations import lateralStability_installation
 from calculations import lateralStability_operationContentFilled
@@ -1063,7 +1064,7 @@ class Ui_MainWindow(object):
             self.progressBar.setValue(0)
             self.pushButton_run.setEnabled(False)
 
-            self.worker = CalculationWorker(analysis_type, selected_case, frontendData)
+            self.worker = CalculationProcess(analysis_type, selected_case, frontendData)
 
             self.worker.progress.connect(self.progressBar.setValue)
             self.worker.finished.connect(self.onCalculationFinished)
@@ -1156,6 +1157,9 @@ class Ui_MainWindow(object):
             # Result criteria fields
             self.Criteria1_lineEdit.clear()
             self.Criteria2_lineEdit.clear()
+            
+            #Progress bar reset
+            self.progressBar.setValue(0)
 
             # Reset result display label
             self.result_display_label.setText("------------Reset Completed------------")
@@ -1383,7 +1387,7 @@ class Ui_MainWindow(object):
         
 #---------Function for Progress bar and threading for calculation-----------------  
     def start_calculation(self):
-        self.worker = CalculationWorker()
+        self.worker = CalculationProcess()
 
         # Reset progress bar
         self.progressBar.setValue(0)
