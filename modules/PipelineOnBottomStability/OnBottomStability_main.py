@@ -19,7 +19,7 @@ import json
 
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
 from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
-from utils import generate_excel_report
+from utils import generate_report
 from middleware import CalculationProcess
 
 from calculations import lateralStability_installation
@@ -27,7 +27,6 @@ from calculations import lateralStability_operationContentFilled
 from calculations import verticalStability_installationEmpty
 from calculations import verticalStability_operationContentFilled
 from calculations import verticalStability_operationShutDown
-from calculations import other
 import webbrowser
 from PyQt5.QtWidgets import QMessageBox
 from utils import caseOption, get_all_inputs, get_required_inputs
