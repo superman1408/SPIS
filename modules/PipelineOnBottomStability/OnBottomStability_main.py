@@ -1083,31 +1083,85 @@ class Ui_MainWindow(object):
             print(f"error code:{e}")
             
     
+    # def onCalculationFinished(self, result, analysis_type): 
+    #     self.pushButton_run.setEnabled(True) 
+    #     status = result['status'].lower() 
+    #     color_map = { "satisfied": "green", "stable": "green", "not satisfied": "red", "not stable": "red", "float": "orange", "sink": "blue" } 
+    #     color = color_map.get(status, "black") 
+    #     if analysis_type == "Lateral Stability": 
+    #         self.displayLateralResults(result) 
+    #         self.Criteria1_label.setText("Criteria 1") 
+    #         self.Criteria2_lineEdit.show() 
+    #         self.Criteria2_label.show() 
+    #         self.result_display_label.setText(  
+    #             # f"Lateral Stability : {result['LSC_min']} | {result['LSC_min1']}" 
+    #             f"Lateral Stability : {status}" ) 
+    #         self.result_display_label.setStyleSheet( f"color: white; background-color: {color}; padding: 6px; border-radius: 6px; font-weight: bold;" ) 
+        
+    #     elif analysis_type == "Vertical Stability": 
+    #         self.displayVerticalResults(result) 
+    #         self.Criteria1_label.setText("UC check") 
+    #         self.Criteria2_lineEdit.hide() 
+    #         self.Criteria2_label.hide() 
+    #         self.result_display_label.setText( 
+    #             # f"Vertical Stability : {result['UC_status']}" 
+    #             f"Vertical Stability : {status}" ) 
+    #         self.result_display_label.setStyleSheet( f"color: white; background-color: {color}; padding: 6px; border-radius: 6px; font-weight: bold;" 
+                                                        # )
+
+
+    
     
     def onCalculationFinished(self, result, analysis_type):
         self.pushButton_run.setEnabled(True)
 
+        color_map = {
+            "satisfied": "green",
+            "stable": "green",
+            "not satisfied": "red",
+            "not stable": "red",
+            "float": "orange",
+            "sink": "blue"
+        }
+
         if analysis_type == "Lateral Stability":
+            lsc1 = result.get('LSC_min', '')
+            lsc2 = result.get('LSC_min1', '')
+
+            # Display values ONLY (no status logic)
+            self.result_display_label.setText(
+                f"Lateral Stability : {lsc1} | {lsc2}"
+            )
+
+            # Optional: if backend gives status, use it for color
+            status = str(result.get('status', '')).lower()
+            color = color_map.get(status, "black")
+
             self.displayLateralResults(result)
 
             self.Criteria1_label.setText("Criteria 1")
             self.Criteria2_lineEdit.show()
             self.Criteria2_label.show()
 
+        elif analysis_type == "Vertical Stability":
+            status = str(result.get('UC_status', '')).lower()
+
             self.result_display_label.setText(
-                f"Lateral Stability : {result['LSC_min']} | {result['LSC_min1']}"
+                f"Vertical Stability : {status}"
             )
 
-        elif analysis_type == "Vertical Stability":
+            color = color_map.get(status, "black")
+
             self.displayVerticalResults(result)
 
             self.Criteria1_label.setText("UC check")
             self.Criteria2_lineEdit.hide()
             self.Criteria2_label.hide()
 
-            self.result_display_label.setText(
-                f"Vertical Stability : {result['UC_status']}"
-            )
+        # Apply color safely
+        self.result_display_label.setStyleSheet(
+            f"color: white; background-color: {color}; padding: 6px; border-radius: 6px; font-weight: bold;"
+        )
             
             
     def onCalculationError(self, message):
