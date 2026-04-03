@@ -831,7 +831,7 @@ class Ui_MainWindow(object):
             "Total Submerged Wt pipe concrete waterfilled Ws": self.Ws_lineEdit,
             "Criteria 1/ UC check": self.Criteria1_lineEdit,
             "Criteria 2": self.Criteria2_lineEdit,
-            "Criteria Check": self.result_display_label.text,
+            "Criteria Check": self.result_display_label.text(),
            
         }
 
@@ -1116,43 +1116,48 @@ class Ui_MainWindow(object):
         self.pushButton_run.setEnabled(True)
 
         color_map = {
-            "satisfied": "green",
-            "stable": "green",
-            "not satisfied": "red",
-            "not stable": "red",
-            "float": "orange",
-            "sink": "blue"
+            "SATISFIED": "green",
+            "STABLE": "green",
+            "NOT SATISFIED": "red",
+            "NOT STABLE": "red",
+            "FLOAT": "orange",
+            "SINK": "blue"
         }
 
         if analysis_type == "Lateral Stability":
             lsc1 = result.get('LSC_min', '')
             lsc2 = result.get('LSC_min1', '')
 
+            self.displayLateralResults(result)
+
             # Display values ONLY (no status logic)
             self.result_display_label.setText(
-                f"Lateral Stability : {lsc1} | {lsc2}"
+                # f"Lateral Stability Criteria : 
+                f"{lsc1} | {lsc2}"
             )
 
             # Optional: if backend gives status, use it for color
-            status = str(result.get('status', '')).lower()
+            status = str(result.get('status', ''))
             color = color_map.get(status, "black")
 
-            self.displayLateralResults(result)
+            
 
             self.Criteria1_label.setText("Criteria 1")
             self.Criteria2_lineEdit.show()
             self.Criteria2_label.show()
 
         elif analysis_type == "Vertical Stability":
-            status = str(result.get('UC_status', '')).lower()
+            status = str(result.get('UC_status', ''))
 
-            self.result_display_label.setText(
-                f"Vertical Stability : {status}"
-            )
+            self.displayVerticalResults(result)
+
+            self.result_display_label.setText(f"{status}")
+                # f"Vertical Stability Criteria : {status}"
+                
 
             color = color_map.get(status, "black")
 
-            self.displayVerticalResults(result)
+            
 
             self.Criteria1_label.setText("UC check")
             self.Criteria2_lineEdit.hide()
@@ -1160,7 +1165,7 @@ class Ui_MainWindow(object):
 
         # Apply color safely
         self.result_display_label.setStyleSheet(
-            f"color: white; background-color: {color}; padding: 6px; border-radius: 6px; font-weight: bold;"
+            f"color: white; background-color: {color}; padding: 3px; border-radius: 3px; font-weight: bold;"
         )
             
             
@@ -1218,6 +1223,9 @@ class Ui_MainWindow(object):
             # Result criteria fields
             self.Criteria1_lineEdit.clear()
             self.Criteria2_lineEdit.clear()
+
+            # Result label
+            self.result_display_label.hide()
             
             #Progress bar reset
             self.progressBar.setValue(0)
@@ -1298,6 +1306,8 @@ class Ui_MainWindow(object):
             return None, None
 
     def generate_report(self):
+
+        
         try:
             def extract(widget):
                 if isinstance(widget, QtWidgets.QLineEdit):
@@ -1316,6 +1326,8 @@ class Ui_MainWindow(object):
             
             inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
             outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
+
+            print(outputs)
 
             file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
                 None, "Save Report", "", "PDF Files (*.pdf)"
@@ -1511,8 +1523,8 @@ class Ui_MainWindow(object):
         self.comboBox_pipeGrade.setItemText(3, _translate("MainWindow", "API 5L X70"))
         self.comboBox_pipeGrade.setItemText(4, _translate("MainWindow", "API 5L X80"))
         self.result_display_label.setText(_translate("MainWindow", "-"))
-        self.Criteria1_label.setText(_translate("MainWindow", " Criteria1  "))
-        self.Criteria2_label.setText(_translate("MainWindow", " Criteria 2 "))
+        self.Criteria1_label.setText(_translate("MainWindow", "Criteria 1  "))
+        self.Criteria2_label.setText(_translate("MainWindow", "Criteria 2  "))
         self.pushButton_check.setText(_translate("MainWindow", "Check"))
         # self.checks_label.setText(_translate("MainWindow", "Checks"))
         self.pushButton_run.setText(_translate("MainWindow", "Run"))
