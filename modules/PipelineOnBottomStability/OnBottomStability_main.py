@@ -793,45 +793,45 @@ class Ui_MainWindow(object):
             "Document Number":self.lineEdit_DocNo,
             "Stability Mode": self.comboBox_1,
             "Analysis Condition": self.combobox_selectCase,
-            "HDPE density ρHDPE": self.rho_HDPE_lineEdit,
-            "Outside diameter OD": self.OD_lineEdit,
-            "Concrete Coating thickness tcc": self.concrete_coating_thickness_lineEdit,
-            "Wall Thickness tHDPE": self.tHDPE_lineEdit,
-            "Corrosion Allowance CA": self.CA_lineEdit,
-            "Volume of Concrete per meter of pipe Vc": self.Vc_lineEdit,
-            "Concrete density ρc": self.rho_c_lineEdit,
-            "Marine growth thickness tmg": self.mg_thickness_lineEdit,
-            "Marine growth density ρmg": self.mg_density_lineEdit,
-            "Content density seawater ρcont": self.rho_cont_lineEdit,
+            "HDPE density ρHDPE (kg/m<sup>3</sup>)": self.rho_HDPE_lineEdit,
+            "Outside diameter OD (mm)": self.OD_lineEdit,
+            "Concrete Coating thickness tcc (m)": self.concrete_coating_thickness_lineEdit,
+            "Wall Thickness tHDPE (m)": self.tHDPE_lineEdit,
+            "Corrosion Allowance CA (m)": self.CA_lineEdit,
+            "Volume of Concrete per meter of pipe Vc (m<sup>3</sup>)": self.Vc_lineEdit,
+            "Concrete density ρc (kg/m<sup>3</sup>)": self.rho_c_lineEdit,
+            "Marine growth thickness tmg (mm)": self.mg_thickness_lineEdit,
+            "Marine growth density ρmg (mm)": self.mg_density_lineEdit,
+            "Content density seawater ρcont (kg/m<sup>3</sup>)": self.rho_cont_lineEdit,
             "Safety factor for weight γw": self.yw_lineEdit,
-            "Significant wave height Hs": self.Hs_lineEdit,
-            "Spectral peak period Tp": self.Tp_lineEdit,
-            "Water depth d": self.d_lineEdit,
-            "Related angle between pipeline and current direction θ": self.related_angle_theta_lineEdit,
-            "Ref major height above the seabed zr": self.zr_lineEdit,
-            "Submerged Soil Weight for Sand γs": self.ys_lineEdit
+            "Significant wave height Hs (m)": self.Hs_lineEdit,
+            "Spectral peak period Tp (s)": self.Tp_lineEdit,
+            "Water depth d (m)": self.d_lineEdit,
+            "Related angle between pipeline and current direction θ (°)": self.related_angle_theta_lineEdit,
+            "Ref major height above the seabed zr (m)": self.zr_lineEdit,
+            "Submerged Soil Weight for Sand γs (kN/m<sup>3</sup>)": self.ys_lineEdit
         }
 
          # output field for save & open files
 
         self.output_fields = {
-            "Area of pipe AOD": self.AOD_lineEdit,
-            "Volume of pipe VOD": self.VOD_lineEdit,
-            "Internal Area of pipe AID":self.AID_lineEdit,
-            "Volume of pipe VID":self.VID_lineEdit,
-            "Area of Thickness At": self.At_lineEdit,
-            "Volume of Thickness Vt": self.Vt_lineEdit,
-            "Mass of HDPE pipe Mpipe": self.Mpipe_lineEdit,
-            "Content mass inside pipe Mseawater": self.Msea_water_lineEdit,
-            "Buoyancy for pipe Bpipe": self.Bpipe_lineEdit,
-            "Mass of concrete Mc": self.Mc_lineEdit,
-            "Buoyancy for concrete Bc": self.Bc_lineEdit,
-            "Submerged Wt of pipe Wp": self.Wp_lineEdit,
-            "Submerged Wt of concrete Wc": self.Wc_lineEdit,
+            "Area of pipe AOD (m<sup>2</sup>)": self.AOD_lineEdit,
+            "Volume of pipe VOD (m<sup>3</sup>)": self.VOD_lineEdit,
+            "Internal Area of pipe AID (m<sup>2</sup>)":self.AID_lineEdit,
+            "Volume of pipe VID (m<sup>3</sup>)":self.VID_lineEdit,
+            "Area of Thickness At (m<sup>2</sup>)": self.At_lineEdit,
+            "Volume of Thickness Vt (m<sup>3</sup>)": self.Vt_lineEdit,
+            "Mass of HDPE pipe Mpipe (kg/m)": self.Mpipe_lineEdit,
+            "Content mass inside pipe Mseawater (kg/m)": self.Msea_water_lineEdit,
+            "Buoyancy for pipe Bpipe (kg/m)": self.Bpipe_lineEdit,
+            "Mass of concrete Mc (kg/m)": self.Mc_lineEdit,
+            "Buoyancy for concrete Bc (kg/m)": self.Bc_lineEdit,
+            "Submerged Wt of pipe Wp (kg/m)": self.Wp_lineEdit,
+            "Submerged Wt of concrete Wc (kg/m)": self.Wc_lineEdit,
             "Total Submerged Wt pipe concrete waterfilled Ws": self.Ws_lineEdit,
             "Criteria 1/ UC check": self.Criteria1_lineEdit,
             "Criteria 2": self.Criteria2_lineEdit,
-            "Criteria Check": self.result_display_label.text(),
+            "Criteria Check": self.result_display_label,
            
         }
 
@@ -1132,8 +1132,7 @@ class Ui_MainWindow(object):
 
             # Display values ONLY (no status logic)
             self.result_display_label.setText(
-                # f"Lateral Stability Criteria : 
-                f"{lsc1} | {lsc2}"
+                f"Lateral Stability Criteria : {lsc1} | {lsc2}"
             )
 
             # Optional: if backend gives status, use it for color
@@ -1151,9 +1150,9 @@ class Ui_MainWindow(object):
 
             self.displayVerticalResults(result)
 
-            self.result_display_label.setText(f"{status}")
-                # f"Vertical Stability Criteria : {status}"
-                
+            self.result_display_label.setText(
+                f"Vertical Stability Criteria : {status}"
+            )
 
             color = color_map.get(status, "black")
 
@@ -1166,7 +1165,7 @@ class Ui_MainWindow(object):
         # Apply color safely
         self.result_display_label.setStyleSheet(
             f"color: white; background-color: {color}; padding: 3px; border-radius: 3px; font-weight: bold;"
-        )
+        ) 
             
             
     def onCalculationError(self, message):
