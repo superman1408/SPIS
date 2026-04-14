@@ -58,7 +58,7 @@ Stress_Range = {
 
 # ---- CALCULATIONS FIRST ---- 
 
-Assumed_Span_Length = 130
+Assumed_Span_Length = 36.711
 def LD_Check():
     
     Assumed_Span_Length_by_Outer_Diameter = Assumed_Span_Length / PipeGeometry["Outer_Diameter"]
@@ -173,14 +173,24 @@ def Submerged_Weight():
 Submerged_Weight()
 
 def Bending_Stiffness():
-    Moment_of_Inertia = math.pi/64*(PipeGeometry["Outer_Diameter"]**4 - ((PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**4))
-    print("Moment_of_Inertia", Moment_of_Inertia)
+    I = math.pi/64 * (
+        PipeGeometry["Outer_Diameter"]**4 -
+        (PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**4
+    )
+    
+    EI = MaterialProperty["Youngs_Modulus"] * I
+    
+    return I, EI
+
+# def Bending_Stiffness():
+#     Moment_of_Inertia = math.pi/64*(PipeGeometry["Outer_Diameter"]**4 - ((PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**4))
+#     print("Moment_of_Inertia", Moment_of_Inertia)
     
 
-    E_into_I = MaterialProperty["Youngs_Modulus"] * Moment_of_Inertia
-    print("E_into_I", E_into_I)
+#     E_into_I = MaterialProperty["Youngs_Modulus"] * Moment_of_Inertia
+#     print("E_into_I", E_into_I)
 
-    return Moment_of_Inertia, E_into_I
+#     return Moment_of_Inertia, E_into_I
 
 Bending_Stiffness()
 
@@ -190,7 +200,75 @@ def Deflection():
     delta = (5* Submerged_Weight() * Assumed_Span_Length**4)/(384 * E_into_I)
     print("delta", delta)
 
-    return delta  
-# This need to be check
+      
+
+    if delta < 25:
+        print("PASS")
+    else:
+        print("FAIL")
+
+    return delta
+
 
 Deflection()
+
+
+# step 6
+
+def Bending_Stress_Moment():
+    M = (Submerged_Weight() * (Assumed_Span_Length**2))/8
+    print("M : ", M )
+    return M
+
+Bending_Stress_Moment()
+
+def Section_Modulus():
+    D = PipeGeometry["Outer_Diameter"]
+    I, _ = Bending_Stiffness()
+    
+    Z = I / (D / 2)
+    
+    print("Section Modulus:", Z)
+    return Z
+
+
+Section_Modulus()
+
+def Stress_rho():
+    M = Bending_Stress_Moment()   
+    Z = Section_Modulus()    
+    
+
+    rho = (M / Z)             # σ = M / Z
+    
+    print("rho:", rho)
+    return rho
+
+Stress_rho()
+
+if 10<= Stress_rho()<=100 :
+    print("SAFE")
+else:
+    print("UNSAFE")
+
+
+
+#step 7
+
+def Natural_Frequency():
+    natural_frequency = Submerged_Mass() * (Assumed_Span_Length**4)
+    print("natural_frequency", natural_frequency)
+
+    return natural_frequency
+
+Natural_Frequency()
+
+def Natural_Frequency_fn():
+
+    f_n = Bending_Stiffness()
+    print("f_n", f_n)
+
+    return f_n
+
+Natural_Frequency_fn()
+
