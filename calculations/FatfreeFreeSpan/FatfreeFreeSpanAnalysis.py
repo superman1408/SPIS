@@ -173,14 +173,27 @@ def Submerged_Weight():
 Submerged_Weight()
 
 def Bending_Stiffness():
-    I = math.pi/64 * (
+    Moment_of_Inertia = math.pi/64 * (
         PipeGeometry["Outer_Diameter"]**4 -
         (PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**4
     )
     
-    EI = MaterialProperty["Youngs_Modulus"] * I
+    print("Moment_of_Inertia : ", Moment_of_Inertia)
+    # EI = MaterialProperty["Youngs_Modulus"] * Moment_of_Inertia
     
-    return I, EI
+    return Moment_of_Inertia
+
+Bending_Stiffness()
+
+
+def Bending_Stiffness_EI():
+    EI = MaterialProperty["Youngs_Modulus"] * Bending_Stiffness()
+    print ("EI : ", EI)
+    
+    return EI
+
+Bending_Stiffness_EI()
+
 
 # def Bending_Stiffness():
 #     Moment_of_Inertia = math.pi/64*(PipeGeometry["Outer_Diameter"]**4 - ((PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**4))
@@ -192,11 +205,10 @@ def Bending_Stiffness():
 
 #     return Moment_of_Inertia, E_into_I
 
-Bending_Stiffness()
 
 def Deflection():
 
-    _, E_into_I = Bending_Stiffness()
+    E_into_I = Bending_Stiffness_EI()
     delta = (5* Submerged_Weight() * Assumed_Span_Length**4)/(384 * E_into_I)
     print("delta", delta)
 
@@ -224,7 +236,7 @@ Bending_Stress_Moment()
 
 def Section_Modulus():
     D = PipeGeometry["Outer_Diameter"]
-    I, _ = Bending_Stiffness()
+    I = Bending_Stiffness()
     
     Z = I / (D / 2)
     
@@ -256,19 +268,83 @@ else:
 #step 7
 
 def Natural_Frequency():
-    natural_frequency = Submerged_Mass() * (Assumed_Span_Length**4)
-    print("natural_frequency", natural_frequency)
+    # natural_frequency = Submerged_Mass() * (Assumed_Span_Length**4)
+    # print("natural_frequency", natural_frequency)
 
-    return natural_frequency
+    # return natural_frequency
+
+    m_eff_into_L = Submerged_Mass() * (Assumed_Span_Length**4)
+    print("m_eff_into_L : ",m_eff_into_L )
+    return m_eff_into_L
 
 Natural_Frequency()
 
 def Natural_Frequency_fn():
 
-    f_n = Bending_Stiffness()
+    EI_by_mL = Bending_Stiffness_EI() / Natural_Frequency()
+    print("EI_by_mL : ", EI_by_mL)
+
+    f_n = 0.5 * math.sqrt(EI_by_mL)
+
     print("f_n", f_n)
 
     return f_n
 
 Natural_Frequency_fn()
 
+
+
+# Step 8
+def Flow_Regime():
+    alpha = Environment["Current_Velocity"] / (Environment["Current_Velocity"] + Environment["Wave_velocity"])
+    print(alpha)
+
+    
+
+    if alpha < 0.5 :
+        print("Wave dominated")
+
+    elif alpha >0.8 :
+        print("Current dominated")
+    
+    else:
+        print("Mixed")
+
+    return alpha
+
+Flow_Regime()
+
+
+
+#step 9
+def Reduced_Velocity():
+    V_r = Environment["Current_Velocity"] / (Natural_Frequency_fn() * PipeGeometry["Outer_Diameter"])
+    print(V_r)
+
+    if V_r < 1 :
+        print("No VIV")
+
+    elif V_r <= 3 :
+        print("Inline VIV")
+
+    elif V_r <=8 :
+        print("Cross flow VIV")
+
+    else:
+        print("Severe VIV")
+
+    return V_r
+
+Reduced_Velocity()
+
+ 
+
+#step 10 
+
+def fatigue():
+    For_100_years_design = 100*365*24*3600
+
+    Number_of_cycle_n = Natural_Frequency_fn() * For_100_years_design
+    print("Number_of_cycle_n : ", Number_of_cycle_n)
+
+    # SN_Curve_for_N = 10**16 / Stres
