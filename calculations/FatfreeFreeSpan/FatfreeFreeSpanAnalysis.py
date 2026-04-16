@@ -37,28 +37,33 @@ SN_curve = {
 
 }
 
+Assumed_Span_Length = 36.711
 
 
 Vibration_Amplitude = 0.2 * PipeGeometry["Outer_Diameter"]
+print("Vibration_Amplitude : ", Vibration_Amplitude)
 
-Curvature = Vibration_Amplitude
+Curvature = Vibration_Amplitude/Assumed_Span_Length**2
+print("Curvature", Curvature)
 
-Stress = (
+Stress_from_curvature = (
     MaterialProperty["Youngs_Modulus"]
     * (PipeGeometry["Outer_Diameter"] / 2)
     * Curvature
-)
+) / 10**6
+
+print("Stress_from_curvature", Stress_from_curvature)
 
 # ---- THEN STORE ----
 Stress_Range = {
     "Vibration_Amplitude": Vibration_Amplitude,
     "Curvature": Curvature,
-    "Stress": Stress
+    "Stress": Stress_from_curvature
 }
 
 # ---- CALCULATIONS FIRST ---- 
 
-Assumed_Span_Length = 36.711
+
 def LD_Check():
     
     Assumed_Span_Length_by_Outer_Diameter = Assumed_Span_Length / PipeGeometry["Outer_Diameter"]
@@ -82,14 +87,14 @@ Steel_Area()
 
 def Outer_Diameter_including_coating_concrete():
     D_Outer = 1.0668 + 2 * (0.0042 + 0.06)
-    print("D_Outer" , D_Outer)
+    # print("D_Outer" , D_Outer)
     return D_Outer
 
 Outer_Diameter_including_coating_concrete()
 
 def Total_Outer_Area():
     A_Outer = math.pi/4 * (Outer_Diameter_including_coating_concrete())**2
-    print("A_Outer", A_Outer)
+    # print("A_Outer", A_Outer)
     return A_Outer
 
 Total_Outer_Area()
@@ -251,7 +256,7 @@ def Stress_rho():
     Z = Section_Modulus()    
     
 
-    rho = (M / Z)             # σ = M / Z
+    rho = (M / Z) / 10**6           # σ = M / Z
     
     print("rho:", rho)
     return rho
@@ -297,7 +302,7 @@ Natural_Frequency_fn()
 # Step 8
 def Flow_Regime():
     alpha = Environment["Current_Velocity"] / (Environment["Current_Velocity"] + Environment["Wave_velocity"])
-    print(alpha)
+    print("Flow Regime :", alpha)
 
     
 
@@ -319,7 +324,7 @@ Flow_Regime()
 #step 9
 def Reduced_Velocity():
     V_r = Environment["Current_Velocity"] / (Natural_Frequency_fn() * PipeGeometry["Outer_Diameter"])
-    print(V_r)
+    print("Reduced velocity : ", V_r)
 
     if V_r < 1 :
         print("No VIV")
@@ -347,4 +352,37 @@ def fatigue():
     Number_of_cycle_n = Natural_Frequency_fn() * For_100_years_design
     print("Number_of_cycle_n : ", Number_of_cycle_n)
 
-    # SN_Curve_for_N = 10**16 / Stres
+    SN_Curve_for_N = (10**16) / (Stress_from_curvature**5)
+    print("SN_Curve_for_N : ", SN_Curve_for_N)
+
+    D_fat = Number_of_cycle_n / SN_Curve_for_N
+    print("D_fat : ", D_fat)
+
+    if D_fat > 1 :
+        print("Fatigue Damage : FAIL")
+
+    else:
+        print("Fatigue Damage : PASS")
+
+    return D_fat, SN_Curve_for_N, Number_of_cycle_n
+fatigue()
+
+
+#step11
+
+def Ultimate_Limit_State():
+    Allowable_Stress = 0.87 * MaterialProperty["Yield_Strength"]
+    print("Allowable_Stress : ", Allowable_Stress)
+
+    Unity_check = Stress_rho() / Allowable_Stress
+    print("Unity_check : ", Unity_check)
+
+    if Unity_check < 1 :
+        print("SAFE")
+
+    else:
+        print("UNSAFE")
+
+    return Allowable_Stress, Unity_check
+
+Ultimate_Limit_State()
