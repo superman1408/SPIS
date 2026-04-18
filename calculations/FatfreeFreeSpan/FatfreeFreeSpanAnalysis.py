@@ -386,3 +386,33 @@ def Ultimate_Limit_State():
     return Allowable_Stress, Unity_check
 
 Ultimate_Limit_State()
+
+
+
+result = {
+    "Steel_Area" : Steel_Area(),
+    "Outer_Diameter_after_Coating" : Outer_Diameter_after_Coating(),
+    "Submerged_Mass" : Submerged_Mass(),
+    "Natural_Frequency" : Natural_Frequency(),
+    "Steel_Area" : Steel_Area(),
+    "Outer_Diameter_after_Concrete" : Outer_Diameter_after_Concrete(),
+    "Submerged_Weight" : Submerged_Weight(),
+    "Flow_Regime" : Flow_Regime(),
+    "Coating_Area" : Coating_Area(),
+    "Concrete_Coating" : Concrete_Coating(),
+    "Bending_Stiffness" : Bending_Stiffness(),
+    "Reduced_Velocity" : Reduced_Velocity(),
+    "Concrete_Area" : Concrete_Area(),
+    "Total" : Total(),
+    "Bending_Stiffness_EI" : Bending_Stiffness_EI(),
+    "fatigue" : fatigue(),
+    "Outer_Diameter_including_coating_concrete" : Outer_Diameter_including_coating_concrete(),
+    "Buoyancy" : Buoyancy(),
+    "Deflection" : Deflection(),
+    "Total_Outer_Area" : Total_Outer_Area(),
+    "Bending_Stress_Moment" : Bending_Stress_Moment(),
+    "Ultimate_Limit_State" : Ultimate_Limit_State()
+}
+
+
+print("result", result)
