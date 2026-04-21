@@ -15,6 +15,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QTableWidget
 from modules.PipelineWallThickness.app import PipelineWindow
 from modules.PipelineCrossingCalculation.ui_design.main_app import PipelineSimulationApp
 from modules.PipelineOnBottomStability.OnBottomStability_main  import PipelineOnBottomStability
+from modules.FreeSpanAnalysis.FreeSpan import FreeSpanAnalysis
 from database import create_table
 from activity_logger import get_incomplete_modules
 from PyQt5.QtWidgets import QMessageBox
@@ -303,6 +304,7 @@ class MainSoftware(QMainWindow):
         self.pushButton_WallThickness.clicked.connect(self.openWallThickness)
         self.pushButton_Crossing.clicked.connect(self.openCrossingCalculations)
         self.pushButton_onbottom.clicked.connect(self.openOnBottomRoughness)
+        self.pushButton_frespananalysis.clicked.connect(self.openFreeSpanAnalysis)
 
 
         create_table()
@@ -412,6 +414,10 @@ class MainSoftware(QMainWindow):
     def openOnBottomRoughness(self):
         self.startLoading("Opening Pipeline On Bottom Stability... Please wait ⏳")
         QtCore.QTimer.singleShot(5000, self.launchOnBottomStability)  # 10000 ms = 10 sec
+
+    def openFreeSpanAnalysis(self):
+        self.startLoading("Opening Free Span Analysis... Please Wait ⏳")
+        QtCore.QTimer.singleShot(5000, self.launchFreeSpanAnalysis)
         
 
 
@@ -437,6 +443,12 @@ class MainSoftware(QMainWindow):
         self.pipeline3.show()
         self.statusbar.showMessage("Pipeline On Bottom Stability Loaded ✅", 3000)
         self.stopLoading("Pipeline On Bottom Stability Exiting")
+
+    def launchFreeSpanAnalysis(self):
+        self.pipeline4 = FreeSpanAnalysis()
+        self.pipeline4.show()
+        self.statusBar.showMessaage("Free Span Analysis Loaded ✅", 3000)
+        self.stopLoading("Free Span Analysis Exiting")
 
     def check_incomplete_modules(self):
         incomplete = get_incomplete_modules()
