@@ -309,12 +309,6 @@ class MainSoftware(QMainWindow):
 
         create_table()
         
-       
-        
-        
-        
-        
-        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -445,10 +439,13 @@ class MainSoftware(QMainWindow):
         self.stopLoading("Pipeline On Bottom Stability Exiting")
 
     def launchFreeSpanAnalysis(self):
-        self.pipeline4 = FreeSpanAnalysis()
-        self.pipeline4.show()
-        self.statusBar.showMessaage("Free Span Analysis Loaded ✅", 3000)
-        self.stopLoading("Free Span Analysis Exiting")
+        try:
+            self.pipeline4 = FreeSpanAnalysis()
+            self.pipeline4.show()
+            self.statusbar.showMessage("Free Span Analysis Loaded ✅", 3000)
+            self.stopLoading("Free Span Analysis Exiting")
+        except Exception as e:
+            print("Error: ", e)
 
     def check_incomplete_modules(self):
         incomplete = get_incomplete_modules()
