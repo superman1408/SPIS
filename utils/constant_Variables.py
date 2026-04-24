@@ -9,6 +9,17 @@ constant = {
     "density_concrete" : 2400.0,
     "gravity" : 9.807,
     "submerged_unit_soil_weight_for_sand_gamma_s" : 13.5,
+
+    # constant value for free span analysis
+
+    "Fixed_Fixed": 4.73,
+    "Pinned_Pinned": 3.14,
+    "Fixed_Pinned": 3.93,
+    "Steel_density": 7850,
+    "Concrete_Density": 3040,
+    "Water_Density": 1030,
+    "Youngs_Modulus": 2.07 * 10**11,
+    "Yield_Strength": 450,
 }
 
 caseOption = {
@@ -56,3 +67,5 @@ def get_all_inputs():
 
 def get_required_inputs(module):
     return requiredInputMap.get(module, [])
+
+

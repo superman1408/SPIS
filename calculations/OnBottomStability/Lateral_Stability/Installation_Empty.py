@@ -8,7 +8,7 @@ __version__ = "Lateral Stability Installation version: 0.0.1"
 print(__version__)
 
 
-def lateralStability_installation(frontendData):
+def lateralStability_installation(frontendData):    
     print("------------------------------------------Lateral Stability Installation---------------------------------------")
     try:
         # -----------------------------PIPELINE INPUTS DATA ----------------------------------------------

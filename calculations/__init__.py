@@ -3,7 +3,7 @@ from .OnBottomStability.Lateral_Stability.Operation_ContentFilled import lateral
 from .OnBottomStability.Vertical_Stability.Installation_Empty import verticalStability_installationEmpty
 from .OnBottomStability.Vertical_Stability.Operation_ContentFilled import verticalStability_operationContentFilled
 from .OnBottomStability.Vertical_Stability.Operation_ShutDown import verticalStability_operationShutDown
-
+from .FatfreeFreeSpan.FreeSpan.FatfreeFreeSpanAnalysis import freeSpan_Analysis_calculation
 
 __version__ = "0.0.1"
 
@@ -15,5 +15,6 @@ __all__ = [
     verticalStability_installationEmpty,
     verticalStability_operationContentFilled,
     verticalStability_operationShutDown,
+    freeSpan_Analysis_calculation
 ]
 

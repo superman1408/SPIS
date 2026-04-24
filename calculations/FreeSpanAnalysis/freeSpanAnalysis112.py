@@ -1,4 +1,6 @@
 import math
+from utils import constant
+
 
 
 class FreeSpanSolver:

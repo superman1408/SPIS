@@ -27,6 +27,8 @@ from calculations import (
     verticalStability_operationShutDown
 )
 
+# from calculations import freeSpan_Analysis_calculation
+
 class CalculationWorker(QThread):
     progress = pyqtSignal(int)
     finished = pyqtSignal(object, str)  # result + analysis_type

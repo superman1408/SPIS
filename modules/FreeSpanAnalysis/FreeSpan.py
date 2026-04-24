@@ -10,6 +10,10 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
+from datetime import datetime
+
+from calculations import freeSpan_Analysis_calculation
+
 
 __version__ = "0.0.1"
 print(f"Loading On Free Span Analysis module version {__version__}...")
@@ -62,6 +66,8 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 932, 231))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.label_SteelArea = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_SteelArea.setGeometry(10, 10, 300, 30)  # adjust as needed
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.RESULT_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -344,6 +350,95 @@ class Ui_MainWindow(object):
         self.actionExit.triggered.connect(MainWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.Run_pushButton.clicked.connect(self.inputData)
+
+    def inputData(self):
+        print("This function is working")
+
+        frontendData = {
+            "Assumed_Span_Length" : float(self.Span_Length_lineEdit.text()),
+            "Outer_Diameter" : float(self.Outer_diameter_lineEdit.text()),
+            "Coating_Density" : float(self.Coating_Dessity_lineEdit.text()),
+            "Wall_Thickness" : float(self.Wall_thickness_lineEdit.text()),
+            "Coating_Thickness" : float(self.Coating_thickness_lineEdit.text()),
+            "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
+            "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
+            "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text())
+
+
+        }
+
+        print(frontendData)
+        result = freeSpan_Analysis_calculation(frontendData)
+        self.displayFreespanResults(result)
+
+    def displayFreespanResults(self, result):
+        self.Result_textEdit.clear()
+
+        try:
+
+            if "error" in result:
+                self.Result_textEdit.setText(result["error"])
+            else:
+                now = datetime.now().strftime("%d %b %Y | %I:%M:%S %p")
+
+                 # HEADER
+                self.Result_textEdit.append("========== FREE SPAN ANALYSIS ==========\n")
+                self.Result_textEdit.append(f"Result Updated: {now}")
+                self.Result_textEdit.append("Version: 0.0.1\n")
+
+
+                # Unpack tuples
+                D_fat, SN, cycles = result['fatigue']
+                allowable, unity = result['Ultimate_Limit_State']
+                
+
+                # GEOMETRY
+                self.Result_textEdit.append("----- PIPE GEOMETRY -----")
+                self.Result_textEdit.append(f"Steel Area                          : {result['Steel_Area']:.3f}")
+                self.Result_textEdit.append(f"Outer Dia (Coated)                  : {result['Outer_Diameter_after_Coating']:.3f}")
+                self.Result_textEdit.append(f"Outer Dia (Concrete)                : {result['Outer_Diameter_after_Concrete']:.3f}")
+                self.Result_textEdit.append(f"Total Outer Diameter                : {result['Outer_Diameter_including_coating_concrete']:.3f}\n")
+
+                # MASS & FORCES
+                self.Result_textEdit.append("----- MASS & FORCES -----")
+                self.Result_textEdit.append(f"Submerged Mass                      : {result['Submerged_Mass']:.3f}")
+                self.Result_textEdit.append(f"Submerged Weight                    : {result['Submerged_Weight']:.3f}")
+                self.Result_textEdit.append(f"Buoyancy                            : {result['Buoyancy']:.3f}")
+                self.Result_textEdit.append(f"Total Mass                          : {result['Total']:.3f}\n")
+
+                # STRUCTURAL
+                self.Result_textEdit.append("----- STRUCTURAL RESPONSE -----")
+                self.Result_textEdit.append(f"Bending Stiffness (I)               : {result['Bending_Stiffness']:.3f}")
+                self.Result_textEdit.append(f"Flexural Rigidity (EI)              : {result['Bending_Stiffness_EI']:.3f}")
+                self.Result_textEdit.append(f"Deflection                          : {result['Deflection']:.3f}")
+                self.Result_textEdit.append(f"Bending Moment                      : {result['Bending_Stress_Moment']:.3f}\n")
+
+                # FLOW
+                self.Result_textEdit.append("----- HYDRODYNAMICS -----")
+                self.Result_textEdit.append(f"Flow Regime                         : {result['Flow_Regime']:.3f}")
+                self.Result_textEdit.append(f"Reduced Velocity                    : {result['Reduced_Velocity']:.3f}\n")
+
+                # FATIGUE
+                self.Result_textEdit.append("----- FATIGUE ANALYSIS -----")
+                self.Result_textEdit.append(f"Fatigue Damage                      : {D_fat:.3f}")
+                self.Result_textEdit.append(f"SN Curve Life (N)                   : {SN:.3e}")
+                self.Result_textEdit.append(f"Number of Cycles                    : {cycles:.3e}\n")
+
+                # ULTIMATE
+                self.Result_textEdit.append("----- ULTIMATE LIMIT STATE -----")
+                self.Result_textEdit.append(f"Allowable Stress                    : {allowable:.3f}")
+                self.Result_textEdit.append(f"Unity Check                         : {unity:.3f}\n")
+
+                # FOOTER
+                self.Result_textEdit.append("======================================")
+                self.Result_textEdit.append("© 2026 ASHKAM Energy Pvt. Ltd.")
+                        
+        except Exception as e:
+
+            print("Error", e)
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "FreeSpan Analysis"))
@@ -412,6 +507,7 @@ class Ui_MainWindow(object):
 #     sys.exit(app.exec_())
 
 class FreeSpanAnalysis(QMainWindow):
+
     def __init__(self):
         super().__init__()
 
