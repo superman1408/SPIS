@@ -109,12 +109,24 @@ def freeSpan_Analysis_calculation(frontendData):
             print(f"L/D Ratio = {Assumed_Span_Length_by_Outer_Diameter}")
 
             if Assumed_Span_Length_by_Outer_Diameter < 140:
-                print("PASS")
+                L_by_D_check = "PASS"
+                
             else:
-                print("FAIL")
+                L_by_D_check = "FAIL"
+
+            return L_by_D_check
 
         
-        LD_Check()
+        # ✅ ADD THIS BLOCK HERE
+        ld_result = LD_Check()
+
+        if ld_result == "FAIL":
+            ld_resultStatus = "L/D failed stopping further calculations"
+
+            return {
+                "LD_Check": "FAIL",
+                "message": "L/D ratio not acceptable as L/D < 140. No further calculations done."
+            }
 
         def Steel_Area():
             Steel_Area = math.pi/4 * ((PipeGeometry["Outer_Diameter"])**2-(PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**2)
@@ -437,6 +449,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
 
         result = {
+            "LD_Check" : LD_Check(),
             "Steel_Area" : Steel_Area(),
             "Outer_Diameter_after_Coating" : Outer_Diameter_after_Coating(),
             "Submerged_Mass" : Submerged_Mass(),

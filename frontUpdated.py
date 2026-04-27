@@ -57,7 +57,7 @@ class MainSoftware(QMainWindow):
         self.label_Title.setPixmap(QtGui.QPixmap("assets\\SPIS_LOGO.png"))
         self.label_Title.setScaledContents(True)
         self.label_Title.setWordWrap(True)
-        self.label_Title.setObjectName("label_Title")
+        self.label_Title.setObjectName("label_Title")                     
         self.gridLayout_2.addWidget(self.label_Title, 2, 0, 1, 1)
         
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -123,7 +123,7 @@ class MainSoftware(QMainWindow):
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_onbottom.setIcon(icon2)
-        self.pushButton_onbottom.setIconSize(QtCore.QSize(50, 40))
+        self.pushButton_onbottom.setIconSize(QtCore.QSize(50, 40))  
         self.pushButton_onbottom.setCheckable(False)
         self.pushButton_onbottom.setAutoDefault(False)
         self.pushButton_onbottom.setDefault(False)

@@ -374,8 +374,28 @@ class Ui_MainWindow(object):
 
     def displayFreespanResults(self, result):
         self.Result_textEdit.clear()
+        
 
         try:
+
+            self.L_by_D_check.setText("L/D Check")
+
+            status = result["LD_Check"]
+            color = "green" if status == "PASS" else "red"
+            self.L_by_D_check.setText(f"L/D ratio:  {status}")
+
+            self.L_by_D_check.setStyleSheet(f"""
+            color: white;
+            background-color: {color};
+            padding: 3px;
+            border-radius: 6px;
+            font-weight: bold;
+        """)
+
+        
+            if status == "FAIL":
+                self.Result_textEdit.setText(result.get("message", "L/D ratio not acceptable as L/D < 140. No further calculations done"))
+                return
 
             if "error" in result:
                 self.Result_textEdit.setText(result["error"])

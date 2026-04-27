@@ -30,7 +30,6 @@ from calculations import verticalStability_operationShutDown
 import webbrowser
 from PyQt5.QtWidgets import QMessageBox
 from utils import caseOption, get_all_inputs, get_required_inputs
-from modules.PipelineOnBottomStability.features.save_load import save_inputs, load_inputs_mapped
 from utils import save_inputs, load_inputs_mapped, generate_report
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 import json
