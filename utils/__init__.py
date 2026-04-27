@@ -1,6 +1,6 @@
 from .helper_function import mm_To_m, m_To_mm
 from .constant_Variables import constant, caseOption, get_all_inputs, get_required_inputs
-from .tool_Bar_Controls import new_file, open_file, save_file_as, generate_report, show_whats_new, show_documentation, reset_all_inputs, open_screen
+from .tool_Bar_Controls import save_inputs, load_inputs_mapped, new_file, open_file, save_file_as, generate_report, show_whats_new, show_documentation, reset_all_inputs, open_screen
 from .DialogueBox.WhatsNewScreen import WhatsNewScreen
 from .DialogueBox.DocumentationScreen import DocumentationScreen
 
@@ -17,6 +17,8 @@ __all__ = [
     "m_To_mm",
     "constant",
     "caseOption",
+    "save_inputs",
+    "load_inputs_mapped",
     "new_file",
     "open_file",
     "save_file_as",
