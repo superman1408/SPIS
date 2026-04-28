@@ -14,6 +14,9 @@ from datetime import datetime
 
 from calculations import freeSpan_Analysis_calculation
 
+from utils import save_inputs, load_inputs_mapped, generate_report
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
+
 
 __version__ = "0.0.1"
 print(f"Loading On Free Span Analysis module version {__version__}...")
@@ -303,13 +306,15 @@ class Ui_MainWindow(object):
         icon2.addPixmap(QtGui.QPixmap("E:/SPIS/assets/open.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionOpen.setIcon(icon2)
         self.actionOpen.setObjectName("actionOpen")
-        self.actionSave = QtWidgets.QAction(MainWindow)
+        # self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave_As = QtWidgets.QAction(MainWindow)
+        self.actionSave_As.setCheckable(True)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("E:/SPIS/assets/save_as.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionSave.setIcon(icon3)
-        self.actionSave.setObjectName("actionSave")
-        self.actionSave_As = QtWidgets.QAction(MainWindow)
+        self.actionSave_As.setIcon(icon3)
         self.actionSave_As.setObjectName("actionSave_As")
+        # self.actionSave_As = QtWidgets.QAction(MainWindow)
+        # self.actionSave_As.setObjectName("actionSave_As")
         self.actionExit = QtWidgets.QAction(MainWindow)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("E:/SPIS/assets/close.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -335,7 +340,7 @@ class Ui_MainWindow(object):
         self.actionGenerate_Report.setObjectName("actionGenerate_Report")
         self.menuFile.addAction(self.actionNew)
         self.menuFile.addAction(self.actionOpen)
-        self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionSave_As)
         self.menuFile.addAction(self.actionExit)
         self.menuEdit.addAction(self.actionReset)
         self.menuReport.addAction(self.actionGenerate_Report)
@@ -346,11 +351,42 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuReport.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
+
+        self.input_fields = {
+           "Project_Name" : self.Project_lineEdit,
+           "Project Code ": self.Project_Code_lineEdit,
+           "Span Length" : self.Span_Length_lineEdit,
+           "Outer Diameter" : self.Outer_diameter_lineEdit,
+           "Coating Density" : self.Coating_Dessity_lineEdit,
+           "Wall Thickness" : self.Wall_thickness_lineEdit,
+           "Coating Thickness" : self.Coating_thickness_lineEdit,
+           "Concrete Thickness" : self.Concrete_thickness_lineEdit,
+           "Current Velocity" : self.Current_Velocity_lineEdit,
+           "Wave Velocity" : self.Wave_velocity_lineEdit,
+        }
+
         self.retranslateUi(MainWindow)
         self.actionExit.triggered.connect(MainWindow.close) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.Run_pushButton.clicked.connect(self.inputData)
+
+
+
+#--------------------------------------------------Functions are from here--------------------------------------------------------------
+
+         # Menu bar functions
+        self.actionReset.triggered.connect(self.reset_all)
+        self.actionSave_As.triggered.connect(self.save_As)
+        self.actionOpen.triggered.connect(self.openFile)
+        self.actionGenerate_Report.triggered.connect(self.generate_report)
+        self.actionDocumentation.triggered.connect(self.open_documentation)
+        self.actionWhat_s_New.triggered.connect(self.open_whats_new)
+        
+        self.open_windows = []
+
+
+
 
     def inputData(self):
         print("This function is working")
@@ -459,6 +495,136 @@ class Ui_MainWindow(object):
             print("Error", e)
 
 
+    def reset_all(self, MainWindow):
+        print("Started Resetting all inputs now.............WAIT!")
+        try:
+
+            # Reset all input fields
+            self.Project_lineEdit.clear()
+            self.Project_Code_lineEdit.clear()
+            self.Span_Length_lineEdit.clear()
+            self.Outer_diameter_lineEdit.clear()
+            self.Coating_Dessity_lineEdit.clear()
+            self.Wall_thickness_lineEdit.clear()
+            self.Coating_thickness_lineEdit.clear()
+            self.Wave_velocity_lineEdit.clear()
+            self.Current_Velocity_lineEdit.clear()
+            self.Concrete_thickness_lineEdit.clear()
+
+            self.Result_textEdit.clear()
+
+           
+            print("Resetting completed successfully!")
+        except Exception as e:
+            print(f"Error during reset: {e}")
+            print("Resetting failed. Please try again.")
+    
+
+
+    # Function for saving the inputs
+
+    def save_As(self):
+        try:
+
+            file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                None, "Save File", "", "JSON Files (*.json)"
+            )
+            if not file_path:
+                return
+
+            if save_inputs(self.input_fields, file_path):
+                print("Saved successfully")
+            else:
+                print("Save failed")
+
+        except Exception as e:
+            print("error",e)
+
+
+
+      # Function for opening the saved inputs
+
+    def openFile(self):
+        try:
+
+            file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
+                None, "Open File", "", "JSON Files (*.json)"
+            )
+            if not file_path:
+                return
+
+            if load_inputs_mapped(file_path, self.input_fields):
+                print("Loaded successfully")
+            else:
+                print("Load failed")
+        except Exception as e:
+            print("error", e)
+
+
+
+    def generate_report(self):
+
+        try:
+            def extract(widget):
+                if isinstance(widget, QtWidgets.QLineEdit):
+                    return widget.text()
+                elif isinstance(widget, QtWidgets.QComboBox):
+                    return widget.currentText()
+                elif isinstance(widget, QtWidgets.QLabel):
+                    return widget.text()
+                return ""
+
+            generated_by, verified_by = self.get_user_info()
+
+            if not generated_by:
+                print("User cancelled")
+                return
+            
+            inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
+            outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
+
+            print(outputs)
+
+            file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
+                None, "Save Report", "", "PDF Files (*.pdf)"
+            )
+
+            if not file_path:
+                return
+
+            success = generate_report(inputs, outputs, file_path, generated_by, verified_by)
+
+            if success:
+                QtWidgets.QMessageBox.information(None, "Success", "PDF Report generated successfully ✅")
+            else:
+                QtWidgets.QMessageBox.critical(None, "Failed", "Report generation failed ❌")
+
+        except Exception as e:
+            print("Error:", e)
+            QtWidgets.QMessageBox.critical(None, "Error", "Error generating report ❌")
+
+
+
+
+    def open_documentation(self):
+        print("Documentation functionality is initialized")
+        self.result_display_label.setText("Documentation functionality is not implemented yet.")
+        """Displays application documentation."""
+        print("Action: Documentation")
+        screen = open_screen(DocumentationScreen)
+        self.open_windows.append(screen)
+
+
+
+    def open_whats_new(self):
+        print("What's New functionality is initialized")
+        self.result_display_label.setText("What's New functionality is not implemented yet.")
+        screen = open_screen(WhatsNewScreen)
+        self.open_windows.append(screen)       
+
+
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "FreeSpan Analysis"))
@@ -505,9 +671,10 @@ class Ui_MainWindow(object):
         self.actionNew.setShortcut(_translate("MainWindow", "Ctrl+N"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.actionSave.setText(_translate("MainWindow", "Save As"))
-        self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
-        self.actionSave_As.setText(_translate("MainWindow", "ctrl + S"))
+        # self.actionSave.setText(_translate("MainWindow", "Save As"))
+        # self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
+        self.actionSave_As.setText(_translate("MainWindow", "Save As"))
+        self.actionSave_As.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
         self.actionReset.setText(_translate("MainWindow", "Reset"))
@@ -515,6 +682,8 @@ class Ui_MainWindow(object):
         self.actionWhat_s_New.setText(_translate("MainWindow", "What\'s New"))
         self.actionDocumentation.setText(_translate("MainWindow", "Documentation"))
         self.actionGenerate_Report.setText(_translate("MainWindow", "Generate Report"))
+
+
 
 
 # if __name__ == "__main__":
