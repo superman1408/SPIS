@@ -608,7 +608,7 @@ class Ui_MainWindow(object):
 
     def open_documentation(self):
         print("Documentation functionality is initialized")
-        self.result_display_label.setText("Documentation functionality is not implemented yet.")
+        self.Result_textEdit.setText("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
         screen = open_screen(DocumentationScreen)
@@ -618,7 +618,7 @@ class Ui_MainWindow(object):
 
     def open_whats_new(self):
         print("What's New functionality is initialized")
-        self.result_display_label.setText("What's New functionality is not implemented yet.")
+        self.Result_textEdit.setText("What's New functionality is not implemented yet.")
         screen = open_screen(WhatsNewScreen)
         self.open_windows.append(screen)       
 

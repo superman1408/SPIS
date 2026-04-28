@@ -15,7 +15,6 @@ global_app_info = {
 
 __version__ = "0.0.1"
 print(f"Loading Pipeline Crossing Simulation module version {__version__}...")
-
 class PipelineSimulationApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
