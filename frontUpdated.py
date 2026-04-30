@@ -475,6 +475,8 @@ class MainSoftware(QMainWindow):
                     QTableWidgetItem(str(data))
                 )
 
+                
+
 
 # if __name__ == "__main__":
 #     app = QtWidgets.QApplication(sys.argv)
@@ -503,3 +505,4 @@ if __name__ == "__main__":
     splash.show()
 
     sys.exit(app.exec_())
+

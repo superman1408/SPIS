@@ -11,10 +11,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from datetime import datetime
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import math
 
 from calculations import freeSpan_Analysis_calculation
 
-from utils import save_inputs, load_inputs_mapped, generate_report
+from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
 
 
@@ -22,11 +25,24 @@ __version__ = "0.0.1"
 print(f"Loading On Free Span Analysis module version {__version__}...")
 
 
+class SNGraphCanvas(FigureCanvas):
+    def __init__(self, parent=None):
+        self.figure = Figure(figsize=(5, 3))  # 👈 controls proportion
+        self.ax = self.figure.add_subplot(111)
+        super().__init__(self.figure)
+
+        # Allow resizing
+        self.setSizePolicy(
+            QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Expanding
+        )
+
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(998, 716)
+        MainWindow.resize(1000, 716)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../DPR-Pashupatinath/images/18.03.2026/Freespan.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -89,10 +105,23 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addItem(spacerItem, 0, 1, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_5.addWidget(self.scrollArea, 3, 0, 1, 2)
-        self.graphicsView = QtWidgets.QGraphicsView(self.groupBox_2)
-        self.graphicsView.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.graphicsView.setObjectName("graphicsView")
-        self.gridLayout_5.addWidget(self.graphicsView, 2, 1, 1, 1)
+
+        self.sn_canvas = SNGraphCanvas(self.groupBox_2)
+        self.sn_canvas.setStyleSheet("background-color: white;")
+        self.gridLayout_5.addWidget(self.sn_canvas, 2, 1, 1, 1, QtCore.Qt.AlignTop)
+        # Balance layout properly
+        self.gridLayout_5.setColumnStretch(0, 1)
+        self.gridLayout_5.setColumnStretch(1, 1)
+
+        self.gridLayout_5.setRowStretch(0, 0)
+        self.gridLayout_5.setRowStretch(1, 0)
+        self.gridLayout_5.setRowStretch(2, 1)  # 👈 graph row
+        self.gridLayout_5.setRowStretch(3, 1)
+
+
+        # self.graphicsView.setStyleSheet("background-color: rgb(255, 255, 255);")
+        # self.graphicsView.setObjectName("graphicsView")
+        # self.gridLayout_5.addWidget(self.graphicsView, 2, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(336, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_5.addItem(spacerItem1, 1, 1, 1, 1)
         self.groupBox_4 = QtWidgets.QGroupBox(self.groupBox_2)
@@ -370,6 +399,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.Run_pushButton.clicked.connect(self.inputData)
+        self.ShowMore_pushButton.clicked.connect(self.open_summary_result)
 
 
 
@@ -489,6 +519,10 @@ class Ui_MainWindow(object):
                 # FOOTER
                 self.Result_textEdit.append("======================================")
                 self.Result_textEdit.append("© 2026 ASHKAM Energy Pvt. Ltd.")
+
+
+                self.plot_SN_curve(result)
+                print("SN DATA:", result.get("SN_curve"))
                         
         except Exception as e:
 
@@ -622,6 +656,65 @@ class Ui_MainWindow(object):
         screen = open_screen(WhatsNewScreen)
         self.open_windows.append(screen)       
 
+
+    def plot_SN_curve(self, result):
+
+        try:
+            sn_data = result.get("SN_curve", [])
+            stress_range = result.get("Stress_Range", {})
+
+            if not sn_data:
+                return
+
+            self.sn_canvas.ax.clear()
+
+            stress = [point[0] for point in sn_data]
+            cycles = [point[1] for point in sn_data]
+
+            self.sn_canvas.ax.plot(stress, cycles, marker='o')
+
+            # 🔥 KEY: Prevent stretching
+            self.sn_canvas.ax.set_box_aspect(0.6)
+
+            # Log scale
+            self.sn_canvas.ax.set_yscale('log')
+
+            # Controlled margins
+            self.sn_canvas.ax.margins(x=0.05, y=0.1)
+
+            # Limits
+            self.sn_canvas.ax.set_xlim(min(stress)*0.9, max(stress)*1.1)
+            self.sn_canvas.ax.set_ylim(min(cycles)*0.8, max(cycles)*1.2)
+
+            self.sn_canvas.ax.set_xlabel("Stress Range (MPa)")
+            self.sn_canvas.ax.set_ylabel("Number of Cycles (N)")
+            self.sn_canvas.ax.set_title("S-N Curve")
+            self.sn_canvas.ax.grid(True)
+
+            # Operating point
+            if stress_range:
+                actual_stress = stress_range.get("Stress", None)
+                if actual_stress:
+                    sn_value = result["fatigue"][1]
+
+                    self.sn_canvas.ax.scatter(
+                        actual_stress,
+                        sn_value,
+                        color='red',
+                        label='Operating Point'
+                    )
+                    self.sn_canvas.ax.legend()
+
+            self.sn_canvas.figure.tight_layout()
+            self.sn_canvas.draw()
+
+        except Exception as e:
+            print("Graph Error:", e)
+
+
+    def open_summary_result(self):
+        print("Summary Result part is initialized")
+        
 
 
 

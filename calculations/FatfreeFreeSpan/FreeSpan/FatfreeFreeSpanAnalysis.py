@@ -350,7 +350,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
             print("f_n", f_n)
 
-            return f_n
+            return f_n                                                                                        
 
         Natural_Frequency_fn()
 
@@ -470,7 +470,9 @@ def freeSpan_Analysis_calculation(frontendData):
             "Deflection" : Deflection(),
             "Total_Outer_Area" : Total_Outer_Area(),
             "Bending_Stress_Moment" : Bending_Stress_Moment(),
-            "Ultimate_Limit_State" : Ultimate_Limit_State()
+            "Ultimate_Limit_State" : Ultimate_Limit_State(),
+            "SN_curve": SN_curve,
+            "Stress_Range": Stress_Range
         }
 
 
