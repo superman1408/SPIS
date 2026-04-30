@@ -320,7 +320,7 @@ def freeSpan_Analysis_calculation(frontendData):
         else:
             print("UNSAFE")
 
-
+ 
 
         #step 7
 

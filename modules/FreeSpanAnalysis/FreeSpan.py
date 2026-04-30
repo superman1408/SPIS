@@ -544,6 +544,10 @@ class Ui_MainWindow(object):
             self.Wave_velocity_lineEdit.clear()
             self.Current_Velocity_lineEdit.clear()
             self.Concrete_thickness_lineEdit.clear()
+            self.Pipeline_Grade_comboBox.clear()
+            self.Boundary_condition_comboBox.clear()
+            self.L_by_D_check.clear()
+            # self.L_by_D_check.setStyleSheet()
 
             self.Result_textEdit.clear()
 
@@ -642,7 +646,7 @@ class Ui_MainWindow(object):
 
     def open_documentation(self):
         print("Documentation functionality is initialized")
-        self.result_display_label.setText("Documentation functionality is not implemented yet.")
+        self.Result_textEdit.setText("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
         screen = open_screen(DocumentationScreen)
@@ -652,7 +656,7 @@ class Ui_MainWindow(object):
 
     def open_whats_new(self):
         print("What's New functionality is initialized")
-        self.result_display_label.setText("What's New functionality is not implemented yet.")
+        self.Result_textEdit.setText("What's New functionality is not implemented yet.")
         screen = open_screen(WhatsNewScreen)
         self.open_windows.append(screen)       
 
