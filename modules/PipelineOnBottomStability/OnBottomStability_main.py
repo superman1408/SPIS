@@ -1303,6 +1303,7 @@ class Ui_MainWindow(object):
         else:
             return None, None
 
+
     def generate_report(self):
 
         
