@@ -100,6 +100,7 @@ class Ui_MainWindow(object):
         self.Result_textEdit = QtWidgets.QTextEdit(self.scrollAreaWidgetContents)
         self.Result_textEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.Result_textEdit.setObjectName("Result_textEdit")
+        self.Result_textEdit.setReadOnly(True)  # Make it read-only
         self.gridLayout_2.addWidget(self.Result_textEdit, 1, 0, 1, 2)
         spacerItem = QtWidgets.QSpacerItem(829, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_2.addItem(spacerItem, 0, 1, 1, 1)
