@@ -17,8 +17,8 @@ import math
 
 from calculations import freeSpan_Analysis_calculation
 
-from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
-from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
+# from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, open_screen
 
 
 __version__ = "0.0.1"
@@ -327,7 +327,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionNew = QtWidgets.QAction(MainWindow)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("E:/SPIS/assets/new.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("assets/new.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionNew.setIcon(icon1)
         self.actionNew.setObjectName("actionNew")
         self.actionOpen = QtWidgets.QAction(MainWindow)
@@ -434,7 +434,7 @@ class Ui_MainWindow(object):
 
         }
 
-        print(frontendData)
+        # print(frontendData)
         result = freeSpan_Analysis_calculation(frontendData)
         self.displayFreespanResults(result)
 
@@ -621,7 +621,7 @@ class Ui_MainWindow(object):
             inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
             outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
-            print(outputs)
+            # print(outputs)
 
             file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
                 None, "Save Report", "", "PDF Files (*.pdf)"
@@ -718,6 +718,8 @@ class Ui_MainWindow(object):
 
     def open_summary_result(self):
         print("Summary Result part is initialized")
+        screen = open_screen()
+        self.open_windows.append(screen)
         
 
 
