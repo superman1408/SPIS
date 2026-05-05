@@ -1303,6 +1303,7 @@ class Ui_MainWindow(object):
         else:
             return None, None
 
+
     def generate_report(self):
 
         
@@ -1421,7 +1422,7 @@ class Ui_MainWindow(object):
         self.open_windows.append(screen)
 
         
-    
+        
     
     def open_whats_new(self):
         print("What's New functionality is initialized")
