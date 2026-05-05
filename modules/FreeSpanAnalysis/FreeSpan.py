@@ -19,6 +19,7 @@ from calculations import freeSpan_Analysis_calculation
 
 from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
+from utils import generate_report
 
 
 __version__ = "0.0.1"
@@ -438,6 +439,8 @@ class Ui_MainWindow(object):
         result = freeSpan_Analysis_calculation(frontendData)
         self.displayFreespanResults(result)
 
+        
+
     def displayFreespanResults(self, result):
         self.Result_textEdit.clear()
         
@@ -599,6 +602,7 @@ class Ui_MainWindow(object):
             print("error", e)
 
 
+    # function for genrated by & verified by input 
     def get_user_info(self):
         dialog = QtWidgets.QDialog()
         dialog.setWindowTitle("Enter Report Details")
@@ -746,7 +750,6 @@ class Ui_MainWindow(object):
     def open_summary_result(self):
         print("Summary Result part is initialized")
         
-
 
 
     def retranslateUi(self, MainWindow):
