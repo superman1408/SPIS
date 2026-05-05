@@ -497,7 +497,8 @@ class Ui_MainWindow(object):
                 self.Result_textEdit.append("----- STRUCTURAL RESPONSE -----")
                 self.Result_textEdit.append(f"Bending Stiffness (I)               : {result['Bending_Stiffness']:.3f}")
                 self.Result_textEdit.append(f"Flexural Rigidity (EI)              : {result['Bending_Stiffness_EI']:.3f}")
-                self.Result_textEdit.append(f"Deflection                          : {result['Deflection']:.3f}")
+                self.Result_textEdit.append(f"Deflection Value                    : {result['Deflection_value']:.3f}")
+                self.Result_textEdit.append(f"Deflection Status                   : {result['Deflection_status']:.3f}")
                 self.Result_textEdit.append(f"Bending Moment                      : {result['Bending_Stress_Moment']:.3f}\n")
 
                 # FLOW

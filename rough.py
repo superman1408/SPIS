@@ -114,8 +114,6 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 L_by_D_check = "FAIL"
 
-            print("L_by_D_check", L_by_D_check)
-
             return L_by_D_check
 
         
@@ -136,7 +134,6 @@ def freeSpan_Analysis_calculation(frontendData):
             return Steel_Area
 
         Steel_Area()
-
 
         def Outer_Diameter_including_coating_concrete():
             D_Outer = 1.0668 + 2 * (0.0042 + 0.06)
@@ -273,13 +270,11 @@ def freeSpan_Analysis_calculation(frontendData):
             
 
             if delta < 25:
-                Deflection_result = "PASS"
+                print("PASS")
             else:
-                Deflection_result = "FAIL"
+                print("FAIL")
 
-            print("Deflection_result", Deflection_result)
-
-            return delta, Deflection_result
+            return delta
 
 
         Deflection()
@@ -316,7 +311,7 @@ def freeSpan_Analysis_calculation(frontendData):
             print("rho:", rho)
             return rho
 
-       
+        Stress_rho()
 
         Srho = Stress_rho()
 
@@ -324,15 +319,6 @@ def freeSpan_Analysis_calculation(frontendData):
             print("SAFE")
         else:
             print("UNSAFE")
-
-
-
-            # print("BendingStress_Result", BendingStress_Result)
-
-            # return BendingStress_Result
-
-
-        Stress_rho()
 
  
 
@@ -386,8 +372,6 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 print("Mixed")
 
-            # print("Flow_Regime_result", Flow_Regime_result)
-
             return alpha
 
         Flow_Regime()
@@ -420,28 +404,25 @@ def freeSpan_Analysis_calculation(frontendData):
         #step 10 
 
         def fatigue():
-            For_100_years_design = 100 * 365 * 24 * 3600
+                For_100_years_design = 100 * 365 * 24 * 3600
 
-            fn = Natural_Frequency_fn()
-            Number_of_cycle_n = fn * For_100_years_design
+                fn = Natural_Frequency_fn()
+                Number_of_cycle_n = fn * For_100_years_design
 
-            SN_Curve_for_N = get_SN_value(Stress_from_curvature)
+                SN_Curve_for_N = get_SN_value(Stress_from_curvature)
 
-            print("SN_Curve_for_N :", SN_Curve_for_N)
+                print("SN_Curve_for_N :", SN_Curve_for_N)
 
-            D_fat = Number_of_cycle_n / SN_Curve_for_N
+                D_fat = Number_of_cycle_n / SN_Curve_for_N
 
-            print("D_fat :", D_fat)
+                print("D_fat :", D_fat)
 
-            if D_fat > 1:
-                print("Fatigue Damage : FAIL")
-            else:
-                print("Fatigue Damage : PASS")
+                if D_fat > 1:
+                    print("Fatigue Damage : FAIL")
+                else:
+                    print("Fatigue Damage : PASS")
 
-
-            # print("Fatigue_result",Fatigue_result)
-
-            return D_fat, SN_Curve_for_N, Number_of_cycle_n
+                return D_fat, SN_Curve_for_N, Number_of_cycle_n
         
         fatigue()
 
@@ -461,16 +442,9 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 print("UNSAFE")
 
-
-            # print("ULS_result", ULS_result)
-
             return Allowable_Stress, Unity_check
 
         Ultimate_Limit_State()
-
-
-
-        delta, def_status = Deflection()
 
 
 
@@ -493,8 +467,7 @@ def freeSpan_Analysis_calculation(frontendData):
             "fatigue" : fatigue(),
             "Outer_Diameter_including_coating_concrete" : Outer_Diameter_including_coating_concrete(),
             "Buoyancy" : Buoyancy(),
-            "Deflection_value" : delta,
-            "Deflection_status": def_status,
+            "Deflection" : Deflection(),
             "Total_Outer_Area" : Total_Outer_Area(),
             "Bending_Stress_Moment" : Bending_Stress_Moment(),
             "Ultimate_Limit_State" : Ultimate_Limit_State(),
@@ -503,7 +476,7 @@ def freeSpan_Analysis_calculation(frontendData):
         }
 
 
-        # print("result", result)
+        print("result", result)
 
         return result
 
