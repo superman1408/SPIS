@@ -114,6 +114,8 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 L_by_D_check = "FAIL"
 
+            print("L_by_D_check", L_by_D_check)
+
             return L_by_D_check
 
         
@@ -134,6 +136,7 @@ def freeSpan_Analysis_calculation(frontendData):
             return Steel_Area
 
         Steel_Area()
+
 
         def Outer_Diameter_including_coating_concrete():
             D_Outer = 1.0668 + 2 * (0.0042 + 0.06)
@@ -270,14 +273,18 @@ def freeSpan_Analysis_calculation(frontendData):
             
 
             if delta < 25:
-                print("PASS")
+                Deflection_result = "PASS"
             else:
-                print("FAIL")
+                Deflection_result = "FAIL"
 
-            return delta
+            print("Deflection_result", Deflection_result)
+
+            return delta, Deflection_result
 
 
         Deflection()
+
+        delta, def_status = Deflection()
 
 
         # step 6
@@ -309,16 +316,29 @@ def freeSpan_Analysis_calculation(frontendData):
             rho = (M / Z) / 10**6           # σ = M / Z
             
             print("rho:", rho)
-            return rho
+            # return rho
+
+       
+
+            # Srho = Stress_rho()
+
+            if 10 <= rho <= 100 :
+                BendingStress_Result = "SAFE"
+            else:
+                BendingStress_Result = "UNSAFE"
+
+
+
+            print("BendingStress_Result", BendingStress_Result)
+
+            return rho, BendingStress_Result
+
 
         Stress_rho()
 
-        Srho = Stress_rho()
 
-        if 10 <= Srho <= 100 :
-            print("SAFE")
-        else:
-            print("UNSAFE")
+        stress_rho, BendingStress_Result = Stress_rho()
+
 
  
 
@@ -364,17 +384,23 @@ def freeSpan_Analysis_calculation(frontendData):
             
 
             if alpha < 0.5 :
-                print("Wave dominated")
+                Flow_Regime_result = "Wave dominated"
 
             elif alpha >0.8 :
-                print("Current dominated")
+                Flow_Regime_result = "Current dominated"
             
             else:
-                print("Mixed")
+                Flow_Regime_result = "Mixed"
 
-            return alpha
+            # print("Flow_Regime_result", Flow_Regime_result)
+
+            return alpha, Flow_Regime_result
 
         Flow_Regime()
+
+        alpha, Flow_Regime_status = Flow_Regime()
+
+
 
 
 
@@ -384,47 +410,57 @@ def freeSpan_Analysis_calculation(frontendData):
             print("Reduced velocity : ", V_r)
 
             if V_r < 1 :
-                print("No VIV")
+                VIV_result = "No VIV"
 
             elif V_r <= 3 :
-                print("Inline VIV")
+                VIV_result = "Inline VIV"
 
             elif V_r <=8 :
-                print("Cross flow VIV")
+                VIV_result = "Cross flow VIV"
 
             else:
-                print("Severe VIV")
+                VIV_result = "Severe VIV"
 
-            return V_r
+            return V_r, VIV_result
 
         Reduced_Velocity()
+
+        V_r, VIV_result = Reduced_Velocity()
+
+
 
         
 
         #step 10 
 
         def fatigue():
-                For_100_years_design = 100 * 365 * 24 * 3600
+            For_100_years_design = 100 * 365 * 24 * 3600
 
-                fn = Natural_Frequency_fn()
-                Number_of_cycle_n = fn * For_100_years_design
+            fn = Natural_Frequency_fn()
+            Number_of_cycle_n = fn * For_100_years_design
 
-                SN_Curve_for_N = get_SN_value(Stress_from_curvature)
+            SN_Curve_for_N = get_SN_value(Stress_from_curvature)
 
-                print("SN_Curve_for_N :", SN_Curve_for_N)
+            print("SN_Curve_for_N :", SN_Curve_for_N)
 
-                D_fat = Number_of_cycle_n / SN_Curve_for_N
+            D_fat = Number_of_cycle_n / SN_Curve_for_N
 
-                print("D_fat :", D_fat)
+            print("D_fat :", D_fat)
 
-                if D_fat > 1:
-                    print("Fatigue Damage : FAIL")
-                else:
-                    print("Fatigue Damage : PASS")
+            if D_fat > 1:
+                Fatigue_status = "FAIL"
+            else:
+                Fatigue_status = "PASS"
 
-                return D_fat, SN_Curve_for_N, Number_of_cycle_n
+
+            # print("Fatigue_result",Fatigue_result)
+            
+
+            return D_fat, SN_Curve_for_N, Number_of_cycle_n, Fatigue_status
         
         fatigue()
+
+        D_fat, SN_Curve_for_N, Number_of_cycle_n, Fatigue_status = fatigue() 
 
 
         #step11
@@ -433,44 +469,65 @@ def freeSpan_Analysis_calculation(frontendData):
             Allowable_Stress = 0.87 * MaterialProperty["Yield_Strength"]
             print("Allowable_Stress : ", Allowable_Stress)
 
-            Unity_check = Stress_rho() / Allowable_Stress
+            Unity_check = stress_rho / Allowable_Stress
             print("Unity_check : ", Unity_check)
 
             if Unity_check < 1 :
-                print("SAFE")
+                ULS_status = "SAFE"
 
             else:
-                print("UNSAFE")
+                ULS_status = "UNSAFE"
 
-            return Allowable_Stress, Unity_check
+
+            # print("ULS_result", ULS_result)
+
+            return Allowable_Stress, Unity_check, ULS_status
 
         Ultimate_Limit_State()
+
+        Allowable_Stress, Unity_check, ULS_status = Ultimate_Limit_State() 
+
+
+
+        
+        
 
 
 
         result = {
-            "LD_Check" : LD_Check(),
+            "LD_Check" : ld_result,
             "Steel_Area" : Steel_Area(),
             "Outer_Diameter_after_Coating" : Outer_Diameter_after_Coating(),
             "Submerged_Mass" : Submerged_Mass(),
             "Natural_Frequency" : Natural_Frequency(),
             "Outer_Diameter_after_Concrete" : Outer_Diameter_after_Concrete(),
             "Submerged_Weight" : Submerged_Weight(),
-            "Flow_Regime" : Flow_Regime(),
+            "alpha" : alpha,
+            "Flow_Regime_status" : Flow_Regime_status,
             "Coating_Area" : Coating_Area(),
             "Concrete_Coating" : Concrete_Coating(),
             "Bending_Stiffness" : Bending_Stiffness(),
-            "Reduced_Velocity" : Reduced_Velocity(),
+            "Reduced_velocity" : V_r,
+            "VIV_Status" : VIV_result,
             "Concrete_Area" : Concrete_Area(),
             "Total" : Total(),
             "Bending_Stiffness_EI" : Bending_Stiffness_EI(),
-            "fatigue" : fatigue(),
+            "D_fat" : D_fat,
+            "SN_Curve_for_N" : SN_Curve_for_N,
+            "Number_of_cycle_n" : Number_of_cycle_n,
+            "Fatigue_status" : Fatigue_status,
             "Outer_Diameter_including_coating_concrete" : Outer_Diameter_including_coating_concrete(),
             "Buoyancy" : Buoyancy(),
-            "Deflection" : Deflection(),
+            "Deflection_value" : delta,
+            "Deflection_status": def_status,
+            "stress_rho" : stress_rho,
+            "BendingStress_status" : BendingStress_Result,
+            "Flow_Regime_status" : Flow_Regime_status,
             "Total_Outer_Area" : Total_Outer_Area(),
             "Bending_Stress_Moment" : Bending_Stress_Moment(),
-            "Ultimate_Limit_State" : Ultimate_Limit_State(),
+            "Allowable_Stress" : Allowable_Stress,
+            "Unity_check" : Unity_check,
+            "ULS_status" : ULS_status,
             "SN_curve": SN_curve,
             "Stress_Range": Stress_Range
         }
@@ -482,3 +539,5 @@ def freeSpan_Analysis_calculation(frontendData):
 
     except Exception as e:
         print("error: ",e)
+
+

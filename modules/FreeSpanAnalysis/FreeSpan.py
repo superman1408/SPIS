@@ -17,9 +17,11 @@ import math
 
 from calculations import freeSpan_Analysis_calculation
 
-from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
-from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
-from utils import generate_report
+# from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
+# from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, open_screen
+# from utils import generate_report
+# from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
 
 
 __version__ = "0.0.1"
@@ -329,7 +331,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionNew = QtWidgets.QAction(MainWindow)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("E:/SPIS/assets/new.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("assets/new.gif"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionNew.setIcon(icon1)
         self.actionNew.setObjectName("actionNew")
         self.actionOpen = QtWidgets.QAction(MainWindow)
@@ -436,9 +438,13 @@ class Ui_MainWindow(object):
 
         }
 
-        print(frontendData)
-        result = freeSpan_Analysis_calculation(frontendData)
-        self.displayFreespanResults(result)
+        # print(frontendData)
+        self.result = freeSpan_Analysis_calculation(frontendData)
+        self.displayFreespanResults(self.result)
+
+    # --------------------------button connected------------------------------------
+
+    
 
         
 
@@ -477,12 +483,6 @@ class Ui_MainWindow(object):
                 self.Result_textEdit.append(f"Result Updated: {now}")
                 self.Result_textEdit.append("Version: 0.0.1\n")
 
-
-                # Unpack tuples
-                D_fat, SN, cycles = result['fatigue']
-                allowable, unity = result['Ultimate_Limit_State']
-                
-
                 # GEOMETRY
                 self.Result_textEdit.append("----- PIPE GEOMETRY -----")
                 self.Result_textEdit.append(f"Steel Area                          : {result['Steel_Area']:.3f}")
@@ -501,24 +501,31 @@ class Ui_MainWindow(object):
                 self.Result_textEdit.append("----- STRUCTURAL RESPONSE -----")
                 self.Result_textEdit.append(f"Bending Stiffness (I)               : {result['Bending_Stiffness']:.3f}")
                 self.Result_textEdit.append(f"Flexural Rigidity (EI)              : {result['Bending_Stiffness_EI']:.3f}")
-                self.Result_textEdit.append(f"Deflection                          : {result['Deflection']:.3f}")
+                self.Result_textEdit.append(f"Deflection Value                    : {result['Deflection_value']:.3f}")
+                self.Result_textEdit.append(f"Deflection Status                   : {result['Deflection_status']}")
+                self.Result_textEdit.append(f"Stress Rho                          : {result['stress_rho']:.3f}")
+                self.Result_textEdit.append(f"BendingStress Status                : {result['BendingStress_status']}")
                 self.Result_textEdit.append(f"Bending Moment                      : {result['Bending_Stress_Moment']:.3f}\n")
 
                 # FLOW
                 self.Result_textEdit.append("----- HYDRODYNAMICS -----")
-                self.Result_textEdit.append(f"Flow Regime                         : {result['Flow_Regime']:.3f}")
-                self.Result_textEdit.append(f"Reduced Velocity                    : {result['Reduced_Velocity']:.3f}\n")
+                self.Result_textEdit.append(f"Flow Regime                         : {result['alpha']:.3f}")
+                self.Result_textEdit.append(f"Flow Regime Status                  : {result['Flow_Regime_status']}")
+                self.Result_textEdit.append(f"Reduced Velocity                    : {result['Reduced_velocity']:.3f}")
+                self.Result_textEdit.append(f"VIV_Status                          : {result['VIV_Status']}")
 
                 # FATIGUE
                 self.Result_textEdit.append("----- FATIGUE ANALYSIS -----")
-                self.Result_textEdit.append(f"Fatigue Damage                      : {D_fat:.3f}")
-                self.Result_textEdit.append(f"SN Curve Life (N)                   : {SN:.3e}")
-                self.Result_textEdit.append(f"Number of Cycles                    : {cycles:.3e}\n")
+                self.Result_textEdit.append(f"Fatigue Damage                      : {result['D_fat']:.3f}")
+                self.Result_textEdit.append(f"SN Curve Life (N)                   : {result['SN_Curve_for_N']:.3e}")
+                self.Result_textEdit.append(f"Number of Cycles                    : {result['Number_of_cycle_n']:.3e}")
+                self.Result_textEdit.append(f"Fatigue Status                      : {result['Fatigue_status']}\n")
 
                 # ULTIMATE
                 self.Result_textEdit.append("----- ULTIMATE LIMIT STATE -----")
-                self.Result_textEdit.append(f"Allowable Stress                    : {allowable:.3f}")
-                self.Result_textEdit.append(f"Unity Check                         : {unity:.3f}\n")
+                self.Result_textEdit.append(f"Allowable Stress                    : {result['Allowable_Stress']:.3f}")
+                self.Result_textEdit.append(f"Unity Check                         : {result['Unity_check']:.3f}")
+                self.Result_textEdit.append(f"ULS Status                          : {result['ULS_status']}\n")
 
                 # FOOTER
                 self.Result_textEdit.append("======================================")
@@ -653,7 +660,7 @@ class Ui_MainWindow(object):
             inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
             outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
-            print(outputs)
+            # print(outputs)
 
             file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
                 None, "Save Report", "", "PDF Files (*.pdf)"
@@ -749,7 +756,25 @@ class Ui_MainWindow(object):
 
 
     def open_summary_result(self):
-        print("Summary Result part is initialized")
+        try:
+
+            print("Summary Result part is initialized")
+            print("TYPE:", type(self.result))
+            print("RESULT:", self.result)
+
+            if not isinstance(self.result, dict):
+                print("ERROR: Result is not dictionary")
+                return
+
+
+
+            print("Summary Result part is initialized")
+            screen = open_screen(ResultSummary, self.result)
+            self.open_windows.append(screen)
+
+        except Exception as e:
+            print("error", e)
+    
         
 
 
