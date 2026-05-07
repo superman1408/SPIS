@@ -3,7 +3,8 @@ from .constant_Variables import constant, caseOption, get_all_inputs, get_requir
 from .tool_Bar_Controls import save_inputs, load_inputs_mapped, new_file, open_file, save_file_as, generate_report, show_whats_new, show_documentation, reset_all_inputs, open_screen
 from .DialogueBox.WhatsNewScreen import WhatsNewScreen
 from .DialogueBox.DocumentationScreen import DocumentationScreen
-
+from .DialogueBox.DocumentationScreen_freeSpan import DocumentationScreenFreeSpan
+from .DialogueBox.WhatsNewScreen_freeSpan import WhatsNewScreenFreeSpan
 
 __version__ = "0.0.1"
 
@@ -29,5 +30,7 @@ __all__ = [
     "open_screen",
     "WhatsNewScreen",
     "DocumentationScreen",
+    "DocumentationScreenFreeSpan",
+    "WhatsNewScreenFreeSpan"
 ]
 
