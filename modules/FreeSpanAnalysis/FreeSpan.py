@@ -22,6 +22,8 @@ from calculations import freeSpan_Analysis_calculation
 # from utils import generate_report
 # from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreenFreeSpan, WhatsNewScreenFreeSpan, save_inputs, load_inputs_mapped, generate_report, open_screen
+from utils import generate_report
 
 
 __version__ = "0.0.1"
@@ -685,18 +687,18 @@ class Ui_MainWindow(object):
 
     def open_documentation(self):
         print("Documentation functionality is initialized")
-        self.Result_textEdit.setText("Documentation functionality is not implemented yet.")
+        print("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
-        screen = open_screen(DocumentationScreen)
+        screen = open_screen(DocumentationScreenFreeSpan)
         self.open_windows.append(screen)
 
 
 
     def open_whats_new(self):
         print("What's New functionality is initialized")
-        self.Result_textEdit.setText("What's New functionality is not implemented yet.")
-        screen = open_screen(WhatsNewScreen)
+        print("What's New functionality is not implemented yet.")
+        screen = open_screen(WhatsNewScreenFreeSpan)
         self.open_windows.append(screen)       
 
 

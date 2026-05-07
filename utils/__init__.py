@@ -4,7 +4,8 @@ from .tool_Bar_Controls import save_inputs, load_inputs_mapped, new_file, open_f
 from .DialogueBox.WhatsNewScreen import WhatsNewScreen
 from .DialogueBox.DocumentationScreen import DocumentationScreen
 from .DialogueBox.ResultSummary import ResultSummary
-
+from .DialogueBox.DocumentationScreen_freeSpan import DocumentationScreenFreeSpan
+from .DialogueBox.WhatsNewScreen_freeSpan import WhatsNewScreenFreeSpan
 
 __version__ = "0.0.1"
 
@@ -31,5 +32,7 @@ __all__ = [
     "ResultSummary",
     "WhatsNewScreen",
     "DocumentationScreen",
+    "DocumentationScreenFreeSpan",
+    "WhatsNewScreenFreeSpan"
 ]
 
