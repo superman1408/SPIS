@@ -557,8 +557,8 @@ class Ui_MainWindow(object):
             self.Wave_velocity_lineEdit.clear()
             self.Current_Velocity_lineEdit.clear()
             self.Concrete_thickness_lineEdit.clear()
-            self.Pipeline_Grade_comboBox.clear()
-            self.Boundary_condition_comboBox.clear()
+            # self.Pipeline_Grade_comboBox.clear()
+            # self.Boundary_condition_comboBox.clear()
             self.L_by_D_check.clear()
             # self.L_by_D_check.setStyleSheet()
 
