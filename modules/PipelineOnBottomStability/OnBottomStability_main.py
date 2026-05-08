@@ -46,6 +46,11 @@ saveData = {}
 
 
 class Ui_MainWindow(object):
+
+    # ----module name for report generation------
+    
+    Module_Name = "On Bottom Stability Analysis"
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
@@ -1323,6 +1328,7 @@ class Ui_MainWindow(object):
                 print("User cancelled")
                 return
             
+            moduleName = self.Module_Name
             inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
             outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
@@ -1335,7 +1341,7 @@ class Ui_MainWindow(object):
             if not file_path:
                 return
 
-            success = generate_report(inputs, outputs, file_path, generated_by, verified_by)
+            success = generate_report(moduleName, inputs, outputs, file_path, generated_by, verified_by)
 
             if success:
                 QtWidgets.QMessageBox.information(None, "Success", "PDF Report generated successfully ✅")
