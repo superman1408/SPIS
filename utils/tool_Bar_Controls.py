@@ -126,6 +126,56 @@ def get_field_value(field):
             return str(field)
 
 
+def add_page_design(canvas, doc):
+
+    canvas.saveState()
+
+    width, height = A4
+
+    # ================= LOGO =================
+    logo_path = r"assets/Ashkam LOGO (1400 x 600 px).png"   # your logo path
+
+    try:
+        canvas.drawImage(
+            logo_path,
+            20,
+            height - 60,
+            width=80,
+            height=40,
+            preserveAspectRatio=True,
+            mask='auto'
+        )
+    except:
+        pass
+
+    # ================= PAGE NUMBER =================
+    page_num = canvas.getPageNumber()
+
+    canvas.setFont("Helvetica", 9)
+
+    canvas.drawRightString(
+        width - 20,
+        15,
+        f"Page {page_num}"
+    )
+
+    # ================= COPYRIGHT TEXT =================
+    canvas.setFont("Helvetica", 8)
+
+    canvas.drawString(
+        20,
+        15,
+        "© 2026 Ashkam Energy Pvt. Ltd. All Rights Reserved."
+    )
+
+    # ================= TOP LINE =================
+    canvas.line(20, height - 70, width - 20, height - 70)
+
+    # ================= BOTTOM LINE =================
+    canvas.line(20, 25, width - 20, 25)
+
+    canvas.restoreState()
+
 
 def generate_report(moduleName, input_fields, outputs, file_path, generated_by, verified_by):
     try:
@@ -248,7 +298,11 @@ def generate_report(moduleName, input_fields, outputs, file_path, generated_by, 
         elements.append(output_table)
 
         # -------- Build PDF --------
-        doc.build(elements)
+        doc.build(
+            elements,
+            onFirstPage=add_page_design,
+            onLaterPages=add_page_design
+        )   
 
         print(f"PDF saved at: {file_path}")
         return True
