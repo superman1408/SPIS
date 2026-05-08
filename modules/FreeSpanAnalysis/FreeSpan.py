@@ -43,6 +43,11 @@ class SNGraphCanvas(FigureCanvas):
 
 
 class Ui_MainWindow(object):
+
+    # ----module name for report generation------
+
+    Module_Name = "Free Span Analysis"
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 716)
@@ -657,8 +662,10 @@ class Ui_MainWindow(object):
                 print("User cancelled")
                 return
             
+
+            moduleName = self.Module_Name
             inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
-            outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
+            # outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
             # print(outputs)
 
@@ -669,7 +676,7 @@ class Ui_MainWindow(object):
             if not file_path:
                 return
 
-            success = generate_report(inputs, outputs, file_path, generated_by, verified_by)
+            success = generate_report(moduleName, inputs, self.result, file_path, generated_by, verified_by)
 
             if success:
                 QtWidgets.QMessageBox.information(None, "Success", "PDF Report generated successfully ✅")

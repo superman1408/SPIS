@@ -127,7 +127,7 @@ def get_field_value(field):
 
 
 
-def generate_report(input_fields, output_fields, file_path, generated_by, verified_by):
+def generate_report(moduleName, input_fields, output_fields, file_path, generated_by, verified_by):
     try:
         doc = SimpleDocTemplate(file_path, pagesize=A4)
         elements = []
@@ -163,7 +163,7 @@ def generate_report(input_fields, output_fields, file_path, generated_by, verifi
         }
 
         # -------- Title --------
-        elements.append(Paragraph("On Bottom Stability Analysis", styles['Title']))
+        elements.append(Paragraph(moduleName, styles['Title']))
         elements.append(Spacer(1, 20))
 
         # -------- Header Table --------
@@ -217,10 +217,10 @@ def generate_report(input_fields, output_fields, file_path, generated_by, verifi
 
         elements.append(PageBreak())
 
-        # -------- Clean Outputs --------
+        # # -------- Clean Outputs --------
         clean_outputs = {k: get_field_value(v) for k, v in output_fields.items()}
 
-        # -------- Outputs Table --------
+        # # -------- Outputs Table --------
         elements.append(Paragraph("Results", styles['Heading2']))
         elements.append(Spacer(1, 12))
 
