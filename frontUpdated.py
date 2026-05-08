@@ -167,7 +167,10 @@ class MainSoftware(QMainWindow):
         self.pushButton_PSI.setAutoFillBackground(False)
         self.pushButton_PSI.setStyleSheet("background-color: #dbf3fa;\n"
 "")
-        self.pushButton_PSI.setIcon(icon1)
+        
+        iconPSI = QtGui.QIcon()
+        iconPSI.addPixmap(QtGui.QPixmap("assets/Psi.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton_PSI.setIcon(iconPSI)
         self.pushButton_PSI.setIconSize(QtCore.QSize(54, 40))
         self.pushButton_PSI.setCheckable(False)
         self.pushButton_PSI.setAutoDefault(False)
@@ -178,6 +181,9 @@ class MainSoftware(QMainWindow):
         self.pushButton_onbottomroughness = QtWidgets.QPushButton(self.groupBox)
         self.pushButton_onbottomroughness.setEnabled(True)
         self.pushButton_onbottomroughness.setMinimumSize(QtCore.QSize(180, 120))
+
+        iconRoughness = QtGui.QIcon()
+        iconRoughness.addPixmap(QtGui.QPixmap("assets/OnBottomRoughness.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
@@ -187,7 +193,7 @@ class MainSoftware(QMainWindow):
         self.pushButton_onbottomroughness.setAutoFillBackground(False)
         self.pushButton_onbottomroughness.setStyleSheet("background-color: #dbf3fa;\n"
 "")
-        self.pushButton_onbottomroughness.setIcon(icon2)
+        self.pushButton_onbottomroughness.setIcon(iconRoughness)
         self.pushButton_onbottomroughness.setIconSize(QtCore.QSize(50, 40))
         self.pushButton_onbottomroughness.setCheckable(False)
         self.pushButton_onbottomroughness.setAutoDefault(False)
@@ -312,7 +318,7 @@ class MainSoftware(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Ashkam Pipeline Integrity Software (SPIS)"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "SPIS"))
         self.label_copyright.setText(_translate("MainWindow", "© 2026 Ashkam Energy Pvt. Ltd. All rights reserved "))
         self.pushButton_WallThickness.setText(_translate("MainWindow", "Pipeline Wall Thickness"))
         self.pushButton_Crossing.setText(_translate("MainWindow", "  Pipeline Crossing"))

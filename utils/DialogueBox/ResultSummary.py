@@ -11,7 +11,7 @@ class ResultSummary(QtWidgets.QMainWindow):
         self.setWindowTitle("Analysis Summary")
 
          # Add Window Icon
-        self.setWindowIcon(QtGui.QIcon("../SPIS/assets/onbottomstability.jpg"))
+        self.setWindowIcon(QtGui.QIcon("../SPIS/assets/OnBottomRoughness.png"))
 
         self.resize(550, 400)
 
