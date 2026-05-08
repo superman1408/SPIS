@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 716)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../DPR-Pashupatinath/images/18.03.2026/Freespan.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.028, y1:0.0455909, x2:0.841, y2:0.966364, stop:0 rgba(169, 237, 255, 107), stop:0.994318 rgba(253, 255, 218, 255));")
         self.centralwidget = QtWidgets.QWidget(MainWindow)

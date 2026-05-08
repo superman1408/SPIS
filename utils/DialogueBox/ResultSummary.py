@@ -9,6 +9,10 @@ class ResultSummary(QtWidgets.QMainWindow):
         self.result = result
 
         self.setWindowTitle("Analysis Summary")
+
+         # Add Window Icon
+        self.setWindowIcon(QtGui.QIcon("../SPIS/assets/onbottomstability.jpg"))
+
         self.resize(550, 400)
 
         # Main window modern styling
