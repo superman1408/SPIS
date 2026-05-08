@@ -661,6 +661,42 @@ class Ui_MainWindow(object):
     def generate_report(self):
 
         try:
+
+            outputs = {}
+
+            if hasattr(self, "result") and isinstance(self.result, dict):
+
+                outputs = {
+                    "L/D Check": self.result.get("LD_Check", ""),
+                    "Steel Area ": f"{self.result.get("Steel_Area", "")} m²",
+                    "Outer Diameter After Coating (kg/m)": f"{self.result.get("Outer_Diameter_after_Coating", "")} m",
+                    "Outer Diameter After Concrete": f"{self.result.get("Outer_Diameter_after_Concrete", "")} m",
+                    "Submerged Mass": f"{self.result.get("Submerged_Mass", "")} Kg/m",
+                    "Submerged Weight": f"{self.result.get("Submerged_Weight", "")} N/m",
+                    "Buoyancy": f"{self.result.get("Buoyancy", "")} ",
+                    "Total Mass of the section of pipe occupied": f"{self.result.get("Total", "")} Kg/m",
+                    "Bending Stiffness": f"{self.result.get("Bending_Stiffness", "")}" ,
+                    "Flexural Rigidity": f"{self.result.get("Bending_Stiffness_EI", "")} N/m²",
+                    "Deflection Value": f"{self.result.get("Deflection_value", "")} m",
+                    "Deflection Status": f"{self.result.get("Deflection_status", "")}",
+                    "Stress Rho": f"{self.result.get("stress_rho", "")} Mpa",
+                    "Bending Stress Status": f"{self.result.get("BendingStress_status", "")}",
+                    "Bending Moment": f"{self.result.get("Bending_Stress_Moment", "")} Nm",
+                    "Flow Regime": f"{self.result.get("alpha", "")}",
+                    "Flow Regime Status": f"{self.result.get("Flow_Regime_status", "")}",
+                    "Reduced Velocity": f"{self.result.get("Reduced_velocity", "")}",
+                    "VIV Status": f"{self.result.get("VIV_Status", "")}",
+                    "Fatigue Damage": f"{self.result.get("D_fat", "")}",
+                    "SN Curve Life": f"{self.result.get("SN_Curve_for_N", "")}",
+                    "Number of Cycles": f"{self.result.get("Number_of_cycle_n", "")}",
+                    "Fatigue Status": f"{self.result.get("Fatigue_status", "")}",
+                    "Allowable Stress": f"{self.result.get("Allowable_Stress", "")}",
+                    "Unity Check": f"{self.result.get("Unity_check", "")}",
+                    "ULS Status": f"{self.result.get("ULS_status", "")}"
+
+                }
+
+
             def extract(widget):
                 if isinstance(widget, QtWidgets.QLineEdit):
                     return widget.text()
@@ -690,7 +726,7 @@ class Ui_MainWindow(object):
             if not file_path:
                 return
 
-            success = generate_report(moduleName, inputs, self.result, file_path, generated_by, verified_by)
+            success = generate_report(moduleName, inputs, outputs, file_path, generated_by, verified_by)
 
             if success:
                 QtWidgets.QMessageBox.information(None, "Success", "PDF Report generated successfully ✅")
