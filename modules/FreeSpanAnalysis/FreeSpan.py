@@ -22,6 +22,8 @@ from calculations import freeSpan_Analysis_calculation
 # from utils import generate_report
 # from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
+from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreenFreeSpan, WhatsNewScreenFreeSpan, save_inputs, load_inputs_mapped, generate_report, open_screen
+from utils import generate_report
 
 
 __version__ = "0.0.1"
@@ -52,7 +54,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 716)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../DPR-Pashupatinath/images/18.03.2026/Freespan.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0.028, y1:0.0455909, x2:0.841, y2:0.966364, stop:0 rgba(169, 237, 255, 107), stop:0.994318 rgba(253, 255, 218, 255));")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -428,24 +430,26 @@ class Ui_MainWindow(object):
 
 
     def inputData(self):
-        print("This function is working")
-
-        frontendData = {
-            "Assumed_Span_Length" : float(self.Span_Length_lineEdit.text()),
-            "Outer_Diameter" : float(self.Outer_diameter_lineEdit.text()),
-            "Coating_Density" : float(self.Coating_Dessity_lineEdit.text()),
-            "Wall_Thickness" : float(self.Wall_thickness_lineEdit.text()),
-            "Coating_Thickness" : float(self.Coating_thickness_lineEdit.text()),
-            "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
-            "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
-            "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text())
-
-
-        }
-
-        # print(frontendData)
-        self.result = freeSpan_Analysis_calculation(frontendData)
-        self.displayFreespanResults(self.result)
+        print("Input data function called")
+        
+        try:
+            frontendData = {
+                "Assumed_Span_Length" : float(self.Span_Length_lineEdit.text()),
+                "Outer_Diameter" : float(self.Outer_diameter_lineEdit.text()),
+                "Coating_Density" : float(self.Coating_Dessity_lineEdit.text()),
+                "Wall_Thickness" : float(self.Wall_thickness_lineEdit.text()),
+                "Coating_Thickness" : float(self.Coating_thickness_lineEdit.text()),
+                "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
+                "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
+                "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text())
+            }
+            print("This function is working")
+            self.result = freeSpan_Analysis_calculation(frontendData)
+            self.displayFreespanResults(self.result)
+        except Exception as e:
+            print("Error in inputData function: ", e)
+            self.Result_textEdit.setText("Error occurred while processing input data. " + str(e))
+            QtWidgets.QMessageBox.critical(None, "Error", "Please fill all fields & try again ❌")
 
     # --------------------------button connected------------------------------------
 
@@ -541,9 +545,10 @@ class Ui_MainWindow(object):
                 print("SN DATA:", result.get("SN_curve"))
                         
         except Exception as e:
-
-            print("Error", e)
-
+            print("Error: IN DISPLAYING RESULTS => ", e)
+            QtWidgets.QMessageBox.critical(None, "Error", "Error occurred while displaying results. Please try again. ❌")
+            self.Result_textEdit.setText("Error occurred while displaying results. Please try again. ❌" + str(e))
+            
 
     def reset_all(self, MainWindow):
         print("Started Resetting all inputs now.............WAIT!")
@@ -560,8 +565,8 @@ class Ui_MainWindow(object):
             self.Wave_velocity_lineEdit.clear()
             self.Current_Velocity_lineEdit.clear()
             self.Concrete_thickness_lineEdit.clear()
-            self.Pipeline_Grade_comboBox.clear()
-            self.Boundary_condition_comboBox.clear()
+            # self.Pipeline_Grade_comboBox.clear()
+            # self.Boundary_condition_comboBox.clear()
             self.L_by_D_check.clear()
             # self.L_by_D_check.setStyleSheet()
 
@@ -569,9 +574,11 @@ class Ui_MainWindow(object):
 
            
             print("Resetting completed successfully!")
+            QtWidgets.QMessageBox.information(None, "Reset Successful", "All inputs have been reset successfully ✅")
         except Exception as e:
             print(f"Error during reset: {e}")
             print("Resetting failed. Please try again.")
+            QtWidgets.QMessageBox.critical(None, "Error", "The inputs could not be reset. Please try again after resolving the issue. ❌" + str(e))
     
 
 
@@ -592,7 +599,8 @@ class Ui_MainWindow(object):
                 print("Save failed")
 
         except Exception as e:
-            print("error",e)
+            print("error: IN SAVE AS =>",e)
+            QtWidgets.QMessageBox.critical(None, "Error", "The file could not be saved. Please try again after resolving the issue. ❌" + str(e))
 
 
 
@@ -612,37 +620,43 @@ class Ui_MainWindow(object):
             else:
                 print("Load failed")
         except Exception as e:
-            print("error", e)
+            print("error: IN OPEN FILE => ", e)
+            QtWidgets.QMessageBox.critical(None, "Error", "The file could not be opened. Please try again after resolving the issue. ❌" + str(e))
 
 
     # function for genrated by & verified by input 
     def get_user_info(self):
-        dialog = QtWidgets.QDialog()
-        dialog.setWindowTitle("Enter Report Details")
+        try :
+            
+            dialog = QtWidgets.QDialog()
+            dialog.setWindowTitle("Enter Report Details")
 
-        layout = QtWidgets.QFormLayout(dialog)
+            layout = QtWidgets.QFormLayout(dialog)
 
-        generated_by_input = QtWidgets.QLineEdit()
-        verified_by_input = QtWidgets.QLineEdit()
+            generated_by_input = QtWidgets.QLineEdit()
+            verified_by_input = QtWidgets.QLineEdit()
 
-        layout.addRow("Generated By:", generated_by_input)
-        layout.addRow("Verified By:", verified_by_input)
+            layout.addRow("Generated By:", generated_by_input)
+            layout.addRow("Verified By:", verified_by_input)
 
-        buttons = QtWidgets.QDialogButtonBox(
-            QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel
-        )
+            buttons = QtWidgets.QDialogButtonBox(
+                QtWidgets.QDialogButtonBox.Ok | QtWidgets.QDialogButtonBox.Cancel
+            )
 
-        layout.addWidget(buttons)
+            layout.addWidget(buttons)
 
-        buttons.accepted.connect(dialog.accept)
-        buttons.rejected.connect(dialog.reject)
+            buttons.accepted.connect(dialog.accept)
+            buttons.rejected.connect(dialog.reject)
 
-        if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            return generated_by_input.text(), verified_by_input.text()
-        else:
-            return None, None
-
-
+            if dialog.exec_() == QtWidgets.QDialog.Accepted:
+                return generated_by_input.text(), verified_by_input.text()
+            else:
+                return None, None
+        except Exception as e:
+            print("Error: IN GET USER INFO => ", e)
+            QtWidgets.QMessageBox.critical(None, "Error", "Error occurred while fetching user information. Please try again. ❌")
+            
+            
 
     def generate_report(self):
 
@@ -684,27 +698,39 @@ class Ui_MainWindow(object):
                 QtWidgets.QMessageBox.critical(None, "Failed", "Report generation failed ❌")
 
         except Exception as e:
-            print("Error:", e)
-            QtWidgets.QMessageBox.critical(None, "Error", "Error generating report ❌")
+            print("Error: IN GENERATE REPORT => ", e)
+            # QtWidgets.QMessageBox.critical(None, "Error", "Error generating report ❌")
+            QtWidgets.QMessageBox.critical(None, "Error", "The Report could not be opened. Please try again after resolving the issue. ❌" + str(e))
 
 
 
 
     def open_documentation(self):
         print("Documentation functionality is initialized")
-        self.Result_textEdit.setText("Documentation functionality is not implemented yet.")
+        print("Documentation functionality is not implemented yet.")
         """Displays application documentation."""
         print("Action: Documentation")
-        screen = open_screen(DocumentationScreen)
-        self.open_windows.append(screen)
+        try :
+            print("Documentation functionality is working fine")
+            screen = open_screen(DocumentationScreenFreeSpan)
+            self.open_windows.append(screen)
+        except Exception as e:
+            print("Error: IN OPEN DOCUMENTATION => ", e)
+            # QtWidgets.QMessageBox.critical(None, "Error", "Error opening Documentation window ❌")
+            QtWidgets.QMessageBox.critical(None, "Error", "The documentation could not be opened. Please try again after resolving the issue. ❌" + str(e))
 
 
 
     def open_whats_new(self):
         print("What's New functionality is initialized")
-        self.Result_textEdit.setText("What's New functionality is not implemented yet.")
-        screen = open_screen(WhatsNewScreen)
-        self.open_windows.append(screen)       
+        try :
+            print("What's New functionality is working fine")
+            screen = open_screen(WhatsNewScreenFreeSpan)
+            self.open_windows.append(screen)    
+        except Exception as e:
+            print("Error: IN OPEN WHAT'S NEW => ", e)
+            # QtWidgets.QMessageBox.critical(None, "Error", "Error opening What's New window ❌")
+            QtWidgets.QMessageBox.critical(None, "Error", "The What's New window could not be opened. Please try again after resolving the issue. ❌" + str(e))
 
 
     def plot_SN_curve(self, result):
@@ -759,7 +785,8 @@ class Ui_MainWindow(object):
             self.sn_canvas.draw()
 
         except Exception as e:
-            print("Graph Error:", e)
+            print("Graph Error: IN PLOT SN CURVE => ", e)
+            QtWidgets.QMessageBox.critical(None, "Error", "The S-N curve could not be plotted. Please try again after resolving the issue. ❌" + str(e))
 
 
     def open_summary_result(self):
@@ -780,7 +807,8 @@ class Ui_MainWindow(object):
             self.open_windows.append(screen)
 
         except Exception as e:
-            print("error", e)
+            print("error: IN OPEN SUMMARY RESULT => ", e)
+            QtWidgets.QMessageBox.critical(None, "Error", "The summary result could not be opened. Please try again after resolving the issue. ❌" + str(e))
     
         
 
