@@ -319,6 +319,16 @@ class MainSoftware(QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "SPIS"))
+
+          # Window Icon
+        icon = QtGui.QIcon()
+        icon.addPixmap(
+            QtGui.QPixmap("../SPIS/assets/onbottomstability.jpg"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off
+        )
+
+        MainWindow.setWindowIcon(icon)   # <-- Add this line
         self.label_copyright.setText(_translate("MainWindow", "© 2026 Ashkam Energy Pvt. Ltd. All rights reserved "))
         self.pushButton_WallThickness.setText(_translate("MainWindow", "Pipeline Wall Thickness"))
         self.pushButton_Crossing.setText(_translate("MainWindow", "  Pipeline Crossing"))
