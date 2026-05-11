@@ -19,7 +19,6 @@ constant = {
     "Concrete_Density": 3040,
     "Water_Density": 1030,
     "Youngs_Modulus": 2.07 * 10**11,
-    "Yield_Strength": 450,
 }
 
 caseOption = {
