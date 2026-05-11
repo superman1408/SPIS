@@ -42,6 +42,21 @@ class SNGraphCanvas(FigureCanvas):
             QtWidgets.QSizePolicy.Expanding
         )
 
+# ---- Pipeline Grades for Yield Strength (Later Transfer all this inside utils--> constatnt section)
+
+PIPE_GRADES = {
+    "A25": 172,
+    "B": 241,
+    "X42": 290,
+    "X46": 317,
+    "X52": 359,
+    "X56": 386,
+    "X60": 414,
+    "X65": 450,
+    "X70": 483,
+    "X80": 552,
+}
+
 
 
 class Ui_MainWindow(object):
@@ -291,17 +306,8 @@ class Ui_MainWindow(object):
         self.Pipeline_Grade_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
         self.Pipeline_Grade_comboBox.setStyleSheet("")
         self.Pipeline_Grade_comboBox.setObjectName("Pipeline_Grade_comboBox")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
-        self.Pipeline_Grade_comboBox.addItem("")
+        self.Pipeline_Grade_comboBox.addItem("Select Pipeline Garde")
+        self.Pipeline_Grade_comboBox.addItems(PIPE_GRADES.keys())
         self.gridLayout_4.addWidget(self.Pipeline_Grade_comboBox, 0, 3, 1, 2)
         self.Boundary_condition_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
         self.Boundary_condition_comboBox.setStyleSheet("")
@@ -432,9 +438,21 @@ class Ui_MainWindow(object):
 
 
     def inputData(self):
-        print("Input data function called")
+        print("Input data function called")    
         
         try:
+
+            selected_grade = self.Pipeline_Grade_comboBox.currentText()
+            if selected_grade == "Select Pipe Grade":
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "Input Error",
+                    "Please select a valid pipe grade."
+                )
+                return
+            yield_strength = PIPE_GRADES[selected_grade]
+
+
             frontendData = {
                 "Assumed_Span_Length" : float(self.Span_Length_lineEdit.text()),
                 "Outer_Diameter" : float(self.Outer_diameter_lineEdit.text()),
@@ -443,13 +461,16 @@ class Ui_MainWindow(object):
                 "Coating_Thickness" : float(self.Coating_thickness_lineEdit.text()),
                 "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
                 "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
-                "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text())
+                "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
+                "Yield_Strength" : yield_strength
+                
             }
             print("This function is working")
             self.result = freeSpan_Analysis_calculation(frontendData)
             self.displayFreespanResults(self.result)
 
             self.ShowMore_pushButton.setDisabled(False)
+            
 
         except Exception as e:
             print("Error in inputData function: ", e)
@@ -876,17 +897,6 @@ class Ui_MainWindow(object):
         self.Current_Velocity_label.setText(_translate("MainWindow", "Current Velocity (m/s)"))
         self.Wave_velocity_label.setText(_translate("MainWindow", "Wave Velocity (m/s)   "))
         self.Run_pushButton.setText(_translate("MainWindow", "RUN"))
-        self.Pipeline_Grade_comboBox.setItemText(0, _translate("MainWindow", "Pipeline Grade"))
-        self.Pipeline_Grade_comboBox.setItemText(1, _translate("MainWindow", "A25"))
-        self.Pipeline_Grade_comboBox.setItemText(2, _translate("MainWindow", "B"))
-        self.Pipeline_Grade_comboBox.setItemText(3, _translate("MainWindow", "X42"))
-        self.Pipeline_Grade_comboBox.setItemText(4, _translate("MainWindow", "X46"))
-        self.Pipeline_Grade_comboBox.setItemText(5, _translate("MainWindow", "X52"))
-        self.Pipeline_Grade_comboBox.setItemText(6, _translate("MainWindow", "X56"))
-        self.Pipeline_Grade_comboBox.setItemText(7, _translate("MainWindow", "X60"))
-        self.Pipeline_Grade_comboBox.setItemText(8, _translate("MainWindow", "X65"))
-        self.Pipeline_Grade_comboBox.setItemText(9, _translate("MainWindow", "X70"))
-        self.Pipeline_Grade_comboBox.setItemText(10, _translate("MainWindow", "X80"))
         self.Boundary_condition_comboBox.setItemText(0, _translate("MainWindow", "Boundary Condition"))
         self.Boundary_condition_comboBox.setItemText(1, _translate("MainWindow", "fixed-fixed"))
         self.Boundary_condition_comboBox.setItemText(2, _translate("MainWindow", "pinned-pinned"))

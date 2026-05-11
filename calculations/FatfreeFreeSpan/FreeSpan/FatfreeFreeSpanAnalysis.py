@@ -9,6 +9,7 @@ print(__version__)
 
 def freeSpan_Analysis_calculation(frontendData):
     
+    
     try:
 
         PipeGeometry = {
@@ -32,13 +33,18 @@ def freeSpan_Analysis_calculation(frontendData):
             "Concrete_Density": constant["Concrete_Density"],
             "Water_Density": constant["Water_Density"],
             "Youngs_Modulus": constant["Youngs_Modulus"],
-            "Yield_Strength": constant["Yield_Strength"],
+            "Yield_Strength": frontendData["Yield_Strength"],
+            
         }
 
         Environment = {
             "Current_Velocity": frontendData["Current_Velocity"], #Frontend
             "Wave_Velocity": frontendData["Wave_Velocity"], #Frontend
         }
+
+        print("Yield_Strength", MaterialProperty["Yield_Strength"])
+
+        
 
 
         SN_curve = [
@@ -72,6 +78,9 @@ def freeSpan_Analysis_calculation(frontendData):
                 return SN_curve[0][1]
             else:
                 return SN_curve[-1][1]
+            
+
+        
 
         Assumed_Span_Length = frontendData["Assumed_Span_Length"]
 
@@ -496,11 +505,6 @@ def freeSpan_Analysis_calculation(frontendData):
         Ultimate_Limit_State()
 
         Allowable_Stress, Unity_check, ULS_status = Ultimate_Limit_State() 
-
-
-
-        
-        
 
 
 
