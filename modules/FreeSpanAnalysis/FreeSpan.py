@@ -395,8 +395,8 @@ class Ui_MainWindow(object):
 
 
         self.input_fields = {
-           "Project_Name" : self.Project_lineEdit,
-           "Project Code ": self.Project_Code_lineEdit,
+           "Project Name" : self.Project_lineEdit,
+           "Document Number": self.Project_Code_lineEdit,
            "Span Length" : self.Span_Length_lineEdit,
            "Outer Diameter" : self.Outer_diameter_lineEdit,
            "Coating Density" : self.Coating_Dessity_lineEdit,
@@ -526,7 +526,7 @@ class Ui_MainWindow(object):
                 self.Result_textEdit.append(f"Flow Regime                         : {result['alpha']:.3f}")
                 self.Result_textEdit.append(f"Flow Regime Status                  : {result['Flow_Regime_status']}")
                 self.Result_textEdit.append(f"Reduced Velocity                    : {result['Reduced_velocity']:.3f}")
-                self.Result_textEdit.append(f"VIV_Status                          : {result['VIV_Status']}")
+                self.Result_textEdit.append(f"VIV_Status                          : {result['VIV_Status']}\n")
 
                 # FATIGUE
                 self.Result_textEdit.append("----- FATIGUE ANALYSIS -----")
@@ -813,8 +813,7 @@ class Ui_MainWindow(object):
             if stress_range:
                 actual_stress = stress_range.get("Stress", None)
                 if actual_stress:
-                    sn_value = result["SN_Curve_for_N"][1]
-
+                    sn_value = result.get("SN_Curve_for_N")
                     self.sn_canvas.ax.scatter(
                         actual_stress,
                         sn_value,
