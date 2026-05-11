@@ -19,6 +19,7 @@ def freeSpan_Analysis_calculation(frontendData):
         }
 
         Constant = {
+            "Beta":constant["beta"],
             "Gravity": constant["gravity"],
             "Fixed_Fixed": constant["Fixed_Fixed"],
             "Pinned_Pinned": constant["Pinned_Pinned"],
@@ -374,6 +375,15 @@ def freeSpan_Analysis_calculation(frontendData):
 
         Natural_Frequency_fn()
 
+
+#--------------------------------------------------Natural frequency for beta--------------------------------------------------------------
+
+        def Natural_Frequency_for_beta():
+            fn_beta = (constant["Beta"])**2 / 2 * math.pi * (Assumed_Span_Length)**2 
+
+            print("Natural Frequency for beta :" , fn_beta)
+
+            return fn_beta
 
 
         # Step 8

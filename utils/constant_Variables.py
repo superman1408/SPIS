@@ -4,6 +4,7 @@ print(f"Loading constants and variables for version {__version__}...")
 
 
 constant = {
+    "beta" : 3.14,
     "density_seawater" : 1025.0,
     "density_water" : 1000.0,
     "density_concrete" : 2400.0,
