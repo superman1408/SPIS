@@ -391,6 +391,8 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuReport.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
 
+        self.ShowMore_pushButton.setDisabled(True)
+
 
         self.input_fields = {
            "Project_Name" : self.Project_lineEdit,
@@ -446,6 +448,9 @@ class Ui_MainWindow(object):
             print("This function is working")
             self.result = freeSpan_Analysis_calculation(frontendData)
             self.displayFreespanResults(self.result)
+
+            self.ShowMore_pushButton.setDisabled(False)
+
         except Exception as e:
             print("Error in inputData function: ", e)
             self.Result_textEdit.setText("Error occurred while processing input data. " + str(e))
@@ -571,6 +576,7 @@ class Ui_MainWindow(object):
             # self.L_by_D_check.setStyleSheet()
 
             self.Result_textEdit.clear()
+            self.ShowMore_pushButton.setDisabled(True)
 
            
             print("Resetting completed successfully!")
@@ -807,7 +813,7 @@ class Ui_MainWindow(object):
             if stress_range:
                 actual_stress = stress_range.get("Stress", None)
                 if actual_stress:
-                    sn_value = result["fatigue"][1]
+                    sn_value = result["SN_Curve_for_N"][1]
 
                     self.sn_canvas.ax.scatter(
                         actual_stress,
