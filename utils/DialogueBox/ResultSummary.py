@@ -150,10 +150,20 @@ class ResultSummary(QtWidgets.QMainWindow):
 
             # ================= BLUE =================
 
-            elif any(word in status_upper for word in ["MIXED", "WAVE", "CURRENT"]):
+            elif any(word in status_upper for word in ["MIXED"]):
+                bg_color = "#dbeafe"
+                text_color = "#1e40af"
+                icon = "🔄"
+
+            elif any(word in status_upper for word in ["WAVE"]):
                 bg_color = "#dbeafe"
                 text_color = "#1e40af"
                 icon = "🌊"
+
+            elif any(word in status_upper for word in ["CURRENT"]):
+                bg_color = "#dbeafe"
+                text_color = "#1e40af"
+                icon = "⇢"
 
             item.setText(f"{icon}   {label} : {status}")
 

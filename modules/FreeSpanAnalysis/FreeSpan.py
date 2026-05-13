@@ -58,6 +58,13 @@ PIPE_GRADES = {
 }
 
 
+BOUNDARY_CONDITIONS = {
+    "Fixed-Fixed": 4.73,
+    "Pinned-Pinned": 3.14,
+    "Fixed-Pinned": 3.93,
+
+}
+
 
 class Ui_MainWindow(object):
 
@@ -306,16 +313,14 @@ class Ui_MainWindow(object):
         self.Pipeline_Grade_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
         self.Pipeline_Grade_comboBox.setStyleSheet("")
         self.Pipeline_Grade_comboBox.setObjectName("Pipeline_Grade_comboBox")
-        self.Pipeline_Grade_comboBox.addItem("Select Pipeline Garde")
+        self.Pipeline_Grade_comboBox.addItem("Select Pipeline Grade")
         self.Pipeline_Grade_comboBox.addItems(PIPE_GRADES.keys())
         self.gridLayout_4.addWidget(self.Pipeline_Grade_comboBox, 0, 3, 1, 2)
         self.Boundary_condition_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
         self.Boundary_condition_comboBox.setStyleSheet("")
         self.Boundary_condition_comboBox.setObjectName("Boundary_condition_comboBox")
-        self.Boundary_condition_comboBox.addItem("")
-        self.Boundary_condition_comboBox.addItem("")
-        self.Boundary_condition_comboBox.addItem("")
-        self.Boundary_condition_comboBox.addItem("")
+        self.Boundary_condition_comboBox.addItem("Select Boundary Condition")
+        self.Boundary_condition_comboBox.addItems(BOUNDARY_CONDITIONS.keys())
         self.gridLayout_4.addWidget(self.Boundary_condition_comboBox, 0, 5, 1, 2)
         self.gridLayout_5.addWidget(self.INPUT_DATA, 0, 0, 3, 1)
         self.gridLayout.addWidget(self.groupBox_2, 0, 0, 1, 2)
@@ -403,6 +408,8 @@ class Ui_MainWindow(object):
         self.input_fields = {
            "Project Name" : self.Project_lineEdit,
            "Document Number": self.Project_Code_lineEdit,
+           "Pipeline Grade": self.Pipeline_Grade_comboBox,
+           "Boundary Condition": self.Boundary_condition_comboBox,
            "Span Length" : self.Span_Length_lineEdit,
            "Outer Diameter" : self.Outer_diameter_lineEdit,
            "Coating Density" : self.Coating_Dessity_lineEdit,
@@ -452,6 +459,16 @@ class Ui_MainWindow(object):
                 return
             yield_strength = PIPE_GRADES[selected_grade]
 
+            selected_boundaryCondition = self.Boundary_condition_comboBox.currentText()
+            if selected_boundaryCondition == "Select Boundary Condition":
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "Input Error",
+                    "Please select a valid condition."
+                )
+                return
+            
+            beta_value = BOUNDARY_CONDITIONS[selected_boundaryCondition]
 
             frontendData = {
                 "Assumed_Span_Length" : float(self.Span_Length_lineEdit.text()),
@@ -462,10 +479,10 @@ class Ui_MainWindow(object):
                 "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
                 "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
                 "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
-                "Yield_Strength" : yield_strength
+                "Yield_Strength" : yield_strength,
+                "Beta_Value" : beta_value
                 
             }
-            print("This function is working")
             self.result = freeSpan_Analysis_calculation(frontendData)
             self.displayFreespanResults(self.result)
 
@@ -568,7 +585,6 @@ class Ui_MainWindow(object):
 
 
                 self.plot_SN_curve(result)
-                print("SN DATA:", result.get("SN_curve"))
                         
         except Exception as e:
             print("Error: IN DISPLAYING RESULTS => ", e)
@@ -591,13 +607,15 @@ class Ui_MainWindow(object):
             self.Wave_velocity_lineEdit.clear()
             self.Current_Velocity_lineEdit.clear()
             self.Concrete_thickness_lineEdit.clear()
-            # self.Pipeline_Grade_comboBox.clear()
-            # self.Boundary_condition_comboBox.clear()
             self.L_by_D_check.clear()
             # self.L_by_D_check.setStyleSheet()
 
             self.Result_textEdit.clear()
             self.ShowMore_pushButton.setDisabled(True)
+
+            # Reset ComboBoxes
+            self.Pipeline_Grade_comboBox.setCurrentIndex(0)
+            self.Boundary_condition_comboBox.setCurrentIndex(0)
 
            
             print("Resetting completed successfully!")
@@ -741,10 +759,28 @@ class Ui_MainWindow(object):
             
 
             moduleName = self.Module_Name
-            inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
+            # inputs = {key: extract(widget) for key, widget in self.input_fields.items()}
             # outputs = {key: extract(widget) for key, widget in self.output_fields.items()}
 
             # print(outputs)
+
+            
+            inputs = {
+                "Project Name": extract(self.Project_lineEdit),
+                "Document Number": extract(self.Project_Code_lineEdit),
+                "Pipeline Grade": self.Pipeline_Grade_comboBox.currentText(),
+                "Boundary Condition": self.Boundary_condition_comboBox.currentText(),
+                "Span Length": f"{extract(self.Span_Length_lineEdit)} m",
+                "Outer Diameter": f"{extract(self.Outer_diameter_lineEdit)} m",
+                "Coating Density": f"{extract(self.Coating_Dessity_lineEdit)} kg/m³",
+                "Wall Thickness": f"{extract(self.Wall_thickness_lineEdit)} m",
+                "Coating Thickness": f"{extract(self.Coating_thickness_lineEdit)} m",
+                "Concrete Thickness": f"{extract(self.Concrete_thickness_lineEdit)} m",
+                "Current Velocity": f"{extract(self.Current_Velocity_lineEdit)} m/s",
+                "Wave Velocity": f"{extract(self.Wave_velocity_lineEdit)} m/s",
+                
+                }
+            
 
             file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
                 None, "Save Report", "", "PDF Files (*.pdf)"
@@ -897,10 +933,6 @@ class Ui_MainWindow(object):
         self.Current_Velocity_label.setText(_translate("MainWindow", "Current Velocity (m/s)"))
         self.Wave_velocity_label.setText(_translate("MainWindow", "Wave Velocity (m/s)   "))
         self.Run_pushButton.setText(_translate("MainWindow", "RUN"))
-        self.Boundary_condition_comboBox.setItemText(0, _translate("MainWindow", "Boundary Condition"))
-        self.Boundary_condition_comboBox.setItemText(1, _translate("MainWindow", "fixed-fixed"))
-        self.Boundary_condition_comboBox.setItemText(2, _translate("MainWindow", "pinned-pinned"))
-        self.Boundary_condition_comboBox.setItemText(3, _translate("MainWindow", "fixed-pinned"))
         self.copyright_label.setText(_translate("MainWindow", "@2026  ASHKAM Energy Pvt. Ltd.  All rights reserved"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
