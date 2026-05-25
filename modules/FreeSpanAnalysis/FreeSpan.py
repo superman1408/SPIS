@@ -23,7 +23,7 @@ from calculations import freeSpan_Analysis_calculation
 # from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreenFreeSpan, WhatsNewScreenFreeSpan, save_inputs, load_inputs_mapped, generate_report, open_screen
-from utils import generate_report
+from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS
 
 
 __version__ = "0.0.1"
@@ -44,26 +44,27 @@ class SNGraphCanvas(FigureCanvas):
 
 # ---- Pipeline Grades for Yield Strength (Later Transfer all this inside utils--> constatnt section)
 
-PIPE_GRADES = {
-    "A25": 172,
-    "B": 241,
-    "X42": 290,
-    "X46": 317,
-    "X52": 359,
-    "X56": 386,
-    "X60": 414,
-    "X65": 450,
-    "X70": 483,
-    "X80": 552,
-}
+# PIPE_GRADES = {
+#     "A25": 172,
+#     "B": 241,
+#     "X42": 290,
+#     "X46": 317,
+#     "X52": 359,
+#     "X56": 386,
+#     "X60": 414,
+#     "X65": 450,
+#     "X70": 483,
+#     "X80": 552,
+# }
 
 
-BOUNDARY_CONDITIONS = {
-    "Fixed-Fixed": 4.73,
-    "Pinned-Pinned": 3.14,
-    "Fixed-Pinned": 3.93,
+# BOUNDARY_CONDITIONS = {
+#     "Fixed-Fixed": 4.73,
+#     "Pinned-Pinned": 3.14,
+#     "Fixed-Pinned": 3.93,
+# }
 
-}
+
 
 
 class Ui_MainWindow(object):
@@ -339,6 +340,20 @@ class Ui_MainWindow(object):
 
         # Add to grid layout
         self.gridLayout_4.addWidget(self.Test_case_comboBox, 0, 7, 1, 2)
+        
+        
+        self.Content_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
+        self.Content_comboBox.setObjectName("Content_comboBox")
+        self.Content_comboBox.setStyleSheet("")
+
+        # Default item
+        self.Content_comboBox.addItem("Select Content Type")
+
+        # Add options
+        self.Content_comboBox.addItems(Content_Type_For_Installation.keys())
+
+        # Add to grid layout
+        self.gridLayout_4.addWidget(self.Content_comboBox, 0, 9, 1, 2)
         
         
         self.gridLayout_5.addWidget(self.INPUT_DATA, 0, 0, 3, 1)

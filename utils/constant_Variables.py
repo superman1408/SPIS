@@ -6,32 +6,54 @@ print(f"Loading constants and variables for version {__version__}...")
 constant = {
     "beta" : 3.14,
     "density_seawater" : 1025.0,
-    "density_water" : 1000.0,
-    "density_concrete" : 2400.0,
     "gravity" : 9.807,
     "submerged_unit_soil_weight_for_sand_gamma_s" : 13.5,
-
-    # constant value for free span analysis
-
-    "Fixed_Fixed": 4.73,
-    "Pinned_Pinned": 3.14,
-    "Fixed_Pinned": 3.93,
     "Steel_density": 7850,
-    "Concrete_Density": 3040,
-    "Water_Density": 1030,
+    "Concrete_Density": 2400,
+    "Water_Density": 1000,
     "Youngs_Modulus": 2.07 * 10**11,
 }
 
+PIPE_GRADES = {
+    "A25": 172,
+    "B": 241,
+    "X42": 290,
+    "X46": 317,
+    "X52": 359,
+    "X56": 386,
+    "X60": 414,
+    "X65": 450,
+    "X70": 483,
+    "X80": 552,
+}
+
+
+BOUNDARY_CONDITIONS = {
+    "Fixed-Fixed": 4.73,
+    "Pinned-Pinned": 3.14,
+    "Fixed-Pinned": 3.93,
+}
+
+
+Content_Type_For_Installation = {
+    "Light Crude": 800,
+    "Medium Crude": 870,
+    "Heavy Crude": 950,
+    "Condensate": 750,
+    "Gas": 120
+}
+
+
 caseOption = {
-        "Lateral Stability": [
-            "Installation-Empty",
-            "Operation-Content Filled"],
-        "Vertical Stability": [
-            "Installation-Empty",
-            "Operation-Content Filled",
-            "Operation-Shutdown-Empty"
-        ]
-    }
+    "Lateral Stability": [
+        "Installation-Empty",
+        "Operation-Content Filled"],
+    "Vertical Stability": [
+        "Installation-Empty",
+        "Operation-Content Filled",
+        "Operation-Shutdown-Empty"
+    ]
+}
 
 
 

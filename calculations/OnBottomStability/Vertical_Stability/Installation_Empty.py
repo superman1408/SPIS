@@ -22,7 +22,7 @@ def verticalStability_installationEmpty(frontendData):
         gamma_w = float(frontendData["gamma_w"])
         
         rh_seawater = constant["density_seawater"]
-        rh_c = constant["density_concrete"]
+        rh_c = constant["Concrete_Density"]
         g= constant["gravity"]
 
         ID = round((OD - 2* t_HDPE),3) #calculating Internal Diameter of a pipe.
