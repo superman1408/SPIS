@@ -131,7 +131,6 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Steel_Area():
             Steel_Area = math.pi/4 * ((PipeGeometry["Outer_Diameter"])**2-(PipeGeometry["Outer_Diameter"] - 2 * PipeGeometry["Wall_Thickness"])**2)
-            print("Steel_Area",  Steel_Area)
             return Steel_Area
 
         Steel_Area()
@@ -390,8 +389,6 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 Flow_Regime_result = "MIXED (Combined Wave-Current Regime)"
 
-            # print("Flow_Regime_result", Flow_Regime_result)
-
             return alpha, Flow_Regime_result
 
         Flow_Regime()
@@ -461,7 +458,6 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Ultimate_Limit_State():
             Allowable_Stress = 0.87 * MaterialProperty["Yield_Strength"]
-            print("Allowable_Stress : ", Allowable_Stress)
 
             Unity_check = stress_rho / Allowable_Stress
             print("Unity_check : ", Unity_check)
