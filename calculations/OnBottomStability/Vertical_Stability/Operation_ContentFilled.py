@@ -20,7 +20,7 @@ def verticalStability_operationContentFilled(frontendData):
         
         # Constant Variables--------------------------------------------------
         rh_seawater = constant["density_seawater"]
-        rh_c = constant["density_concrete"]
+        rh_c = constant["Concrete_Density"]
         g= constant["gravity"]
 
 #---------------Internal Diameter-------------------

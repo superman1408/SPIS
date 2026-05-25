@@ -36,7 +36,7 @@ def lateralStability_operationContentFilled(frontendData):
         
         
         #-----------Constants--------------------------------------------
-        Concrete_density_rho_c = constant["density_concrete"]
+        Concrete_density_rho_c = constant["Concrete_Density"]
         Seawater_density_rho_seawater = constant["density_seawater"]
         gravity_g = constant["gravity"]
         # -----------------------------PIPELINE INPUTS DATA ----------------------------------------------
