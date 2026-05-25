@@ -322,6 +322,25 @@ class Ui_MainWindow(object):
         self.Boundary_condition_comboBox.addItem("Select Boundary Condition")
         self.Boundary_condition_comboBox.addItems(BOUNDARY_CONDITIONS.keys())
         self.gridLayout_4.addWidget(self.Boundary_condition_comboBox, 0, 5, 1, 2)
+        
+        self.Test_case_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
+        self.Test_case_comboBox.setObjectName("Test_case_comboBox")
+        self.Test_case_comboBox.setStyleSheet("")
+
+        # Default item
+        self.Test_case_comboBox.addItem("Select Test Case")
+
+        # Add options
+        self.Test_case_comboBox.addItems([
+            "Installation",
+            "Hydrotest",
+            "Operational",
+        ])
+
+        # Add to grid layout
+        self.gridLayout_4.addWidget(self.Test_case_comboBox, 0, 7, 1, 2)
+        
+        
         self.gridLayout_5.addWidget(self.INPUT_DATA, 0, 0, 3, 1)
         self.gridLayout.addWidget(self.groupBox_2, 0, 0, 1, 2)
         spacerItem9 = QtWidgets.QSpacerItem(20, 626, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
