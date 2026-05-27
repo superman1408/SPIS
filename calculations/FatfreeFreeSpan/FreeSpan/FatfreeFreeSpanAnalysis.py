@@ -31,7 +31,6 @@ def freeSpan_Analysis_calculation(frontendData):
             "Water_Density": constant["Water_Density"],
             "Youngs_Modulus": constant["Youngs_Modulus"],
             "Yield_Strength": frontendData["Yield_Strength"],
-            
         }
 
         Environment = {

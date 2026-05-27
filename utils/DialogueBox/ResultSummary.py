@@ -100,7 +100,7 @@ class ResultSummary(QtWidgets.QMainWindow):
         L_D_Status = self.result.get("LD_Check")
         deflectionStatus = self.result.get("Deflection_status")
         bendingStatus = self.result.get("BendingStress_status")
-        flowregimeStatus = self.result.get("Flow_Regime_status")
+        # flowregimeStatus = self.result.get("Flow_Regime_status")
         VIVStatus = self.result.get("VIV_Status")
         fatigueStatus = self.result.get("Fatigue_status")
         ULSStatus = self.result.get("ULS_status")
@@ -111,7 +111,7 @@ class ResultSummary(QtWidgets.QMainWindow):
             ("L/D Check", L_D_Status),
             ("Deflection", deflectionStatus),
             ("Bending Stress", bendingStatus),
-            ("Flow Regime", flowregimeStatus),
+            # ("Flow Regime", flowregimeStatus),
             ("VIV", VIVStatus),
             ("Fatigue", fatigueStatus),
             ("ULS", ULSStatus),
