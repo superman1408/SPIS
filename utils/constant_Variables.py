@@ -9,8 +9,8 @@ constant = {
     "gravity" : 9.807,
     "submerged_unit_soil_weight_for_sand_gamma_s" : 13.5,
     "Steel_density": 7850,
-    "Concrete_Density": 2400,
-    "Water_Density": 1000,
+    "Concrete_Density": 3040,
+    "Water_Density": 1030,
     "Youngs_Modulus": 2.07 * 10**11,
 }
 

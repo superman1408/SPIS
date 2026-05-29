@@ -139,36 +139,42 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Outer_Diameter_including_coating_concrete():
             D_Outer = 1.0668 + 2 * (0.0042 + 0.06)
+            print("D_Outer",D_Outer)
             return D_Outer
 
         Outer_Diameter_including_coating_concrete()
 
         def Total_Outer_Area():
             A_Outer = math.pi/4 * (Outer_Diameter_including_coating_concrete())**2
+            print("A_Outer",A_Outer)
             return A_Outer
 
         Total_Outer_Area()
 
         def Outer_Diameter_after_Coating():
             D_Coat = PipeGeometry["Outer_Diameter"]+2*(PipeGeometry["Coating_Thickness"])
+            print("D_Coat", D_Coat)
             return D_Coat
 
         Outer_Diameter_after_Coating()
 
         def Coating_Area():
             A_Coat = math.pi/4*((Outer_Diameter_after_Coating()**2)-PipeGeometry["Outer_Diameter"]**2)
+            print("A_Coat",A_Coat)
             return A_Coat
 
         Coating_Area()
 
         def Outer_Diameter_after_Concrete():
             D_cwc = Outer_Diameter_after_Coating() + 2 *PipeGeometry["Concrete_Thickness"]
+            print("D_cwc",D_cwc )
             return D_cwc
 
         Outer_Diameter_after_Concrete()
 
         def Concrete_Area():
             A_cwc = math.pi/4*(Outer_Diameter_after_Concrete()**2 - Outer_Diameter_after_Coating()** 2)
+            print("A_cwc", A_cwc)
             return A_cwc
 
         Concrete_Area()
@@ -178,21 +184,22 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Mass_per_meter_Steel():
             m_s = MaterialProperty["Steel_density"] * Steel_Area()
+            print("m_s", m_s)
             return m_s
 
         Mass_per_meter_Steel()
 
 
         def Concrete_Coating():
-            m_c = Concrete_Area() * MaterialProperty["Concrete_Density"] + MaterialProperty["Coating_Density"] * Coating_Area()
-            
+            m_c = (Concrete_Area() * MaterialProperty["Concrete_Density"] )+ (MaterialProperty["Coating_Density"] * Coating_Area())
+            print("m_c", m_c)
             return m_c
 
         Concrete_Coating()
 
         def Total():
             m_total = Mass_per_meter_Steel() + Concrete_Coating()
-           
+            print("m_total", m_total)
             return m_total
 
         Total()
@@ -202,7 +209,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Buoyancy():
             Water_Mass_m_water = Total_Outer_Area() * MaterialProperty["Water_Density"]
-            
+            print("Water_Mass_m_water", Water_Mass_m_water)
             return Water_Mass_m_water
 
         Buoyancy()
@@ -210,14 +217,14 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Submerged_Mass():
             m_eff = Total() - Buoyancy()
-            
+            print("m_eff", m_eff)
             return m_eff
 
         Submerged_Mass()
 
         def Submerged_Weight():
             w = Submerged_Mass() * Constant["Gravity"]
-            
+            print("w", w)
             return w
 
         Submerged_Weight()
@@ -230,15 +237,17 @@ def freeSpan_Analysis_calculation(frontendData):
             
             
             # EI = MaterialProperty["Youngs_Modulus"] * Moment_of_Inertia
-            
+            print("Moment_of_Inertia", Moment_of_Inertia)
             return Moment_of_Inertia
+            
+
 
         Bending_Stiffness()
 
 
         def Bending_Stiffness_EI():
             EI = MaterialProperty["Youngs_Modulus"] * Bending_Stiffness()
-            
+            print(EI)
             
             return EI
 
@@ -262,7 +271,7 @@ def freeSpan_Analysis_calculation(frontendData):
             delta = (5* Submerged_Weight() * Assumed_Span_Length**4)/(384 * E_into_I)
             
 
-            
+            print("delta",delta)
 
             if delta < 25:
                 Deflection_result = "PASS"
@@ -283,7 +292,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         def Bending_Stress_Moment():
             M = (Submerged_Weight() * (Assumed_Span_Length**2))/8
-            
+            print("M", M)
             return M
 
         Bending_Stress_Moment()
@@ -294,6 +303,7 @@ def freeSpan_Analysis_calculation(frontendData):
             
             Z = I / (D / 2)
             
+            print("Z",Z)
             
             return Z
 
@@ -305,9 +315,9 @@ def freeSpan_Analysis_calculation(frontendData):
             Z = Section_Modulus()    
             
 
-            rho = (M / Z) / 10**6           # σ = M / Z
+            rho = (M / Z) / (10**6)         # σ = M / Z
             
-            
+            print("rho",rho)
             # return rho
 
        
@@ -340,7 +350,7 @@ def freeSpan_Analysis_calculation(frontendData):
             # return natural_frequency
 
             m_eff_into_L = Submerged_Mass() * (Assumed_Span_Length**4)
-            
+            print("m_eff_into_L", m_eff_into_L)
             return m_eff_into_L
 
         Natural_Frequency()
@@ -357,6 +367,8 @@ def freeSpan_Analysis_calculation(frontendData):
 
             f_n = 0.5 * math.sqrt(EI_by_mL)
 
+            print("f_n", f_n)
+
             
 
             return f_n                                                                                        
@@ -370,6 +382,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
             fn_beta = (Constant["Beta_Value"])**2 / (2 * math.pi * (Assumed_Span_Length)**2 ) * (math.sqrt(Bending_Stiffness_EI()/Submerged_Mass()))
 
+            print("fn_beta",fn_beta)
 
             return fn_beta
         
@@ -390,7 +403,7 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 Flow_Regime_result = "MIXED (Combined Wave-Current Regime)"
 
-            # print("Flow_Regime_result", Flow_Regime_result)
+            print("Flow_Regime_result", Flow_Regime_result)
 
             return alpha, Flow_Regime_result
 
@@ -418,9 +431,14 @@ def freeSpan_Analysis_calculation(frontendData):
             else:
                 VIV_result = "Severe VIV"
 
+            print("V_r",V_r)
+
             return V_r, VIV_result
+        
 
         Reduced_Velocity()
+
+
 
         V_r, VIV_result = Reduced_Velocity()
 
@@ -448,6 +466,13 @@ def freeSpan_Analysis_calculation(frontendData):
                 Fatigue_status = "PASS"
 
 
+            print("D_fat", D_fat)
+
+            print("SN_Curve_for_N", SN_Curve_for_N)
+
+            print("Number_of_cycle_n", Number_of_cycle_n)
+
+
             
 
             return D_fat, SN_Curve_for_N, Number_of_cycle_n, Fatigue_status
@@ -471,6 +496,11 @@ def freeSpan_Analysis_calculation(frontendData):
 
             else:
                 ULS_status = "UNSAFE"
+
+
+            print("Allowable_Stress", Allowable_Stress)
+
+            print("Unity_check", Unity_check)
 
 
             
