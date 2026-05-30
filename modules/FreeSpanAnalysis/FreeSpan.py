@@ -351,6 +351,9 @@ class Ui_MainWindow(object):
 
         # Add options
         self.Content_comboBox.addItems(Content_Type_For_Installation.keys())
+        
+        # Disable content combo box initially, will be enabled based on test case selection
+        self.Content_comboBox.setEnabled(False)
 
         # Add to grid layout
         self.gridLayout_4.addWidget(self.Content_comboBox, 0, 9, 1, 2)
@@ -474,31 +477,81 @@ class Ui_MainWindow(object):
         self.actionWhat_s_New.triggered.connect(self.open_whats_new)
         
         self.open_windows = []
+        
+        self.test_condition = None
+        self.content_type = None
+        
+        # Test case selection change function
+        self.Test_case_comboBox.currentIndexChanged.connect(self.test_case_selection_changed)
+        # Content type selection change function
+        self.Content_comboBox.currentIndexChanged.connect(self.content_selection_changed)
+        
+        
+    # --------------------------Functions for buttons and combo box changes------------------------------------   
+    # Test case selection change function  
+    def test_case_selection_changed(self):
+        selected_test_case = self.Test_case_comboBox.currentText()
+        self.test_condition = selected_test_case
+        
+        if selected_test_case == "Operational":
+            self.Content_comboBox.setEnabled(True)
+            self.Content_comboBox.clear()
+            self.Content_comboBox.addItem("Select Content Type")
+            self.Content_comboBox.addItems(Content_Type_For_Installation.keys())
+            print("Operational test case selected. Content type combo box enabled.")
+            print("Available content types: ", Content_Type_For_Installation.keys())
+        else:
+            self.Content_comboBox.setEnabled(False)
+            self.Content_comboBox.clear()
+            self.Content_comboBox.addItem("Select Content Type")
+            print(f"{selected_test_case} test case selected. Content type combo box disabled.")
+            
+    # Content selection change function
+    def content_selection_changed(self):
+        content_type = self.Content_comboBox.currentText()
+        self.content_type = content_type
+        content_Density = Content_Type_For_Installation.get(content_type, None)
+        print(f"Content type selected: {content_type}")
+        print(f"Content density: {content_Density}")
 
 
-
-
+    # Function to input data and perform calculations when Run button is clicked
     def inputData(self):
         print("Input data function called")    
         
         try:
 
             selected_grade = self.Pipeline_Grade_comboBox.currentText()
-            if selected_grade == "Select Pipe Grade":
+            selected_test_case = self.Test_case_comboBox.currentText()
+            self.test_condition = selected_test_case
+            content_type = self.Content_comboBox.currentText()
+            self.content_type = content_type
+            if selected_grade == "Select Pipe Grade" or selected_test_case == "Select Test Case":
                 QtWidgets.QMessageBox.warning(
                     None,
                     "Input Error",
-                    "Please select a valid pipe grade."
+                    "Please select a valid pipe grade and test case before running the analysis."
                 )
                 return
+            
+            if selected_test_case == "Operational" and content_type == "Select Content Type":
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "Input Error",
+                    "Please select a valid content type for operational test case."
+                )
+                return
+            
             yield_strength = PIPE_GRADES[selected_grade]
+            test_case = self.Test_case_comboBox.currentText()
+            content_density = Content_Type_For_Installation.get(content_type, None) if content_type != "Select Content Type" else None
 
             selected_boundaryCondition = self.Boundary_condition_comboBox.currentText()
             if selected_boundaryCondition == "Select Boundary Condition":
                 QtWidgets.QMessageBox.warning(
                     None,
                     "Input Error",
-                    "Please select a valid condition."
+                    "Please select a valid Boundary condition."
                 )
                 return
             
@@ -514,9 +567,13 @@ class Ui_MainWindow(object):
                 "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
                 "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
                 "Yield_Strength" : yield_strength,
-                "Beta_Value" : beta_value
-                
+                "Beta_Value" : beta_value,
+                "Test_Case" : test_case,
+                "Content_Type" : self.Content_comboBox.currentText() if self.Content_comboBox.isEnabled() else None,
+                "Content_Density" : content_density
             }
+            print("Frontend data collected: ", frontendData)
+            
             self.result = freeSpan_Analysis_calculation(frontendData)
             self.displayFreespanResults(self.result)
 
@@ -1007,4 +1064,3 @@ class FreeSpanAnalysis(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
