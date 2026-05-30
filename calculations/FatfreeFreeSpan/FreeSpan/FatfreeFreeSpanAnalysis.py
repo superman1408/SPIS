@@ -7,11 +7,6 @@ __version__ = "Free Span Analysis calculation version 0.0.2"
 print(__version__)
 
 
-# "Beta_Value" : beta,
-# "Deflection_Factor" : deflection_factor,
-# "Moment_Factor" : moment_factor,
-
-
 def freeSpan_Analysis_calculation(frontendData):
 
     try:
@@ -41,7 +36,7 @@ def freeSpan_Analysis_calculation(frontendData):
             "Steel_density": constant["Steel_density"],                   # kg/m³
             "Coating_Density": frontendData["Coating_Density"],           # kg/m³
             "Concrete_Density": constant["Concrete_Density"],             # kg/m³
-            "Water_Density": constant["Water_Density"],                   # kg/m³
+            "Seawater_Density": constant["density_seawater"],                   # kg/m³
             "Youngs_Modulus": constant["Youngs_Modulus"],                 # Pa
             "Yield_Strength": frontendData["Yield_Strength"],             # MPa
             "Air_Density": constant["Air_Density"],                       # jg/m³
@@ -73,7 +68,7 @@ def freeSpan_Analysis_calculation(frontendData):
                 Density = constant["Air_Density"]
 
             case "Hydrotest":
-                Density = constant["Water_Density"]
+                Density = constant["Seawater_Density"]
 
             case "Operational": 
                 Density = frontendData["Content_Density"]
@@ -84,7 +79,7 @@ def freeSpan_Analysis_calculation(frontendData):
                 )
 
         
-        print("Water Density" , Density)
+        print("Seawater Density" , Density)
 
 
 
