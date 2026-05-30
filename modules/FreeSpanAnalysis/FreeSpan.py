@@ -42,30 +42,6 @@ class SNGraphCanvas(FigureCanvas):
             QtWidgets.QSizePolicy.Expanding
         )
 
-# ---- Pipeline Grades for Yield Strength (Later Transfer all this inside utils--> constatnt section)
-
-# PIPE_GRADES = {
-#     "A25": 172,
-#     "B": 241,
-#     "X42": 290,
-#     "X46": 317,
-#     "X52": 359,
-#     "X56": 386,
-#     "X60": 414,
-#     "X65": 450,
-#     "X70": 483,
-#     "X80": 552,
-# }
-
-
-# BOUNDARY_CONDITIONS = {
-#     "Fixed-Fixed": 4.73,
-#     "Pinned-Pinned": 3.14,
-#     "Fixed-Pinned": 3.93,
-# }
-
-
-
 
 class Ui_MainWindow(object):
 
@@ -526,7 +502,7 @@ class Ui_MainWindow(object):
             self.test_condition = selected_test_case
             content_type = self.Content_comboBox.currentText()
             self.content_type = content_type
-            if selected_grade == "Select Pipe Grade" or selected_test_case == "Select Test Case":
+            if selected_grade == "Select Pipeline Grade" or selected_test_case == "Select Test Case":
                 QtWidgets.QMessageBox.warning(
                     None,
                     "Input Error",
