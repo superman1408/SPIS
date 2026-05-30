@@ -45,6 +45,26 @@ Content_Type_For_Installation = {
 }
 
 
+# | Criterion | Meaning              |
+# | --------- | -------------------- |
+# | L/180     | Very flexible        |
+# | L/240     | Moderate             |
+# | L/360     | Typical              |
+# | L/384     | Strict               |
+# | L/500     | Very Strict          |
+# | L/1000    | Precision structures |
+
+Deflection_Criteria = {
+    "Very Flexible": 180,
+    "Moderate": 240,
+    "Typical": 360,
+    "Strict": 384,
+    "Very Strict": 500,
+    "Precision Structures": 1000,
+}
+
+
+
 caseOption = {
     "Lateral Stability": [
         "Installation-Empty",

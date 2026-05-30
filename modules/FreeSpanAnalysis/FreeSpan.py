@@ -23,7 +23,7 @@ from calculations import freeSpan_Analysis_calculation
 # from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreenFreeSpan, WhatsNewScreenFreeSpan, save_inputs, load_inputs_mapped, generate_report, open_screen
-from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS
+from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS, Deflection_Criteria
 
 
 __version__ = "0.0.1"
@@ -41,6 +41,7 @@ class SNGraphCanvas(FigureCanvas):
             QtWidgets.QSizePolicy.Expanding,
             QtWidgets.QSizePolicy.Expanding
         )
+
 
 
 class Ui_MainWindow(object):
@@ -334,6 +335,14 @@ class Ui_MainWindow(object):
         # Add to grid layout
         self.gridLayout_4.addWidget(self.Content_comboBox, 0, 9, 1, 2)
         
+        self.Deflection_criteria_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
+        self.Deflection_criteria_comboBox.setObjectName("Deflection_criteria_comboBox")
+
+        self.Deflection_criteria_comboBox.addItem("Select Deflection Factor")
+        self.Deflection_criteria_comboBox.addItems(Deflection_Criteria.keys())
+
+        self.gridLayout_4.addWidget(self.Deflection_criteria_comboBox, 0, 11, 1, 2)
+        
         
         self.gridLayout_5.addWidget(self.INPUT_DATA, 0, 0, 3, 1)
         self.gridLayout.addWidget(self.groupBox_2, 0, 0, 1, 2)
@@ -456,11 +465,14 @@ class Ui_MainWindow(object):
         
         self.test_condition = None
         self.content_type = None
+        self.deflection_criteria = None
         
         # Test case selection change function
         self.Test_case_comboBox.currentIndexChanged.connect(self.test_case_selection_changed)
         # Content type selection change function
         self.Content_comboBox.currentIndexChanged.connect(self.content_selection_changed)
+        # Deflection criteria selection change function
+        self.Deflection_criteria_comboBox.currentIndexChanged.connect(self.deflection_criteria_selection_changed)
         
         
     # --------------------------Functions for buttons and combo box changes------------------------------------   
@@ -489,6 +501,15 @@ class Ui_MainWindow(object):
         content_Density = Content_Type_For_Installation.get(content_type, None)
         print(f"Content type selected: {content_type}")
         print(f"Content density: {content_Density}")
+      
+        
+    # Deflection criteria selection change function
+    def deflection_criteria_selection_changed(self):
+        selected_deflection_criteria = self.Deflection_criteria_comboBox.currentText()
+        self.deflection_criteria = Deflection_Criteria.get(selected_deflection_criteria, None)
+        print(f"Deflection criteria selected: {selected_deflection_criteria}")
+        
+
 
 
     # Function to input data and perform calculations when Run button is clicked
@@ -502,7 +523,19 @@ class Ui_MainWindow(object):
             self.test_condition = selected_test_case
             content_type = self.Content_comboBox.currentText()
             self.content_type = content_type
-            if selected_grade == "Select Pipeline Grade" or selected_test_case == "Select Test Case":
+            deflection_criteria_type = self.Deflection_criteria_comboBox.currentText()
+            
+            # Check if deflection criteria is selected
+            if deflection_criteria_type == "Select Deflection Factor":
+                QtWidgets.QMessageBox.warning(
+                    None,
+                    "Input Error",
+                    "Please select a valid deflection criteria before running the analysis."
+                )
+                return
+            
+            # Check if pipeline grade and test case are selected
+            if selected_grade == "Select Pipe Grade" or selected_test_case == "Select Test Case":
                 QtWidgets.QMessageBox.warning(
                     None,
                     "Input Error",
@@ -510,6 +543,7 @@ class Ui_MainWindow(object):
                 )
                 return
             
+            # Check if content type is selected for operational test case
             if selected_test_case == "Operational" and content_type == "Select Content Type":
                 QtWidgets.QMessageBox.warning(
                     None,
@@ -546,7 +580,8 @@ class Ui_MainWindow(object):
                 "Beta_Value" : beta_value,
                 "Test_Case" : test_case,
                 "Content_Type" : self.Content_comboBox.currentText() if self.Content_comboBox.isEnabled() else None,
-                "Content_Density" : content_density
+                "Content_Density" : content_density,
+                "Deflection_Criteria" : self.deflection_criteria
             }
             print("Frontend data collected: ", frontendData)
             
