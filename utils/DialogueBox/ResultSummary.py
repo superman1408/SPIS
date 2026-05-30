@@ -111,7 +111,7 @@ class ResultSummary(QtWidgets.QMainWindow):
             ("L/D Check", L_D_Status),
             ("Deflection", deflectionStatus),
             ("Bending Stress", bendingStatus),
-            ("Flow Regime", flowregimeStatus),
+            # ("Flow Regime", flowregimeStatus),
             ("VIV", VIVStatus),
             ("Fatigue", fatigueStatus),
             ("ULS", ULSStatus),

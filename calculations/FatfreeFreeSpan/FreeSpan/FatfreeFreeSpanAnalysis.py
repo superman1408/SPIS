@@ -306,7 +306,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
             rho = (M / Z) / 10**6           # σ = M / Z
             
-            
+            print("rho", rho)
             # return rho
 
        
@@ -368,9 +368,11 @@ def freeSpan_Analysis_calculation(frontendData):
         def Natural_Frequency_for_beta():
 
             fn_beta = (Constant["Beta_Value"])**2 / (2 * math.pi * (Assumed_Span_Length)**2 ) * (math.sqrt(Bending_Stiffness_EI()/Submerged_Mass()))
-
+            print(fn_beta)
 
             return fn_beta
+        
+            
         
 
         Natural_Frequency_for_beta()
@@ -401,7 +403,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         #step 9
         def Reduced_Velocity():
-            V_r = Environment["Current_Velocity"] / (Natural_Frequency_for_beta() * PipeGeometry["Outer_Diameter"])
+            V_r = Environment["Current_Velocity"] / (Natural_Frequency_fn() * PipeGeometry["Outer_Diameter"])
             
             if V_r < 1 :
                 VIV_result = "No VIV"
@@ -430,7 +432,7 @@ def freeSpan_Analysis_calculation(frontendData):
         def fatigue():
             For_100_years_design = 100 * 365 * 24 * 3600
 
-            fn = Natural_Frequency_for_beta()
+            fn = Natural_Frequency_fn()
             Number_of_cycle_n = fn * For_100_years_design
 
             SN_Curve_for_N = get_SN_value(Stress_from_curvature)
@@ -515,6 +517,9 @@ def freeSpan_Analysis_calculation(frontendData):
             "SN_curve": SN_curve,
             "Stress_Range": Stress_Range
         }
+
+
+        print(result)
 
         return result
 
