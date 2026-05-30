@@ -5,12 +5,13 @@ print(f"Loading constants and variables for version {__version__}...")
 
 constant = {
     "beta" : 3.14,
-    "density_seawater" : 1025.0,
     "gravity" : 9.807,
     "submerged_unit_soil_weight_for_sand_gamma_s" : 13.5,
     "Steel_density": 7850,
     "Concrete_Density": 3040,
+    "density_seawater" : 1025.0,
     "Water_Density": 1030,
+    "Air_Density" : 1.2,
     "Youngs_Modulus": 2.07 * 10**11,
 }
 

@@ -44,6 +44,7 @@ def freeSpan_Analysis_calculation(frontendData):
             "Water_Density": constant["Water_Density"],                   # kg/m³
             "Youngs_Modulus": constant["Youngs_Modulus"],                 # Pa
             "Yield_Strength": frontendData["Yield_Strength"],             # MPa
+            "Air_Density": constant["Air_Density"],                       # jg/m³
             "Content_Density": frontendData["Content_Density"],           # kg/m³
         }
 
@@ -63,6 +64,30 @@ def freeSpan_Analysis_calculation(frontendData):
         print("Environment:", Environment)
         print("Constants:", Constant)
         print("Test Case:", test_case)
+
+
+        # Switch case for select test case condition
+
+        match frontendData["Test_Case"]:
+            case "Installation":
+                Density = constant["Air_Density"]
+
+            case "Hydrotest":
+                Density = constant["Water_Density"]
+
+            case "Operational": 
+                Density = frontendData["Content_Density"]
+
+            case _:
+                raise ValueError(
+                    f"Unknown Test_Case: {frontendData['Test_Case']}"
+                )
+
+        
+        print("Water Density" , Density)
+
+
+
 
         # ============================================================
         # BASIC GEOMETRY
@@ -116,7 +141,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         m_internal = (
             A_internal
-            * MaterialProperty["Content_Density"]
+            * Density
         )
 
         m_steel = (
@@ -143,7 +168,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         m_buoyancy = (
             A_outer_total
-            * MaterialProperty["Water_Density"]
+            * Density
         )
 
         m_submerged = (
