@@ -34,6 +34,27 @@ BOUNDARY_CONDITIONS = {
     "Fixed-Pinned": 3.93,
 }
 
+Boundary_Library = {
+    
+    "Pinned-Pinned": {
+        "beta": 3.142,
+        "deflection_factor": 5,
+        "moment_factor": 1/8
+    },
+
+    "Fixed-Pinned": {
+        "beta": 3.927,
+        "deflection_factor": 2.6,
+        "moment_factor": 1/10
+    },
+
+    "Fixed-Fixed": {
+        "beta": 4.730,
+        "deflection_factor": 1,
+        "moment_factor": 1/12
+    }
+}
+
 
 Content_Type_For_Installation = {
     "Light Crude": 800,
@@ -57,8 +78,7 @@ Deflection_Criteria = {
     "Very Flexible": 180,
     "Moderate": 240,
     "Typical": 360,
-    "Strict": 384,
-    "Very Strict": 500,
+    "Strict": 500,
     "Precision Structures": 1000,
 }
 

@@ -23,7 +23,7 @@ from calculations import freeSpan_Analysis_calculation
 # from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreenFreeSpan, WhatsNewScreenFreeSpan, save_inputs, load_inputs_mapped, generate_report, open_screen
-from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS, Deflection_Criteria
+from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS, Deflection_Criteria, Boundary_Library
 
 
 __version__ = "0.0.1"
@@ -298,7 +298,7 @@ class Ui_MainWindow(object):
         self.Boundary_condition_comboBox.setStyleSheet("")
         self.Boundary_condition_comboBox.setObjectName("Boundary_condition_comboBox")
         self.Boundary_condition_comboBox.addItem("Select Boundary Condition")
-        self.Boundary_condition_comboBox.addItems(BOUNDARY_CONDITIONS.keys())
+        self.Boundary_condition_comboBox.addItems(Boundary_Library.keys())
         self.gridLayout_4.addWidget(self.Boundary_condition_comboBox, 0, 5, 1, 2)
         
         self.Test_case_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
@@ -565,7 +565,16 @@ class Ui_MainWindow(object):
                 )
                 return
             
-            beta_value = BOUNDARY_CONDITIONS[selected_boundaryCondition]
+            # beta_value = BOUNDARY_CONDITIONS[selected_boundaryCondition]
+            beta_value = 3.14  # Placeholder value, replace with actual lookup from BOUNDARY_CONDITIONS
+            boundary_condition = self.Boundary_condition_comboBox.currentText()
+            boundary = Boundary_Library.get(boundary_condition, {})
+            beta = boundary.get("beta")
+            deflection_factor = boundary.get("deflection_factor")
+            moment_factor = boundary.get("moment_factor")
+            # print(f"Selected boundary condition: {boundary_condition}")
+            # print(f"Boundary condition parameters - Beta: {beta}, Deflection Factor: {deflection_factor}, Moment Factor: {moment_factor}")
+            
 
             frontendData = {
                 "Assumed_Span_Length" : float(self.Span_Length_lineEdit.text()),
@@ -577,7 +586,9 @@ class Ui_MainWindow(object):
                 "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
                 "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
                 "Yield_Strength" : yield_strength,
-                "Beta_Value" : beta_value,
+                "Beta_Value" : beta,
+                "Deflection_Factor" : deflection_factor,
+                "Moment_Factor" : moment_factor,
                 "Test_Case" : test_case,
                 "Content_Type" : self.Content_comboBox.currentText() if self.Content_comboBox.isEnabled() else None,
                 "Content_Density" : content_density,
