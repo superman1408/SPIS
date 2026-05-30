@@ -589,6 +589,7 @@ def freeSpan_Analysis_calculation(frontendData):
         # ============================================================
 
         test_case = frontendData["Test_Case"]
+        deflection_Factor = frontendData["Deflection_Criteria"]
 
         PipeGeometry = {
             "Outer_Diameter": frontendData["Outer_Diameter"],             # m
@@ -779,7 +780,7 @@ def freeSpan_Analysis_calculation(frontendData):
             * submerged_weight
             * Assumed_Span_Length**4
         ) / (
-            240
+            deflection_Factor
             * EI
         )
         # Beam deflection formula for uniformly distributed load with fixed-fixed ends: δ = (5 * w * L^4) / (384 * EI)
@@ -789,7 +790,8 @@ def freeSpan_Analysis_calculation(frontendData):
         # | L/180     | Very flexible        |
         # | L/240     | Moderate             |
         # | L/360     | Typical              |
-        # | L/500     | Strict               |
+        # | L/384     | Strict               |
+        # | L/500     | Very Strict          |
         # | L/1000    | Precision structures |
 
 
