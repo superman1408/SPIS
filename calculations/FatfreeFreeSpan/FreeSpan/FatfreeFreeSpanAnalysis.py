@@ -68,7 +68,7 @@ def freeSpan_Analysis_calculation(frontendData):
                 Density = constant["Air_Density"]
 
             case "Hydrotest":
-                Density = constant["Seawater_Density"]
+                Density = constant["density_seawater"]
 
             case "Operational": 
                 Density = frontendData["Content_Density"]
