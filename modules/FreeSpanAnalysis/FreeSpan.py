@@ -729,6 +729,9 @@ class Ui_MainWindow(object):
             # Reset ComboBoxes
             self.Pipeline_Grade_comboBox.setCurrentIndex(0)
             self.Boundary_condition_comboBox.setCurrentIndex(0)
+            self.Test_case_comboBox.setCurrentIndex(0)
+            self.Content_comboBox.setCurrentIndex(0)
+            self.Deflection_criteria_comboBox.setCurrentIndex(0)
 
            
             print("Resetting completed successfully!")
