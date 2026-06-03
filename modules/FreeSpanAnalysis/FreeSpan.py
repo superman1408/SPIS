@@ -440,6 +440,10 @@ class Ui_MainWindow(object):
            "Concrete Thickness" : self.Concrete_thickness_lineEdit,
            "Current Velocity" : self.Current_Velocity_lineEdit,
            "Wave Velocity" : self.Wave_velocity_lineEdit,
+           "Test Case" : self.Test_case_comboBox,
+           "Content Type" : self.Content_comboBox,
+           "Deflection Factor" : self.Deflection_criteria_comboBox
+
         }
 
         self.retranslateUi(MainWindow)
