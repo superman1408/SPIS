@@ -629,22 +629,22 @@ class Ui_MainWindow(object):
 
 
 
-        self.Test_case_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
-        self.Test_case_comboBox.setObjectName("Test_case_comboBox")
-        self.Test_case_comboBox.setStyleSheet("")
+        # self.Test_case_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
+        # self.Test_case_comboBox.setObjectName("Test_case_comboBox")
+        # self.Test_case_comboBox.setStyleSheet("")
 
-        # Default item
-        self.Test_case_comboBox.addItem("Select Test Case")
+        # # Default item
+        # self.Test_case_comboBox.addItem("Select Test Case")
 
-        # Add options
-        self.Test_case_comboBox.addItems([
-            "Installation",
-            "Hydrotest",
-            "Operational",
-        ])
+        # # Add options
+        # self.Test_case_comboBox.addItems([
+        #     "Installation",
+        #     "Hydrotest",
+        #     "Operational",
+        # ])
 
-        # Add to grid layout
-        self.gridLayout_4.addWidget(self.Test_case_comboBox, 0, 7, 1, 2)
+        # # Add to grid layout
+        # self.gridLayout_4.addWidget(self.Test_case_comboBox, 0, 7, 1, 2)
         
         
         self.Content_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
@@ -663,13 +663,13 @@ class Ui_MainWindow(object):
         # Add to grid layout
         self.gridLayout_4.addWidget(self.Content_comboBox, 0, 9, 1, 2)
         
-        self.Deflection_criteria_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
-        self.Deflection_criteria_comboBox.setObjectName("Deflection_criteria_comboBox")
+        # self.Deflection_criteria_comboBox = QtWidgets.QComboBox(self.INPUT_DATA)
+        # self.Deflection_criteria_comboBox.setObjectName("Deflection_criteria_comboBox")
 
-        self.Deflection_criteria_comboBox.addItem("Select Deflection Factor")
-        self.Deflection_criteria_comboBox.addItems(Deflection_Criteria.keys())
+        # self.Deflection_criteria_comboBox.addItem("Select Deflection Factor")
+        # self.Deflection_criteria_comboBox.addItems(Deflection_Criteria.keys())
 
-        self.gridLayout_4.addWidget(self.Deflection_criteria_comboBox, 0, 11, 1, 2)
+        # self.gridLayout_4.addWidget(self.Deflection_criteria_comboBox, 0, 11, 1, 2)
         
         
         # self.gridLayout_5.addWidget(self.INPUT_DATA, 0, 0, 3, 1)
@@ -775,9 +775,9 @@ class Ui_MainWindow(object):
            "Concrete Thickness" : self.Concrete_thickness_lineEdit,
            "Current Velocity" : self.Current_Velocity_lineEdit,
            "Wave Velocity" : self.Wave_velocity_lineEdit,
-           "Test Case" : self.Test_case_comboBox,
+        #    "Test Case" : self.Test_case_comboBox,
            "Content Type" : self.Content_comboBox,
-           "Deflection Factor" : self.Deflection_criteria_comboBox
+        #    "Deflection Factor" : self.Deflection_criteria_comboBox
 
         }
 
@@ -807,17 +807,17 @@ class Ui_MainWindow(object):
         self.deflection_criteria = None
         
         # Test case selection change function
-        self.Test_case_comboBox.currentIndexChanged.connect(self.test_case_selection_changed)
+        # self.Test_case_comboBox.currentIndexChanged.connect(self.test_case_selection_changed)
         # Content type selection change function
         self.Content_comboBox.currentIndexChanged.connect(self.content_selection_changed)
         # Deflection criteria selection change function
-        self.Deflection_criteria_comboBox.currentIndexChanged.connect(self.deflection_criteria_selection_changed)
+        # self.Deflection_criteria_comboBox.currentIndexChanged.connect(self.deflection_criteria_selection_changed)
         
         
     # --------------------------Functions for buttons and combo box changes------------------------------------   
     # Test case selection change function  
     def test_case_selection_changed(self):
-        selected_test_case = self.Test_case_comboBox.currentText()
+        # selected_test_case = self.Test_case_comboBox.currentText()
         self.test_condition = selected_test_case
         
         if selected_test_case == "Operational":
@@ -843,10 +843,10 @@ class Ui_MainWindow(object):
       
         
     # Deflection criteria selection change function
-    def deflection_criteria_selection_changed(self):
-        selected_deflection_criteria = self.Deflection_criteria_comboBox.currentText()
-        self.deflection_criteria = Deflection_Criteria.get(selected_deflection_criteria, None)
-        print(f"Deflection criteria selected: {selected_deflection_criteria}")
+    # def deflection_criteria_selection_changed(self):
+    #     selected_deflection_criteria = self.Deflection_criteria_comboBox.currentText()
+    #     self.deflection_criteria = Deflection_Criteria.get(selected_deflection_criteria, None)
+    #     print(f"Deflection criteria selected: {selected_deflection_criteria}")
         
 
 
@@ -858,11 +858,11 @@ class Ui_MainWindow(object):
         try:
 
             selected_grade = self.Pipeline_Grade_comboBox.currentText()
-            selected_test_case = self.Test_case_comboBox.currentText()
+            # selected_test_case = self.Test_case_comboBox.currentText()
             self.test_condition = selected_test_case
             content_type = self.Content_comboBox.currentText()
             self.content_type = content_type
-            deflection_criteria_type = self.Deflection_criteria_comboBox.currentText()
+            # deflection_criteria_type = self.Deflection_criteria_comboBox.currentText()
             
             # Check if deflection criteria is selected
             if deflection_criteria_type == "Select Deflection Factor":
@@ -892,7 +892,7 @@ class Ui_MainWindow(object):
                 return
             
             yield_strength = PIPE_GRADES[selected_grade]
-            test_case = self.Test_case_comboBox.currentText()
+            # test_case = self.Test_case_comboBox.currentText()
             content_density = Content_Type_For_Installation.get(content_type, None) if content_type != "Select Content Type" else None
 
             selected_boundaryCondition = self.Boundary_condition_comboBox.currentText()
@@ -1068,9 +1068,9 @@ class Ui_MainWindow(object):
             # Reset ComboBoxes
             self.Pipeline_Grade_comboBox.setCurrentIndex(0)
             self.Boundary_condition_comboBox.setCurrentIndex(0)
-            self.Test_case_comboBox.setCurrentIndex(0)
+            # self.Test_case_comboBox.setCurrentIndex(0)
             self.Content_comboBox.setCurrentIndex(0)
-            self.Deflection_criteria_comboBox.setCurrentIndex(0)
+            # self.Deflection_criteria_comboBox.setCurrentIndex(0)
 
            
             print("Resetting completed successfully!")
