@@ -124,13 +124,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.label_3 = QtWidgets.QLabel(self.INPUT_DATA)
-        self.label_3.setObjectName("label_3")
-        self.horizontalLayout_10.addWidget(self.label_3)
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.INPUT_DATA)
-        self.lineEdit_3.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.horizontalLayout_10.addWidget(self.lineEdit_3)
+        self.Internal_pressure_label = QtWidgets.QLabel(self.INPUT_DATA)
+        self.Internal_pressure_label.setObjectName("Internal_pressure_label")
+        self.horizontalLayout_10.addWidget(self.Internal_pressure_label)
+        self.Internal_pressure_lineEdit = QtWidgets.QLineEdit(self.INPUT_DATA)
+        self.Internal_pressure_lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.Internal_pressure_lineEdit.setObjectName("Internal_pressure_lineEdit")
+        self.horizontalLayout_10.addWidget(self.Internal_pressure_lineEdit)
         self.verticalLayout_3.addLayout(self.horizontalLayout_10)
         self.gridLayout.addLayout(self.verticalLayout_3, 8, 0, 2, 4)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -241,23 +241,23 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
-        self.label = QtWidgets.QLabel(self.INPUT_DATA)
-        self.label.setObjectName("label")
-        self.horizontalLayout_8.addWidget(self.label)
-        self.lineEdit = QtWidgets.QLineEdit(self.INPUT_DATA)
-        self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.lineEdit.setObjectName("lineEdit")
-        self.horizontalLayout_8.addWidget(self.lineEdit)
+        self.Operational_temperature_label = QtWidgets.QLabel(self.INPUT_DATA)
+        self.Operational_temperature_label.setObjectName("Operational_temperature_label")
+        self.horizontalLayout_8.addWidget(self.Operational_temperature_label)
+        self.Operational_temparature_lineEdit = QtWidgets.QLineEdit(self.INPUT_DATA)
+        self.Operational_temparature_lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.Operational_temparature_lineEdit.setObjectName("Operational_temparature_lineEdit")
+        self.horizontalLayout_8.addWidget(self.Operational_temparature_lineEdit)
         self.verticalLayout_4.addLayout(self.horizontalLayout_8)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.label_2 = QtWidgets.QLabel(self.INPUT_DATA)
-        self.label_2.setObjectName("label_2")
-        self.horizontalLayout_9.addWidget(self.label_2)
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.INPUT_DATA)
-        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.horizontalLayout_9.addWidget(self.lineEdit_2)
+        self.Installation_temperature_label = QtWidgets.QLabel(self.INPUT_DATA)
+        self.Installation_temperature_label.setObjectName("Installation_temperature_label")
+        self.horizontalLayout_9.addWidget(self.Installation_temperature_label)
+        self.Installation_temperature_lineEdit = QtWidgets.QLineEdit(self.INPUT_DATA)
+        self.Installation_temperature_lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.Installation_temperature_lineEdit.setObjectName("Installation_temperature_lineEdit")
+        self.horizontalLayout_9.addWidget(self.Installation_temperature_lineEdit)
         self.verticalLayout_4.addLayout(self.horizontalLayout_9)
         self.gridLayout.addLayout(self.verticalLayout_4, 5, 0, 2, 4)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -777,7 +777,11 @@ class Ui_MainWindow(object):
            "Wave Velocity" : self.Wave_velocity_lineEdit,
            "Test Case" : self.select_test_case_combobox,
            "Content Type" : self.Content_Type_case_Combobox,
-           "Deflection Factor" : self.Deflection_factor_Combobox
+           "Deflection Factor" : self.Deflection_factor_Combobox,
+           "Expansion Constant" : self.Expansion_condition_Constant,
+           "Operatinal Temperature " : self.Operational_temparature_lineEdit,
+           "Installation Temperature" : self.Installation_temperature_lineEdit,
+           "Internal Pressure" : self.Internal_pressure_lineEdit,
 
         }
 
@@ -924,6 +928,9 @@ class Ui_MainWindow(object):
                 "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
                 "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
                 "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
+                "Operational_temperature" :float(self.Operational_temparature_lineEdit.text()),
+                "Installation_temperature" :float(self.Installation_temperature_lineEdit.text()),
+                "Internal_pressure" : float(self.Installation_temperature_lineEdit.text()),
                 "Yield_Strength" : yield_strength,
                 "Beta_Value" : beta,
                 "Deflection_Factor" : deflection_factor,
@@ -959,6 +966,9 @@ class Ui_MainWindow(object):
         try:
 
             self.L_by_D_check.setText("L/D Check")
+
+            print(result)
+            print("LD_Check =", result.get("LD_Check"))
 
             status = result["LD_Check"]
             color = "green" if status == "PASS" else "red"
@@ -1062,6 +1072,10 @@ class Ui_MainWindow(object):
             self.L_by_D_check.clear()
             # self.L_by_D_check.setStyleSheet()
 
+            self.Operational_temparature_lineEdit.clear()
+            self.Installation_temperature_lineEdit.clear()
+            self.Internal_pressure_lineEdit.clear()
+
             self.Result_textEdit.clear()
             self.ShowMore_pushButton.setDisabled(True)
 
@@ -1071,6 +1085,7 @@ class Ui_MainWindow(object):
             self.select_test_case_combobox.setCurrentIndex(0)
             self.Content_Type_case_Combobox.setCurrentIndex(0)
             self.Deflection_factor_Combobox.setCurrentIndex(0)
+            self.Expansion_condition_Constant.setCurrentIndex(0)
 
            
             print("Resetting completed successfully!")
@@ -1376,7 +1391,7 @@ class Ui_MainWindow(object):
         self.Wall_thickness_label.setText(_translate("MainWindow", "Wall Thickness (m)               "))
         self.Coating_thickness_label.setText(_translate("MainWindow", "Coating Thickness (m)         "))
         self.Concrete_thickness_label.setText(_translate("MainWindow", "Concrete Thickness (m)       "))
-        self.label_3.setText(_translate("MainWindow", "Internal Pressure (Pa)         "))
+        self.Internal_pressure_label.setText(_translate("MainWindow", "Internal Pressure (Pa)         "))
         self.Current_Velocity_label.setText(_translate("MainWindow", "Current Velocity (m/s)"))
         self.Wave_velocity_label.setText(_translate("MainWindow", "Wave Velocity (m/s)   "))
         self.Span_Length_label.setText(_translate("MainWindow", "Assumed span length L ( m)"))
@@ -1406,8 +1421,8 @@ class Ui_MainWindow(object):
         self.Pipeline_Grade_comboBox.setItemText(9, _translate("MainWindow", "X70"))
         self.Pipeline_Grade_comboBox.setItemText(10, _translate("MainWindow", "X80"))
         self.Material_Property_2.setText(_translate("MainWindow", "L/ D ratio is always less than 140 "))
-        self.label.setText(_translate("MainWindow", "Operational Temperature (° c)"))
-        self.label_2.setText(_translate("MainWindow", "Installation Temperature (° c) "))
+        self.Operational_temperature_label.setText(_translate("MainWindow", "Operational Temperature (° c)"))
+        self.Installation_temperature_label.setText(_translate("MainWindow", "Installation Temperature (° c) "))
         self.Coating_density_label.setText(_translate("MainWindow", "Coating Density (kg/m3)"))
         self.select_test_case_combobox.setCurrentText(_translate("MainWindow", "Select Test Case"))
         self.select_test_case_combobox.setItemText(0, _translate("MainWindow", "Select Test Case"))
