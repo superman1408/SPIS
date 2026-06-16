@@ -13,6 +13,7 @@ constant = {
     "Water_Density": 1000,
     "Air_Density" : 1.2,
     "Youngs_Modulus": 2.07 * 10**11,
+    "Coefficient_of_Thermal_Expansion_alpha" : 1.17E-05
 }
 
 PIPE_GRADES = {

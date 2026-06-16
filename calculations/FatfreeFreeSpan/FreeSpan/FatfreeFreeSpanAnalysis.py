@@ -41,6 +41,11 @@ def freeSpan_Analysis_calculation(frontendData):
             "Yield_Strength": frontendData["Yield_Strength"],             # MPa
             "Air_Density": constant["Air_Density"],                       # jg/m³
             "Content_Density": frontendData["Content_Density"],           # kg/m³
+            "Operational_temperature": frontendData["Operational_temperature"], # °C
+            "Installation_temperature": frontendData["Installation_temperature"], # °C
+            "Internal_pressure": frontendData["Internal_pressure"],            # °C
+            "Coefficient_of_Thermal_Expansion_alpha":constant["Coefficient_of_Thermal_Expansion_alpha"] #°C
+            
         }
 
         Environment = {
@@ -93,19 +98,26 @@ def freeSpan_Analysis_calculation(frontendData):
         T_coat = PipeGeometry["Coating_Thickness"]
         T_conc = PipeGeometry["Concrete_Thickness"]
 
-        ID = OD - 2 * WT
+        internal_diameter = OD - 2 * WT
 
         D_coat = OD + 2 * T_coat
 
         D_total = D_coat + 2 * T_conc
 
+        water_depth = 20.2
+
+
+        external_pressure = (MaterialProperty["Seawater_Density"] * Constant["Gravity"] * water_depth)/1000000   #water depth hieght is missing
+
+        print("external_pressure", external_pressure)
+
         # ============================================================
         # AREA CALCULATIONS
         # ============================================================
 
-        A_internal = math.pi / 4 * ID**2
+        A_internal = math.pi / 4 * internal_diameter**2
 
-        A_steel = math.pi / 4 * (OD**2 - ID**2)
+        A_steel = math.pi / 4 * (OD**2 - internal_diameter**2)
 
         A_coating = math.pi / 4 * (D_coat**2 - OD**2)
 
@@ -209,7 +221,7 @@ def freeSpan_Analysis_calculation(frontendData):
             math.pi / 64
             * (
                 OD**4
-                - ID**4
+                - internal_diameter**4
             )
         )
 
@@ -282,7 +294,13 @@ def freeSpan_Analysis_calculation(frontendData):
         
         rho = (
             M / Z
-        ) / 1e6
+        ) / 1000000
+
+
+        print("M", M)
+        print("Z", Z)
+
+        print("rho",rho)
 
         unity_check = (
             rho
@@ -470,6 +488,19 @@ def freeSpan_Analysis_calculation(frontendData):
         # ============================================================
         # ULS CHECK
         # ============================================================
+
+        delta_T = MaterialProperty["Operational_temperature"] - MaterialProperty["Installation_temperature"]
+        print("delta_T",delta_T)
+
+        thermal_stress = 1 * MaterialProperty["Youngs_Modulus"] * MaterialProperty["Coefficient_of_Thermal_Expansion_alpha"] * delta_T /1000000
+        print("thermal_stress", thermal_stress)
+
+        print("internal pressure" , MaterialProperty["Internal_pressure"])
+
+        longitudinal_pressure_stress = ((MaterialProperty["Internal_pressure"] * (internal_diameter)**2) - (external_pressure * (OD)**2))/(((OD)**2)-(internal_diameter**2))
+        print("longitudinal_pressure_stress", longitudinal_pressure_stress)
+
+
 
         allowable_stress = (
             0.87

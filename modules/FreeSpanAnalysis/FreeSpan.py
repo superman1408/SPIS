@@ -650,7 +650,7 @@ class Ui_MainWindow(object):
                 "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
                 "Operational_temperature" :float(self.Operational_temparature_lineEdit.text()),
                 "Installation_temperature" :float(self.Installation_temperature_lineEdit.text()),
-                "Internal_pressure" : float(self.Installation_temperature_lineEdit.text()),
+                "Internal_pressure" : float(self.Internal_pressure_lineEdit.text()),
                 "Yield_Strength" : yield_strength,
                 "Beta_Value" : beta,
                 "Deflection_Factor" : deflection_factor,
@@ -976,6 +976,8 @@ class Ui_MainWindow(object):
                 None, "Save Report", "", "PDF Files (*.pdf)"
             )
 
+
+
             if not file_path:
                 return
 
@@ -1135,8 +1137,8 @@ class Ui_MainWindow(object):
         self.Pipeline_Grade_comboBox.setItemText(9, _translate("MainWindow", "X70"))
         self.Pipeline_Grade_comboBox.setItemText(10, _translate("MainWindow", "X80"))
         self.Material_Property_2.setText(_translate("MainWindow", "L/ D ratio is always less than 140 "))
-        self.Operational_temperature_label.setText(_translate("MainWindow", "Operational Temperature (° c)"))
-        self.Installation_temperature_label.setText(_translate("MainWindow", "Installation Temperature (° c) "))
+        self.Operational_temperature_label.setText(_translate("MainWindow", "Operational Temperature (°C)"))
+        self.Installation_temperature_label.setText(_translate("MainWindow", "Installation Temperature (°C) "))
         self.Coating_density_label.setText(_translate("MainWindow", "Coating Density (kg/m3)"))
         
         self.Run_pushButton.setText(_translate("MainWindow", "RUN"))
