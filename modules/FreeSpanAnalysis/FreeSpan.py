@@ -53,7 +53,6 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 716)
-        # MainWindow.resize(1065, 716)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../SPIS/assets/OnBottomRoughness.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
