@@ -66,6 +66,13 @@ Content_Type_For_Installation = {
     "Gas": 120
 }
 
+Expansion_condition_Constant_Library = {
+    "Free Expansion": 0,
+    "Partial Restrained": 0.55,
+    "Full Restrained": 1,
+}
+
+
 
 # | Criterion | Meaning              |
 # | --------- | -------------------- |

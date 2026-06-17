@@ -23,7 +23,7 @@ from calculations import freeSpan_Analysis_calculation
 # from utils import save_inputs, load_inputs_mapped, generate_report, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreen, WhatsNewScreen, save_inputs, load_inputs_mapped, generate_report, ResultSummary, open_screen
 from utils import caseOption, get_all_inputs, get_required_inputs, DocumentationScreenFreeSpan, WhatsNewScreenFreeSpan, save_inputs, load_inputs_mapped, generate_report, open_screen
-from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS, Deflection_Criteria, Boundary_Library
+from utils import generate_report, constant, Content_Type_For_Installation, PIPE_GRADES, BOUNDARY_CONDITIONS, Deflection_Criteria, Boundary_Library, Expansion_condition_Constant_Library
 
 
 __version__ = "0.0.1"
@@ -186,10 +186,9 @@ class Ui_MainWindow(object):
         self.Expansion_condition_Constant.setStyleSheet("")
         self.Expansion_condition_Constant.setEditable(True)
         self.Expansion_condition_Constant.setObjectName("Expansion_condition_Constant")
-        self.Expansion_condition_Constant.addItem("")
-        self.Expansion_condition_Constant.addItem("")
-        self.Expansion_condition_Constant.addItem("")
-        self.Expansion_condition_Constant.addItem("")
+        self.Expansion_condition_Constant.addItem("Select Expansion Condition Constant")
+        self.Expansion_condition_Constant.addItems(Expansion_condition_Constant_Library.keys())
+        
         self.gridLayout.addWidget(self.Expansion_condition_Constant, 1, 8, 1, 3)
         self.Material_Property = QtWidgets.QLabel(self.INPUT_DATA)
         font = QtGui.QFont()
@@ -615,6 +614,8 @@ class Ui_MainWindow(object):
                 )
                 return
             
+            
+            
             yield_strength = PIPE_GRADES[selected_grade]
             test_case = self.Test_case_comboBox.currentText()
             content_density = Content_Type_For_Installation.get(content_type, None) if content_type != "Select Content Type" else None
@@ -637,6 +638,10 @@ class Ui_MainWindow(object):
             moment_factor = boundary.get("moment_factor")
             # print(f"Selected boundary condition: {boundary_condition}")
             # print(f"Boundary condition parameters - Beta: {beta}, Deflection Factor: {deflection_factor}, Moment Factor: {moment_factor}")
+
+            selected_Expansion_condition_Constant = self.Expansion_condition_Constant.currentText()
+
+            k_factor = Expansion_condition_Constant_Library[selected_Expansion_condition_Constant]
             
 
             frontendData = {
@@ -658,7 +663,8 @@ class Ui_MainWindow(object):
                 "Test_Case" : test_case,
                 "Content_Type" : self.Content_comboBox.currentText() if self.Content_comboBox.isEnabled() else None,
                 "Content_Density" : content_density,
-                "Deflection_Criteria" : self.deflection_criteria
+                "Deflection_Criteria" : self.deflection_criteria,
+                "K_Factor": k_factor
             }
             print("Frontend data collected: ", frontendData)
             
@@ -682,7 +688,6 @@ class Ui_MainWindow(object):
     def displayFreespanResults(self, result):
         self.Result_textEdit.clear()
         
-
         try:
 
             self.L_by_D_check.setText("L/D Check")
@@ -757,6 +762,7 @@ class Ui_MainWindow(object):
 
                 # ULTIMATE
                 self.Result_textEdit.append("----- ULTIMATE LIMIT STATE -----")
+                self.Result_textEdit.append(f"Allowable Stress                    : {result['Allowable_Stress']:.3f}")
                 self.Result_textEdit.append(f"Allowable Stress                    : {result['Allowable_Stress']:.3f}")
                 self.Result_textEdit.append(f"Unity Check                         : {result['Unity_check']:.3f}")
                 self.Result_textEdit.append(f"ULS Status                          : {result['ULS_status']}\n")
@@ -960,6 +966,7 @@ class Ui_MainWindow(object):
                 "Document Number": extract(self.Project_Code_lineEdit),
                 "Pipeline Grade": self.Pipeline_Grade_comboBox.currentText(),
                 "Boundary Condition": self.Boundary_condition_comboBox.currentText(),
+                "Expansion Condition Constant": self.Expansion_condition_Constant.currentText(),
                 "Span Length": f"{extract(self.Span_Length_lineEdit)} m",
                 "Outer Diameter": f"{extract(self.Outer_diameter_lineEdit)} m",
                 "Coating Density": f"{extract(self.Coating_Dessity_lineEdit)} kg/m³",
@@ -1118,11 +1125,6 @@ class Ui_MainWindow(object):
         self.Wave_velocity_label.setText(_translate("MainWindow", "Wave Velocity (m/s)   "))
         self.Span_Length_label.setText(_translate("MainWindow", "Assumed span length L ( m)"))
         self.Outer_Diameter_label.setText(_translate("MainWindow", "Outer Diameter (m)             "))
-        self.Expansion_condition_Constant.setCurrentText(_translate("MainWindow", "Select Expansion Condition Constant"))
-        self.Expansion_condition_Constant.setItemText(0, _translate("MainWindow", "Select Expansion Condition Constant"))
-        self.Expansion_condition_Constant.setItemText(1, _translate("MainWindow", "Free expansion"))
-        self.Expansion_condition_Constant.setItemText(2, _translate("MainWindow", "Partial restrained"))
-        self.Expansion_condition_Constant.setItemText(3, _translate("MainWindow", "Full restrained"))
         self.Material_Property.setText(_translate("MainWindow", "Material Property"))
         self.Pipeline_Grade_comboBox.setCurrentText(_translate("MainWindow", "Select Pipeline Grade"))
         self.Pipeline_Grade_comboBox.setItemText(0, _translate("MainWindow", "Select Pipeline Grade"))

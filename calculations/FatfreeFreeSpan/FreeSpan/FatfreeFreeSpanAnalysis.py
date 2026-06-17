@@ -29,7 +29,8 @@ def freeSpan_Analysis_calculation(frontendData):
             "Beta_Value": frontendData["Beta_Value"],
             "Gravity": constant["gravity"],                               # m/s²
             "Deflection_Factor": frontendData["Deflection_Factor"],
-            "Moment_Factor": frontendData["Moment_Factor"]
+            "Moment_Factor": frontendData["Moment_Factor"],
+            "K_Factor": frontendData["K_Factor"]
         }
 
         MaterialProperty = {
@@ -109,6 +110,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         external_pressure = (MaterialProperty["Seawater_Density"] * Constant["Gravity"] * water_depth)/1000000   #water depth hieght is missing
 
+
         print("external_pressure", external_pressure)
 
         # ============================================================
@@ -171,6 +173,12 @@ def freeSpan_Analysis_calculation(frontendData):
             + m_steel
             + m_coating
             + m_concrete
+        )
+
+
+        print(
+            "Area Difference:",
+            abs(area_balance - A_outer_total)
         )
 
         m_buoyancy = (
@@ -492,7 +500,7 @@ def freeSpan_Analysis_calculation(frontendData):
         delta_T = MaterialProperty["Operational_temperature"] - MaterialProperty["Installation_temperature"]
         print("delta_T",delta_T)
 
-        thermal_stress = 1 * MaterialProperty["Youngs_Modulus"] * MaterialProperty["Coefficient_of_Thermal_Expansion_alpha"] * delta_T /1000000
+        thermal_stress = Constant["K_Factor"] * MaterialProperty["Youngs_Modulus"] * MaterialProperty["Coefficient_of_Thermal_Expansion_alpha"] * delta_T /1000000
         print("thermal_stress", thermal_stress)
 
         print("internal pressure" , MaterialProperty["Internal_pressure"])
@@ -500,6 +508,8 @@ def freeSpan_Analysis_calculation(frontendData):
         longitudinal_pressure_stress = ((MaterialProperty["Internal_pressure"] * (internal_diameter)**2) - (external_pressure * (OD)**2))/(((OD)**2)-(internal_diameter**2))
         print("longitudinal_pressure_stress", longitudinal_pressure_stress)
 
+        total_stress = rho + longitudinal_pressure_stress + thermal_stress
+        print(total_stress)
 
 
         allowable_stress = (
@@ -508,7 +518,7 @@ def freeSpan_Analysis_calculation(frontendData):
         )
 
         unity_check = (
-            rho
+            total_stress
             / allowable_stress
         )
 
@@ -596,6 +606,10 @@ def freeSpan_Analysis_calculation(frontendData):
             "Total_Outer_Area": A_outer_total,
 
             "Bending_Stress_Moment": M,
+
+            "Thermal_Stress": thermal_stress,
+
+            "Longitudinal_Pressure_Stress": longitudinal_pressure_stress,
 
             "Allowable_Stress": allowable_stress,
 
