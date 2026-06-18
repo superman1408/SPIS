@@ -552,7 +552,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
             "Natural_Frequency": fn,
 
-            "Outer_Diameter_after_Concrete": D_total,
+            "Outer_Diameter_after_Concrete": D_coat,
 
             "Submerged_Weight": submerged_weight,
 
