@@ -742,8 +742,8 @@ class Ui_MainWindow(object):
                 self.Result_textEdit.append(f"Flexural Rigidity (EI)              : {result['Bending_Stiffness_EI']:.3f}")
                 self.Result_textEdit.append(f"Deflection Value                    : {result['Deflection_value']:.3f}")
                 self.Result_textEdit.append(f"Deflection Status                   : {result['Deflection_status']}")
-                self.Result_textEdit.append(f"Stress Rho                          : {result['stress_rho']:.3f}")
-                self.Result_textEdit.append(f"BendingStress Status                : {result['BendingStress_status']}")
+                self.Result_textEdit.append(f"Bending Stress                          : {result['stress_rho']:.3f}")
+                self.Result_textEdit.append(f"Bending Stress Status                : {result['BendingStress_status']}")
                 self.Result_textEdit.append(f"Bending Moment                      : {result['Bending_Stress_Moment']:.3f}\n")
 
                 # FLOW
@@ -762,7 +762,8 @@ class Ui_MainWindow(object):
 
                 # ULTIMATE
                 self.Result_textEdit.append("----- ULTIMATE LIMIT STATE -----")
-                self.Result_textEdit.append(f"Allowable Stress                    : {result['Allowable_Stress']:.3f}")
+                self.Result_textEdit.append(f"Thermal Stress                      : {result['Thermal_Stress']:.3f}")
+                self.Result_textEdit.append(f"Longitudinal Pressure Stress        : {result['Longitudinal_Pressure_Stress']:.3f}")
                 self.Result_textEdit.append(f"Allowable Stress                    : {result['Allowable_Stress']:.3f}")
                 self.Result_textEdit.append(f"Unity Check                         : {result['Unity_check']:.3f}")
                 self.Result_textEdit.append(f"ULS Status                          : {result['ULS_status']}\n")
@@ -801,6 +802,9 @@ class Ui_MainWindow(object):
             self.Operational_temparature_lineEdit.clear()
             self.Installation_temperature_lineEdit.clear()
             self.Internal_pressure_lineEdit.clear()
+
+            self.sn_canvas.ax.clear()
+            self.sn_canvas.draw()
 
             self.Result_textEdit.clear()
             self.ShowMore_pushButton.setDisabled(True)
