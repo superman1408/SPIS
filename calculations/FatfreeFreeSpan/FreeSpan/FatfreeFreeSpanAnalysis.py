@@ -183,7 +183,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
         m_buoyancy = (
             A_outer_total
-            * Density
+            * MaterialProperty["Seawater_Density"]
         )
 
         m_submerged = (
@@ -552,7 +552,7 @@ def freeSpan_Analysis_calculation(frontendData):
 
             "Natural_Frequency": fn,
 
-            "Outer_Diameter_after_Concrete": D_coat,
+            "Outer_Diameter_after_Concrete": D_total,
 
             "Submerged_Weight": submerged_weight,
 

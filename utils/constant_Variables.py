@@ -9,7 +9,7 @@ constant = {
     "submerged_unit_soil_weight_for_sand_gamma_s" : 13.5,
     "Steel_density": 7850,
     "Concrete_Density": 3040,
-    "density_seawater" : 1030.0,
+    "density_freshwater" : 1000.0,
     "Water_Density": 1000,
     "Air_Density" : 1.2,
     "Youngs_Modulus": 2.07 * 10**11,
