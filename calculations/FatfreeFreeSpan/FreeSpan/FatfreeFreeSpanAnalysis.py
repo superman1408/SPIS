@@ -391,17 +391,23 @@ def freeSpan_Analysis_calculation(frontendData):
             )
         )
 
+        A = 0.0
+
         if V_r < 1:
             VIV_status = "No VIV"
+            A = 0
 
         elif V_r <= 3:
             VIV_status = "Inline VIV"
+            A = 0.01 * OD
 
         elif V_r <= 8:
             VIV_status = "Cross Flow VIV"
+            A = 0.03 * OD
 
         else:
             VIV_status = "Severe VIV"
+            A = 0.05 * OD
 
         print("\n================ VIV CHECK ================")
         print("Reduced Velocity:", V_r)
@@ -449,10 +455,10 @@ def freeSpan_Analysis_calculation(frontendData):
 
             return SN_curve[-1][1]
 
-        vibration_amplitude = 0.2 * OD
+        # vibration_amplitude = 0.2 * OD
 
         curvature = (
-            vibration_amplitude
+            A
             / Assumed_Span_Length**2
         )
 
@@ -469,10 +475,27 @@ def freeSpan_Analysis_calculation(frontendData):
             * 3600
         )
 
-        N_cycles = (
-            fn
-            * design_life_seconds
-        )
+        # N_cycles = (
+        #     fn
+        #     * design_life_seconds
+        # )
+
+        # Fatigue Cycles Use only if VIV exists:
+
+        if V_r < 1:
+
+            D_fat = 0
+            N_cycles = 0
+
+        else:
+
+            exposure_factor = 0.3
+
+            N_cycles = (
+                fn
+                * design_life_seconds
+                * exposure_factor
+            )
 
         SN_N = get_SN_value(stress_range)
 
@@ -506,7 +529,7 @@ def freeSpan_Analysis_calculation(frontendData):
         print("internal pressure" , MaterialProperty["Internal_pressure"])
         
 
-        longitudinal_pressure_stress = (((MaterialProperty["Internal_pressure"] * 1e-5 )* (internal_diameter)**2) - (external_pressure * (OD)**2))/(((OD)**2)-(internal_diameter**2))
+        longitudinal_pressure_stress = (((MaterialProperty["Internal_pressure"] * 0.1 )* (internal_diameter)**2) - (external_pressure * (OD)**2))/(((OD)**2)-(internal_diameter**2))
         print("longitudinal_pressure_stress", longitudinal_pressure_stress)
 
         total_stress = rho + longitudinal_pressure_stress + thermal_stress
@@ -621,7 +644,7 @@ def freeSpan_Analysis_calculation(frontendData):
             "SN_curve": SN_curve,
 
             "Stress_Range": {
-                "Vibration_Amplitude": vibration_amplitude,
+                "Vibration_Amplitude": A,
                 "Curvature": curvature,
                 "Stress": stress_range,
             },
