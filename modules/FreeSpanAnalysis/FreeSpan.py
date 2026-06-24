@@ -1124,7 +1124,7 @@ class Ui_MainWindow(object):
         self.Wall_thickness_label.setText(_translate("MainWindow", "Wall Thickness (m)               "))
         self.Coating_thickness_label.setText(_translate("MainWindow", "Coating Thickness (m)         "))
         self.Concrete_thickness_label.setText(_translate("MainWindow", "Concrete Thickness (m)       "))
-        self.Internal_pressure_label.setText(_translate("MainWindow", "Internal Pressure (Pa)         "))
+        self.Internal_pressure_label.setText(_translate("MainWindow", "Internal Pressure (bar)         "))
         self.Current_Velocity_label.setText(_translate("MainWindow", "Current Velocity (m/s)"))
         self.Wave_velocity_label.setText(_translate("MainWindow", "Wave Velocity (m/s)   "))
         self.Span_Length_label.setText(_translate("MainWindow", "Assumed span length L ( m)"))

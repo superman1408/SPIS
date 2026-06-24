@@ -463,7 +463,7 @@ def freeSpan_Analysis_calculation(frontendData):
         ) / 1e6
 
         design_life_seconds = (
-            100
+            20
             * 365
             * 24
             * 3600
@@ -504,8 +504,9 @@ def freeSpan_Analysis_calculation(frontendData):
         print("thermal_stress", thermal_stress)
 
         print("internal pressure" , MaterialProperty["Internal_pressure"])
+        
 
-        longitudinal_pressure_stress = ((MaterialProperty["Internal_pressure"] * (internal_diameter)**2) - (external_pressure * (OD)**2))/(((OD)**2)-(internal_diameter**2))
+        longitudinal_pressure_stress = (((MaterialProperty["Internal_pressure"] * 1e-5 )* (internal_diameter)**2) - (external_pressure * (OD)**2))/(((OD)**2)-(internal_diameter**2))
         print("longitudinal_pressure_stress", longitudinal_pressure_stress)
 
         total_stress = rho + longitudinal_pressure_stress + thermal_stress

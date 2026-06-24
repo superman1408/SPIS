@@ -218,3 +218,5 @@ pipeline_activity.db
 
 # Optional: ignore generated reports only
 # report_*.xlsx
+
+rough.py
