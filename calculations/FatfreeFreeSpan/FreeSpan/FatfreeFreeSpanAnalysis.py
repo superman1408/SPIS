@@ -52,6 +52,7 @@ def freeSpan_Analysis_calculation(frontendData):
         Environment = {
             "Current_Velocity": frontendData["Current_Velocity"],         # m/s
             "Wave_Velocity": frontendData["Wave_Velocity"],               # m/s
+            "Water_Depth": frontendData["Water_Depth"]                    # m
         }
 
         Assumed_Span_Length = frontendData["Assumed_Span_Length"]         # m
@@ -105,10 +106,10 @@ def freeSpan_Analysis_calculation(frontendData):
 
         D_total = D_coat + 2 * T_conc
 
-        water_depth = 20.2
+        water_depth = frontendData["Water_Depth"]
 
 
-        external_pressure = (MaterialProperty["Seawater_Density"] * Constant["Gravity"] * water_depth)/1000000   #water depth hieght is missing
+        external_pressure = (MaterialProperty["Seawater_Density"] * Constant["Gravity"] * water_depth)/1000000
 
 
         print("external_pressure", external_pressure)

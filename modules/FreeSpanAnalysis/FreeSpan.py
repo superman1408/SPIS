@@ -156,6 +156,23 @@ class Ui_MainWindow(object):
         self.Wave_velocity_lineEdit.setObjectName("Wave_velocity_lineEdit")
         self.horizontalLayout_7.addWidget(self.Wave_velocity_lineEdit)
         self.verticalLayout_2.addLayout(self.horizontalLayout_7)
+        # ==================================================
+        # WATER DEPTH
+        # ==================================================
+        self.horizontalLayout_WaterDepth = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_WaterDepth.setObjectName("horizontalLayout_WaterDepth")
+
+        self.Water_Depth_label = QtWidgets.QLabel(self.INPUT_DATA)
+        self.Water_Depth_label.setObjectName("Water_Depth_label")
+        self.horizontalLayout_WaterDepth.addWidget(self.Water_Depth_label)
+
+        self.Water_Depth_lineEdit = QtWidgets.QLineEdit(self.INPUT_DATA)
+        self.Water_Depth_lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.Water_Depth_lineEdit.setObjectName("Water_Depth_lineEdit")
+        self.horizontalLayout_WaterDepth.addWidget(self.Water_Depth_lineEdit)
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_WaterDepth)
+        #---------------------------------------------------------------------------------
         self.gridLayout.addLayout(self.verticalLayout_2, 8, 5, 1, 5)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
@@ -494,6 +511,7 @@ class Ui_MainWindow(object):
            "Concrete Thickness" : self.Concrete_thickness_lineEdit,
            "Current Velocity" : self.Current_Velocity_lineEdit,
            "Wave Velocity" : self.Wave_velocity_lineEdit,
+            "Water Depth" : self.Water_Depth_lineEdit,
            "Test Case" : self.Test_case_comboBox,
            "Content Type" : self.Content_comboBox,
            "Deflection Factor" : self.Deflection_factor_Combobox,
@@ -653,6 +671,7 @@ class Ui_MainWindow(object):
                 "Concrete_Thickness" : float(self.Concrete_thickness_lineEdit.text()),
                 "Current_Velocity" : float(self.Current_Velocity_lineEdit.text()),
                 "Wave_Velocity" : float(self.Wave_velocity_lineEdit.text()),
+                "Water_Depth" : float(self.Water_Depth_lineEdit.text()),
                 "Operational_temperature" :float(self.Operational_temparature_lineEdit.text()),
                 "Installation_temperature" :float(self.Installation_temperature_lineEdit.text()),
                 "Internal_pressure" : float(self.Internal_pressure_lineEdit.text()),
@@ -794,6 +813,7 @@ class Ui_MainWindow(object):
             self.Wall_thickness_lineEdit.clear()
             self.Coating_thickness_lineEdit.clear()
             self.Wave_velocity_lineEdit.clear()
+            self.Water_Depth_lineEdit.clear()
             self.Current_Velocity_lineEdit.clear()
             self.Concrete_thickness_lineEdit.clear()
             self.L_by_D_check.clear()
@@ -979,6 +999,7 @@ class Ui_MainWindow(object):
                 "Concrete Thickness": f"{extract(self.Concrete_thickness_lineEdit)} m",
                 "Current Velocity": f"{extract(self.Current_Velocity_lineEdit)} m/s",
                 "Wave Velocity": f"{extract(self.Wave_velocity_lineEdit)} m/s",
+                "Water Depth": f"{extract(self.Water_Depth_lineEdit)} m",
                 
                 }
             
@@ -1127,6 +1148,8 @@ class Ui_MainWindow(object):
         self.Internal_pressure_label.setText(_translate("MainWindow", "Internal Pressure (bar)         "))
         self.Current_Velocity_label.setText(_translate("MainWindow", "Current Velocity (m/s)"))
         self.Wave_velocity_label.setText(_translate("MainWindow", "Wave Velocity (m/s)   "))
+        # self.Water_Depth_lineEdit.setText(_translate("MainWindow", "Water Depth (m)"))
+        self.Water_Depth_label.setText(_translate("MainWindow", "Water Depth (m)"))
         self.Span_Length_label.setText(_translate("MainWindow", "Assumed span length L ( m)"))
         self.Outer_Diameter_label.setText(_translate("MainWindow", "Outer Diameter (m)             "))
         self.Material_Property.setText(_translate("MainWindow", "Material Property"))
